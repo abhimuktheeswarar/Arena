@@ -6,7 +6,10 @@ package com.msa.domain.entities;
 
 public class Movie {
 
-    private final String movieId, movieName;
+    private String movieId, movieName;
+
+    public Movie() {
+    }
 
     public Movie(String movieId, String movieName) {
         this.movieId = movieId;

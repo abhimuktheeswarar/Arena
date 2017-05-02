@@ -2,6 +2,7 @@ package msa.arena.injector.modules;
 
 import com.msa.domain.Repository;
 import com.msa.domain.usecases.GetMoviesTypeOne;
+import com.msa.domain.usecases.GetMoviesTypeThree;
 import com.msa.domain.usecases.GetMoviesTypeTwo;
 
 import javax.inject.Named;
@@ -30,4 +31,9 @@ public class MovieModule {
         return new GetMoviesTypeTwo(repository, mUiThread, mExecutorThread);
     }
 
+    @Provides
+    @PerActivity
+    GetMoviesTypeThree provideGetMoviesTypeThreeUseCase(Repository repository, @Named("executor_thread") Scheduler mUiThread, @Named("ui_thread") Scheduler mExecutorThread) {
+        return new GetMoviesTypeThree(repository, mUiThread, mExecutorThread);
+    }
 }

@@ -16,6 +16,14 @@
         android:layout_margin="8dp"
         tools:text="2" />
 
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_complete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        android:text="Complete" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_movies"
         android:layout_width="match_parent"

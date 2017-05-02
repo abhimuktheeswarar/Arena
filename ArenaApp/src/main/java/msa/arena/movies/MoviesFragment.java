@@ -14,6 +14,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import dagger.Lazy;
 import msa.arena.R;
 import msa.arena.base.BaseEpoxyAdapter;
@@ -40,7 +41,6 @@ public class MoviesFragment extends BaseFragment implements MoviesView {
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
 
     private boolean shouldEnableEndlessScroll;
-
 
 
     @Override
@@ -120,5 +120,10 @@ public class MoviesFragment extends BaseFragment implements MoviesView {
     @Override
     public Context context() {
         return getActivity();
+    }
+
+    @OnClick(R.id.btn_complete)
+    void onClick() {
+        moviesPresenterLazy.get().callComplete();
     }
 }

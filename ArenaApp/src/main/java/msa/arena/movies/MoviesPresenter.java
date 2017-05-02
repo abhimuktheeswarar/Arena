@@ -1,18 +1,23 @@
 package msa.arena.movies;
 
+import android.util.Log;
+
 import com.msa.domain.entities.Movie;
 import com.msa.domain.usecases.GetMoviesTypeOne;
+import com.msa.domain.usecases.GetMoviesTypeThree;
 import com.msa.domain.usecases.GetMoviesTypeTwo;
 
 import org.reactivestreams.Publisher;
 
 import javax.inject.Inject;
 
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.processors.PublishProcessor;
+import io.reactivex.subscribers.DisposableSubscriber;
 import msa.arena.base.BasePresenterInterface;
 import msa.arena.injector.PerActivity;
 
@@ -23,19 +28,22 @@ import msa.arena.injector.PerActivity;
 @PerActivity
 class MoviesPresenter implements BasePresenterInterface {
 
+    private final String TAG = MoviesPresenter.class.getSimpleName();
+
     private final GetMoviesTypeOne getMoviesTypeOne;
     private final GetMoviesTypeTwo getMoviesTypeTwo;
-
+    private final GetMoviesTypeThree getMoviesTypeThree;
+    Observable<Movie> movieObservable;
     private MoviesView moviesView;
-
     private Disposable disposable;
-
     private PublishProcessor<Integer> paginator;
+    private PublishProcessor<Movie> moviePublishProcessor;
 
     @Inject
-    MoviesPresenter(GetMoviesTypeOne getMoviesTypeOne, GetMoviesTypeTwo getMoviesTypeTwo) {
+    MoviesPresenter(GetMoviesTypeOne getMoviesTypeOne, GetMoviesTypeTwo getMoviesTypeTwo, GetMoviesTypeThree getMoviesTypeThree) {
         this.getMoviesTypeOne = getMoviesTypeOne;
         this.getMoviesTypeTwo = getMoviesTypeTwo;
+        this.getMoviesTypeThree = getMoviesTypeThree;
     }
 
     @Override
@@ -84,8 +92,79 @@ class MoviesPresenter implements BasePresenterInterface {
         this.moviesView = moviesView;
     }
 
+    private void setupSubscriberSubject() {
+
+
+    }
+
+    void callComplete() {
+        paginator.onComplete();
+    }
+
     private void setupSubscriber() {
-        paginator.onBackpressureDrop().concatMap(new Function<Integer, Publisher<Movie>>() {
+
+        paginator.concatMap(new Function<Integer, Publisher<Movie>>() {
+            @Override
+            public Publisher<Movie> apply(@NonNull Integer integer) throws Exception {
+                return getMoviesTypeThree.execute(integer).toFlowable(BackpressureStrategy.BUFFER);
+            }
+        }).subscribe(new DisposableSubscriber<Movie>() {
+            @Override
+            public void onNext(Movie movie) {
+                if (movie.getMovieId() != null)
+                    moviesView.loadMovieItem(new MoviesItem_().movieId(movie.getMovieId()).movieName(movie.getMovieName()));
+                else {
+                    Log.d(TAG, "Movie is empty");
+                    paginator.onComplete();
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                moviesView.onError(throwable.getMessage());
+                Log.e(TAG, throwable.getMessage());
+
+            }
+
+            @Override
+            public void onComplete() {
+                Log.d(TAG, "onComplete");
+            }
+        });
+
+/*
+        paginator.concatMap(new Function<Integer, Publisher<Movie>>() {
+            @Override
+            public Publisher<Movie> apply(@NonNull Integer integer) throws Exception {
+                return getMoviesTypeTwo.execute(integer);
+            }
+        }).subscribe(new DisposableSubscriber<Movie>() {
+            @Override
+            public void onNext(Movie movie) {
+                if (movie.getMovieId() != null)
+                    moviesView.loadMovieItem(new MoviesItem_().movieId(movie.getMovieId()).movieName(movie.getMovieName()));
+                else {
+                    Log.d(TAG, "Movie is empty");
+                    paginator.onComplete();
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                moviesView.onError(throwable.getMessage());
+                Log.e(TAG, throwable.getMessage());
+
+            }
+
+            @Override
+            public void onComplete() {
+                Log.d(TAG, "onComplete");
+            }
+        });*/
+
+
+
+        /*paginator.onBackpressureDrop().concatMap(new Function<Integer, Publisher<Movie>>() {
             @Override
             public Publisher<Movie> apply(@NonNull Integer integer) throws Exception {
                 return getMoviesTypeTwo.execute(integer);
@@ -93,9 +172,25 @@ class MoviesPresenter implements BasePresenterInterface {
         }).subscribe(new Consumer<Movie>() {
             @Override
             public void accept(@NonNull Movie movie) throws Exception {
-                moviesView.loadMovieItem(new MoviesItem_().movieId(movie.getMovieId()).movieName(movie.getMovieName()));
+                if (movie != null)
+                    moviesView.loadMovieItem(new MoviesItem_().movieId(movie.getMovieId()).movieName(movie.getMovieName()));
+                else {
+                    Log.d(TAG, "Movie is empty");
+                    paginator.onComplete();
+                }
             }
-        });
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(@NonNull Throwable throwable) throws Exception {
+                moviesView.onError(throwable.getMessage());
+                Log.e(TAG, throwable.getMessage());
+            }
+        }, new Action() {
+            @Override
+            public void run() throws Exception {
+                Log.d(TAG, "onComplete");
+            }
+        });*/
     }
 
     void onLoadMore(int page) {
