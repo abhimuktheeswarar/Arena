@@ -5,6 +5,7 @@ import com.msa.domain.entities.Movie;
 import java.util.LinkedList;
 import java.util.List;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import msa.arena.data.repository.BaseDataSource;
 
@@ -19,5 +20,12 @@ public class DummyDataSource implements BaseDataSource {
         List<Movie> movieList = new LinkedList<>();
         for (int i = page; i < page + 10; i++) movieList.add(new Movie("id" + i, "Movie " + i));
         return Observable.fromIterable(movieList);
+    }
+
+    @Override
+    public Flowable<Movie> getMoviesTypeTwo(int page) {
+        List<Movie> movieList = new LinkedList<>();
+        for (int i = page; i < page + 10; i++) movieList.add(new Movie("id" + i, "Movie " + i));
+        return Flowable.fromIterable(movieList);
     }
 }

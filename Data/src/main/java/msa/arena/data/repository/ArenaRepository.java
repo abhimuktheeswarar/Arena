@@ -6,6 +6,7 @@ import com.msa.domain.entities.Movie;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 
 /**
@@ -27,5 +28,10 @@ public class ArenaRepository implements Repository {
     public Observable<Movie> getMovies(int page) {
         //return dataStoreFactory.createRemoteDataSource().getMovies(page);
         return dataStoreFactory.createDummyDataSource().getMovies(page);
+    }
+
+    @Override
+    public Flowable<Movie> getMoviesTypeTwo(int page) {
+        return dataStoreFactory.createDummyDataSource().getMoviesTypeTwo(page);
     }
 }

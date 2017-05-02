@@ -2,6 +2,7 @@ package msa.arena.data.repository.datasources.remote;
 
 import com.msa.domain.entities.Movie;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import msa.arena.data.repository.BaseDataSource;
 
@@ -19,6 +20,11 @@ public class RemoteDataSource implements BaseDataSource {
 
     @Override
     public Observable<Movie> getMovies(int page) {
+        return null;
+    }
+
+    @Override
+    public Flowable<Movie> getMoviesTypeTwo(int page) {
         return null;
     }
 }

@@ -2,6 +2,7 @@ package com.msa.domain;
 
 import com.msa.domain.entities.Movie;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 
 /**
@@ -12,4 +13,10 @@ public interface Repository {
 
 
     Observable<Movie> getMovies(int page);
+
+    Flowable<Movie> getMoviesTypeTwo(int page);
+
+
+
+
 }

@@ -2,6 +2,7 @@ package msa.arena.data.repository;
 
 import com.msa.domain.entities.Movie;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 
 /**
@@ -11,4 +12,6 @@ import io.reactivex.Observable;
 public interface BaseDataSource {
 
     Observable<Movie> getMovies(int page);
+
+    Flowable<Movie> getMoviesTypeTwo(int page);
 }

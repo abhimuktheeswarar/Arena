@@ -37,11 +37,10 @@ public class MoviesFragment extends BaseFragment implements MoviesView {
 
     private BaseEpoxyAdapter baseEpoxyAdapter;
 
-    private LinearLayoutManager linearLayoutManager;
-
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
 
     private boolean shouldEnableEndlessScroll;
+
 
 
     @Override
@@ -54,10 +53,11 @@ public class MoviesFragment extends BaseFragment implements MoviesView {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        linearLayoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView_Movies.setLayoutManager(linearLayoutManager);
         baseEpoxyAdapter = new BaseEpoxyAdapter();
         recyclerView_Movies.setAdapter(baseEpoxyAdapter);
+
         endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -95,6 +95,7 @@ public class MoviesFragment extends BaseFragment implements MoviesView {
         moviesPresenterLazy.get().onDestroy();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void loadMovieItem(MoviesItem moviesItem) {
         baseEpoxyAdapter.addItem(moviesItem);
