@@ -1,7 +1,8 @@
-package msa.arena.movies;
+package msa.arena.movies.list;
 
 import com.msa.domain.entities.Movie;
 import com.msa.domain.interactor.DefaultObserver;
+
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.

@@ -3,7 +3,7 @@ package msa.arena;
 import android.content.Context;
 import android.content.Intent;
 
-import msa.arena.movies.MoviesActivity;
+import msa.arena.movies.list.MoviesActivity;
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.

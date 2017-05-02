@@ -1,4 +1,4 @@
-package msa.arena.movies;
+package msa.arena.movies.list;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;

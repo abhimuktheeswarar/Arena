@@ -37,11 +37,18 @@ public class DummyDataSource implements BaseDataSource {
         List<Movie> movieList = new LinkedList<>();
 
         for (int i = page; i < page + 10; i++) movieList.add(new Movie("id" + i, "Movie " + i));
-        if (page > 5) movieList.add(new Movie());
+        if (page > 20) movieList.add(new Movie());
         return Flowable.fromIterable(movieList);
         //if (page < 5) return Flowable.fromIterable(movieList);
         //else return Flowable.empty();
 
+    }
+
+    @Override
+    public Observable<List<Movie>> searchMovie(String query) {
+        List<Movie> movieList = new LinkedList<>();
+        for (int i = 0; i < 5; i++) movieList.add(new Movie("id" + i, "Movie " + query + i));
+        return Observable.just(movieList);
     }
 
     public Flowable<Movie> getMoviesTypeThree(int page) {

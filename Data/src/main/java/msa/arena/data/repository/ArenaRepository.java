@@ -3,6 +3,8 @@ package msa.arena.data.repository;
 import com.msa.domain.Repository;
 import com.msa.domain.entities.Movie;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -33,5 +35,10 @@ public class ArenaRepository implements Repository {
     @Override
     public Flowable<Movie> getMoviesTypeTwo(int page) {
         return dataStoreFactory.createDummyDataSource().getMoviesTypeTwo(page);
+    }
+
+    @Override
+    public Observable<List<Movie>> searchMovie(String query) {
+        return dataStoreFactory.createDummyDataSource().searchMovie(query);
     }
 }

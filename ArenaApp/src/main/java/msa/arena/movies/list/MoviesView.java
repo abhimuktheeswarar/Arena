@@ -1,4 +1,4 @@
-package msa.arena.movies;
+package msa.arena.movies.list;
 
 import msa.arena.base.BaseView;
 

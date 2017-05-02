@@ -1,4 +1,4 @@
-package msa.arena.movies;
+package msa.arena.movies.list;
 
 import android.widget.TextView;
 

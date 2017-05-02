@@ -2,6 +2,8 @@ package com.msa.domain;
 
 import com.msa.domain.entities.Movie;
 
+import java.util.List;
+
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 
@@ -16,7 +18,6 @@ public interface Repository {
 
     Flowable<Movie> getMoviesTypeTwo(int page);
 
-
-
+    Observable<List<Movie>> searchMovie(String query);
 
 }
