@@ -12,7 +12,6 @@ import org.reactivestreams.Publisher;
 import javax.inject.Inject;
 
 import io.reactivex.BackpressureStrategy;
-import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
@@ -33,11 +32,11 @@ class MoviesPresenter implements BasePresenterInterface {
     private final GetMoviesTypeOne getMoviesTypeOne;
     private final GetMoviesTypeTwo getMoviesTypeTwo;
     private final GetMoviesTypeThree getMoviesTypeThree;
-    Observable<Movie> movieObservable;
     private MoviesView moviesView;
     private Disposable disposable;
     private PublishProcessor<Integer> paginator;
-    private PublishProcessor<Movie> moviePublishProcessor;
+    private MoviesObserver movieObserver;
+    private DisposableSubscriber<Movie> disMovSubs;
 
     @Inject
     MoviesPresenter(GetMoviesTypeOne getMoviesTypeOne, GetMoviesTypeTwo getMoviesTypeTwo, GetMoviesTypeThree getMoviesTypeThree) {
@@ -49,7 +48,7 @@ class MoviesPresenter implements BasePresenterInterface {
     @Override
     public void initializePresenter() {
         paginator = PublishProcessor.create();
-        setupSubscriber();
+        setupSubscriberTypeOne();
         onLoadMore(0);
     }
 
@@ -80,7 +79,7 @@ class MoviesPresenter implements BasePresenterInterface {
 
     @Override
     public void onStop() {
-
+        disMovSubs.dispose();
     }
 
     @Override
@@ -92,23 +91,9 @@ class MoviesPresenter implements BasePresenterInterface {
         this.moviesView = moviesView;
     }
 
-    private void setupSubscriberSubject() {
+    private void setupSubscriberTypeOne() {
 
-
-    }
-
-    void callComplete() {
-        paginator.onComplete();
-    }
-
-    private void setupSubscriber() {
-
-        paginator.concatMap(new Function<Integer, Publisher<Movie>>() {
-            @Override
-            public Publisher<Movie> apply(@NonNull Integer integer) throws Exception {
-                return getMoviesTypeThree.execute(integer).toFlowable(BackpressureStrategy.BUFFER);
-            }
-        }).subscribe(new DisposableSubscriber<Movie>() {
+        disMovSubs = new DisposableSubscriber<Movie>() {
             @Override
             public void onNext(Movie movie) {
                 if (movie.getMovieId() != null)
@@ -123,14 +108,25 @@ class MoviesPresenter implements BasePresenterInterface {
             public void onError(Throwable throwable) {
                 moviesView.onError(throwable.getMessage());
                 Log.e(TAG, throwable.getMessage());
-
             }
 
             @Override
             public void onComplete() {
                 Log.d(TAG, "onComplete");
+
             }
-        });
+        };
+
+        paginator.concatMap(new Function<Integer, Publisher<Movie>>() {
+            @Override
+            public Publisher<Movie> apply(@NonNull Integer integer) throws Exception {
+                return getMoviesTypeThree.execute(integer).toFlowable(BackpressureStrategy.BUFFER);
+            }
+        }).subscribe(disMovSubs);
+
+    }
+
+    private void setupSubscriber() {
 
 /*
         paginator.concatMap(new Function<Integer, Publisher<Movie>>() {
@@ -195,5 +191,9 @@ class MoviesPresenter implements BasePresenterInterface {
 
     void onLoadMore(int page) {
         paginator.onNext(page);
+    }
+
+    void callComplete() {
+
     }
 }
