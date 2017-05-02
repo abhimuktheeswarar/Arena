@@ -34,7 +34,6 @@ import io.reactivex.observers.DisposableObserver;
  */
 public abstract class UseCaseTypeTwo<T, Params> {
 
-
     private final Scheduler mExecutorThread;
     private final Scheduler mUiThread;
 

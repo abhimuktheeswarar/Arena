@@ -86,6 +86,7 @@ public class MoviesFragment extends BaseFragment implements MoviesView {
     @Override
     public void onStop() {
         super.onStop();
+        moviesPresenterLazy.get().onStop();
         recyclerView_Movies.removeOnScrollListener(endlessRecyclerViewScrollListener);
     }
 
