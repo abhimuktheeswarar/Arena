@@ -24,6 +24,15 @@
             android:name=".movies.list.MoviesActivity"
             android:label="@string/title_activity_movies"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".movies.search.MovieSearchActivity"
+            android:label="@string/title_activity_movie_search"
+            android:parentActivityName=".movies.list.MoviesActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="msa.arena.movies.list.MoviesActivity" />
+        </activity>
     </application>
 
 </manifest>

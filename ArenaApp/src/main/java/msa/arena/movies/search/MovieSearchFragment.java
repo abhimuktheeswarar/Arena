@@ -1,55 +1,59 @@
-package msa.arena.movies.list;
+package msa.arena.movies.search;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import dagger.Lazy;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import msa.arena.R;
 import msa.arena.base.BaseEpoxyAdapter;
 import msa.arena.base.BaseFragment;
 import msa.arena.injector.components.MovieComponent;
 import msa.arena.movies.MoviesItem;
 import msa.arena.movies.MoviesView;
-import msa.arena.utilities.EndlessRecyclerViewScrollListener;
+import msa.arena.utilities.RxSearch;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MoviesFragment extends BaseFragment implements MoviesView {
-
-    @BindView(R.id.text_page_number)
-    TextView textView_Page;
+public class MovieSearchFragment extends BaseFragment implements MoviesView {
 
     @BindView(R.id.recycler_movies)
     RecyclerView recyclerView_Movies;
 
+    SearchView searchView;
+
     @Inject
-    Lazy<MoviesPresenter> moviesPresenterLazy;
+    Lazy<MovieSearchPresenter> movieSearchPresenterLazy;
 
     private BaseEpoxyAdapter baseEpoxyAdapter;
 
-    private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
-
-    private boolean shouldEnableEndlessScroll;
-
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_movies, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_movie_search, container, false);
         ButterKnife.bind(this, rootView);
         return rootView;
     }
@@ -61,61 +65,50 @@ public class MoviesFragment extends BaseFragment implements MoviesView {
         recyclerView_Movies.setLayoutManager(linearLayoutManager);
         baseEpoxyAdapter = new BaseEpoxyAdapter();
         recyclerView_Movies.setAdapter(baseEpoxyAdapter);
-
-        endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                textView_Page.setText(String.valueOf(page));
-                moviesPresenterLazy.get().onLoadMore(page);
-            }
-        };
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getComponent(MovieComponent.class).inject(this);
-        moviesPresenterLazy.get().setMoviesView(this);
-        moviesPresenterLazy.get().initializePresenter();
-        shouldEnableEndlessScroll = true;
+        movieSearchPresenterLazy.get().setMoviesView(this);
+        movieSearchPresenterLazy.get().initializePresenter();
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        if (shouldEnableEndlessScroll)
-            recyclerView_Movies.addOnScrollListener(endlessRecyclerViewScrollListener);
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_main, menu);
+        MenuItem searchMenuItem = menu.findItem(R.id.action_search);
+        searchView = (SearchView) searchMenuItem.getActionView();
     }
+
 
     @Override
-    public void onStop() {
-        super.onStop();
-        moviesPresenterLazy.get().onStop();
-        recyclerView_Movies.removeOnScrollListener(endlessRecyclerViewScrollListener);
+    public void onResume() {
+        super.onResume();
+        RxSearch.fromSearchView(searchView)
+                .debounce(300, TimeUnit.MILLISECONDS)
+                .filter(item -> item.length() > 1)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(query -> movieSearchPresenterLazy.get().onSearch(query));
+
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        moviesPresenterLazy.get().onDestroy();
-    }
-
-    @SuppressWarnings("unchecked")
     @Override
     public void loadMovieItem(MoviesItem moviesItem) {
         baseEpoxyAdapter.addItem(moviesItem);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void loadMovieItem(List<MoviesItem> moviesItemList) {
+        baseEpoxyAdapter.removeAllItems();
         baseEpoxyAdapter.addItem(moviesItemList);
     }
 
     @Override
     public void onComplete() {
-        shouldEnableEndlessScroll = false;
-        recyclerView_Movies.removeOnScrollListener(endlessRecyclerViewScrollListener);
+
     }
 
     @Override
@@ -131,10 +124,5 @@ public class MoviesFragment extends BaseFragment implements MoviesView {
     @Override
     public Context context() {
         return getActivity();
-    }
-
-    @OnClick(R.id.btn_complete)
-    void onClick() {
-        moviesPresenterLazy.get().callComplete();
     }
 }

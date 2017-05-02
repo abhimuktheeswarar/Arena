@@ -18,6 +18,8 @@ import io.reactivex.processors.PublishProcessor;
 import io.reactivex.subscribers.DisposableSubscriber;
 import msa.arena.base.BasePresenterInterface;
 import msa.arena.injector.PerActivity;
+import msa.arena.movies.MoviesItem_;
+import msa.arena.movies.MoviesView;
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.

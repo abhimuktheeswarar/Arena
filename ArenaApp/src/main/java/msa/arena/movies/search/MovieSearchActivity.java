@@ -1,20 +1,19 @@
-package msa.arena.movies.list;
+package msa.arena.movies.search;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import msa.arena.Navigator;
 import msa.arena.R;
 import msa.arena.base.BaseActivity;
 import msa.arena.injector.components.ApplicationComponent;
 import msa.arena.injector.components.DaggerMovieComponent;
 import msa.arena.injector.components.MovieComponent;
 
-public class MoviesActivity extends BaseActivity {
-
+public class MovieSearchActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -24,12 +23,14 @@ public class MoviesActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movies);
+        setContentView(R.layout.activity_movie_search);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(view -> Navigator.navigateToMovieSearchActivity(MoviesActivity.this));
+        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show());
     }
 
     @Override

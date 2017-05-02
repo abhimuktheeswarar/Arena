@@ -42,4 +42,8 @@ public class BaseEpoxyAdapter<T extends EpoxyModelWithHolder<EpoxyHolder>> exten
         return getModelPosition(item);
     }
 
+    public void removeAllItems() {
+        removeAllModels();
+    }
+
 }
