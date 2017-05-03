@@ -14,7 +14,7 @@ import msa.arena.R;
 public abstract class MoviesItem extends EpoxyModelWithHolder<MoviesHolder> {
 
     @EpoxyAttribute
-    String movieId, movieName;
+    public String movieId, movieName;
 
     @Override
     public void bind(MoviesHolder holder) {

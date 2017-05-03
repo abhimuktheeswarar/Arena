@@ -2,17 +2,26 @@ package msa.arena.movies.search;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 
+import com.msa.domain.entities.Movie;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -20,6 +29,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import dagger.Lazy;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import msa.arena.R;
@@ -33,7 +43,12 @@ import msa.arena.utilities.RxSearch;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MovieSearchFragment extends BaseFragment implements MoviesView {
+public class MovieSearchFragment extends BaseFragment implements MoviesView, MovieArrayAdapter.MovieArrayAdapterInterface {
+
+    private static final String TAG = MovieSearchFragment.class.getSimpleName();
+
+    @BindView(R.id.autoCompleteTextView)
+    AutoCompleteTextView autoCompleteTextView;
 
     @BindView(R.id.recycler_movies)
     RecyclerView recyclerView_Movies;
@@ -42,6 +57,11 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView {
 
     @Inject
     Lazy<MovieSearchPresenter> movieSearchPresenterLazy;
+
+
+    ArrayAdapter<String> arrayAdapter;
+    private MovieArrayAdapter movieArrayAdapter;
+
 
     private BaseEpoxyAdapter baseEpoxyAdapter;
 
@@ -55,6 +75,24 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView {
         public boolean onQueryTextChange(String newText) {
             movieSearchPresenterLazy.get().onSearchTypeTwo(newText);
             return true;
+        }
+    };
+
+    private TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            Log.d(TAG, "beforeTextChanged = " + s.toString());
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            Log.d(TAG, "onTextChanged = " + s.toString());
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            Log.d(TAG, "afterTextChanged = " + s.toString());
+            movieSearchPresenterLazy.get().onSearchTypeTwo(s.toString());
         }
     };
 
@@ -78,6 +116,9 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView {
         recyclerView_Movies.setLayoutManager(linearLayoutManager);
         baseEpoxyAdapter = new BaseEpoxyAdapter();
         recyclerView_Movies.setAdapter(baseEpoxyAdapter);
+        arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item);
+        movieArrayAdapter = new MovieArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, this);
+        autoCompleteTextView.setAdapter(movieArrayAdapter);
     }
 
     @Override
@@ -110,12 +151,18 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView {
     public void onResume() {
         super.onResume();
         movieSearchPresenterLazy.get().onResume();
+        //autoCompleteTextView.addTextChangedListener(textWatcher);
     }
 
     @Override
     public void onPause() {
         movieSearchPresenterLazy.get().onPause();
         super.onPause();
+    }
+
+    @Override
+    public void loadMovies(List<Movie> movies) {
+        movieArrayAdapter.addAll(movies);
     }
 
     @Override
@@ -126,7 +173,21 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView {
     @Override
     public void loadMovieItem(List<MoviesItem> moviesItemList) {
         baseEpoxyAdapter.removeAllItems();
-        baseEpoxyAdapter.addItem(moviesItemList);
+        //baseEpoxyAdapter.addItem(moviesItemList);
+        List<String> strings = new ArrayList<>();
+        for (MoviesItem moviesItem : moviesItemList) strings.add(moviesItem.movieName);
+
+        arrayAdapter.addAll(strings);
+        autoCompleteTextView.enoughToFilter();
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                autoCompleteTextView.showDropDown();
+            }
+        }, 500);
+
+
     }
 
     @Override
@@ -152,5 +213,15 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView {
     @Override
     public Context context() {
         return getActivity();
+    }
+
+    @OnClick(R.id.btn_show)
+    void onClickShow() {
+        autoCompleteTextView.showDropDown();
+    }
+
+    @Override
+    public void getMovieSuggestionsFromCloud(String query) {
+        movieSearchPresenterLazy.get().onSearchTypeTwo(query);
     }
 }

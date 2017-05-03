@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.msa.domain.entities.Movie;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -98,6 +100,11 @@ public class MoviesFragment extends BaseFragment implements MoviesView {
     public void onDestroy() {
         super.onDestroy();
         moviesPresenterLazy.get().onDestroy();
+    }
+
+    @Override
+    public void loadMovies(List<Movie> movies) {
+
     }
 
     @SuppressWarnings("unchecked")

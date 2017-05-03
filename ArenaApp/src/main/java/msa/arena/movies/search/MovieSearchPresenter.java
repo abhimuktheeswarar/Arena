@@ -45,6 +45,7 @@ class MovieSearchPresenter implements BasePresenterInterface {
     private final SearchMovieTypeTwo searchMovieTypeTwo;
     PublishSubject<String> subject = PublishSubject.create();
     Flowable<Long> delays = Flowable.just(10L, 20L, 30L, 30L, 30L);
+    String[] countries = {"India", "Sweden", "Austria", "France", "Germany", "Canada", "Mexico", "Brazil", "Chile"};
     private MoviesView moviesView;
     private Disposable disposable;
 
@@ -166,6 +167,7 @@ class MovieSearchPresenter implements BasePresenterInterface {
     }
 
     private void onMoviesFetched(List<Movie> movies) {
+        moviesView.loadMovies(movies);
         List<MoviesItem> moviesItems = new ArrayList<MoviesItem>();
         for (Movie movie : movies)
             moviesItems.add(new MoviesItem_().movieId(movie.getMovieId()).movieName(movie.getMovieName()));
@@ -181,4 +183,6 @@ class MovieSearchPresenter implements BasePresenterInterface {
         }
 
     }
+
+
 }

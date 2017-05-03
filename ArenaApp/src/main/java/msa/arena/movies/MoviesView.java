@@ -1,5 +1,7 @@
 package msa.arena.movies;
 
+import com.msa.domain.entities.Movie;
+
 import java.util.List;
 
 import msa.arena.base.BaseView;
@@ -9,6 +11,8 @@ import msa.arena.base.BaseView;
  */
 
 public interface MoviesView extends BaseView {
+
+    void loadMovies(List<Movie> movies);
 
     void loadMovieItem(MoviesItem moviesItem);
 

@@ -4,14 +4,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="msa.arena.movies.list.MoviesFragment"
-    tools:showIn="@layout/activity_movies">
+    tools:context=".movies.search.MovieSearchActivity"
+    tools:showIn="@layout/activity_movie_search">
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        android:text="show" />
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="Search something" />
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_movies"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 
 </LinearLayout>
 

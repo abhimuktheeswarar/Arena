@@ -23,4 +23,9 @@ public class Movie {
     public String getMovieName() {
         return movieName;
     }
+
+    @Override
+    public String toString() {
+        return movieName;
+    }
 }
