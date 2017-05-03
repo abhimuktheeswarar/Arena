@@ -12,7 +12,6 @@ import com.msa.domain.entities.Movie;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import msa.arena.injector.PerActivity;
 
@@ -87,7 +86,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> implements Filterable
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();
-                ArrayList<Movie> filterData = new ArrayList<>();
+                //ArrayList<Movie> filterData = new ArrayList<>();
                 if (constraint != null) {
                     // Query the autocomplete API for the (constraint) search string.
                     doTheQuery(constraint);
@@ -126,11 +125,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> implements Filterable
     }
 
     private ArrayList<Movie> doTheQuery(CharSequence query) {
-        List<Movie> movies = new ArrayList<>();
-        //movies.add(new Movie("1", "Abhi"));
-        //movies.add(new Movie("2", "Abi"));
         movieArrayAdapterInterface.getMovieSuggestionsFromCloud(query.toString());
-        //return (ArrayList<Movie>) movies;
         return movieArrayList;
 
     }

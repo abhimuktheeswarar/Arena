@@ -16,11 +16,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListPopupWindow;
 
 import com.msa.domain.entities.Movie;
@@ -97,29 +95,6 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView, Mov
             movieSearchPresenterLazy.get().onSearchTypeTwo(s.toString());
         }
     };
-    //private PassThroughClickListener mPassThroughClickListener;
-    private ListAdapter mAdapter;
-    private int mThreshold;
-    private boolean mDropDownDismissedOnCompletion = true;
-    private boolean mOpenBefore;
-    private boolean mPopupCanBeUpdated = true;
-
-
-    private void setUpMyAutoSugesTxt() {
-        listPopupWindow = new ListPopupWindow(getActivity());
-        listPopupWindow.setAdapter(arrayAdapter);
-        listPopupWindow.setAnchorView(editText);
-        listPopupWindow.setModal(true);
-        listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-        });
-    }
-
-
-    //----------------------------------------------------------------------------------------------
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -144,7 +119,6 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView, Mov
         arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item);
         movieArrayAdapter = new MovieArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, this);
         autoCompleteTextView.setAdapter(movieArrayAdapter);
-        setUpMyAutoSugesTxt();
     }
 
     @Override
@@ -189,11 +163,6 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView, Mov
 
     @Override
     public void loadMovies(List<Movie> movies) {
-        /*List<String> strings = new ArrayList<>();
-        for (Movie moviesItem : movies) strings.add(moviesItem.getMovieName());
-        arrayAdapter.clear();
-        arrayAdapter.addAll(strings);
-        listPopupWindow.show();*/
         movieArrayAdapter.addAll(movies);
 
     }
