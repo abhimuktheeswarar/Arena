@@ -14,5 +14,7 @@ public interface MoviesView extends BaseView {
 
     void loadMovieItem(List<MoviesItem> moviesItemList);
 
+    void clearMovieItems();
+
     void onComplete();
 }

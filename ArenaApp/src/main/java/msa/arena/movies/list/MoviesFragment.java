@@ -113,6 +113,11 @@ public class MoviesFragment extends BaseFragment implements MoviesView {
     }
 
     @Override
+    public void clearMovieItems() {
+
+    }
+
+    @Override
     public void onComplete() {
         shouldEnableEndlessScroll = false;
         recyclerView_Movies.removeOnScrollListener(endlessRecyclerViewScrollListener);

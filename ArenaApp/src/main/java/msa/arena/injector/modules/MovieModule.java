@@ -5,6 +5,7 @@ import com.msa.domain.usecases.GetMoviesTypeOne;
 import com.msa.domain.usecases.GetMoviesTypeThree;
 import com.msa.domain.usecases.GetMoviesTypeTwo;
 import com.msa.domain.usecases.SearchMovie;
+import com.msa.domain.usecases.SearchMovieTypeTwo;
 
 import javax.inject.Named;
 
@@ -42,5 +43,11 @@ public class MovieModule {
     @PerActivity
     SearchMovie provideSearchMovieUseCase(Repository repository, @Named("executor_thread") Scheduler mUiThread, @Named("ui_thread") Scheduler mExecutorThread) {
         return new SearchMovie(repository, mUiThread, mExecutorThread);
+    }
+
+    @Provides
+    @PerActivity
+    SearchMovieTypeTwo provideSearchMovieTypeTwoUseCase(Repository repository, @Named("executor_thread") Scheduler mUiThread, @Named("ui_thread") Scheduler mExecutorThread) {
+        return new SearchMovieTypeTwo(repository, mUiThread, mExecutorThread);
     }
 }

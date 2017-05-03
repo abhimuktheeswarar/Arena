@@ -1,16 +1,29 @@
 package msa.arena.movies.search;
 
+import android.util.Log;
+
 import com.msa.domain.entities.Movie;
 import com.msa.domain.usecases.SearchMovie;
+import com.msa.domain.usecases.SearchMovieTypeTwo;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 import msa.arena.base.BasePresenterInterface;
 import msa.arena.injector.PerActivity;
+import msa.arena.movies.MoviesItem;
 import msa.arena.movies.MoviesItem_;
 import msa.arena.movies.MoviesView;
 
@@ -21,13 +34,20 @@ import msa.arena.movies.MoviesView;
 @PerActivity
 class MovieSearchPresenter implements BasePresenterInterface {
 
-    private final SearchMovie searchMovie;
+    private static final String TAG = MovieSearchPresenter.class.getSimpleName();
 
+
+    private final SearchMovie searchMovie;
+    private final SearchMovieTypeTwo searchMovieTypeTwo;
+    PublishSubject<String> subject = PublishSubject.create();
     private MoviesView moviesView;
+    private Disposable disposable;
+    private boolean isFixed = false;
 
     @Inject
-    MovieSearchPresenter(SearchMovie searchMovie) {
+    MovieSearchPresenter(SearchMovie searchMovie, SearchMovieTypeTwo searchMovieTypeTwo) {
         this.searchMovie = searchMovie;
+        this.searchMovieTypeTwo = searchMovieTypeTwo;
     }
 
     void setMoviesView(MoviesView moviesView) {
@@ -56,11 +76,13 @@ class MovieSearchPresenter implements BasePresenterInterface {
 
     @Override
     public void onResume() {
+        onSubscribe();
 
     }
 
     @Override
     public void onPause() {
+        unSubscribe();
 
     }
 
@@ -78,8 +100,10 @@ class MovieSearchPresenter implements BasePresenterInterface {
         searchMovie.execute(new DisposableObserver<List<Movie>>() {
             @Override
             public void onNext(@NonNull List<Movie> movies) {
+                List<MoviesItem> moviesItems = new ArrayList<MoviesItem>();
                 for (Movie movie : movies)
-                    moviesView.loadMovieItem(new MoviesItem_().movieId(movie.getMovieId()).movieName(movie.getMovieName()));
+                    moviesItems.add(new MoviesItem_().movieId(movie.getMovieId()).movieName(movie.getMovieName()));
+                moviesView.loadMovieItem(moviesItems);
 
             }
 
@@ -95,6 +119,57 @@ class MovieSearchPresenter implements BasePresenterInterface {
 
             }
         }, query);
+
+    }
+
+    private void onSubscribe() {
+        if (disposable == null) {
+            initDisposable();
+        }
+    }
+
+    private void unSubscribe() {
+        if (disposable != null && !disposable.isDisposed()) {
+            disposable.dispose();
+            disposable = null;
+        }
+
+    }
+
+    private void initDisposable() {
+        disposable = subject
+                .debounce(300, TimeUnit.MILLISECONDS)
+                .switchMap(new Function<String, ObservableSource<List<Movie>>>() {
+                    @Override
+                    public ObservableSource<List<Movie>> apply(String s) throws Exception {
+                        Log.d(TAG, "getting books for " + s);
+                        return searchMovieTypeTwo.execute(s);
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<Movie>>() {
+                    @Override
+                    public void accept(List<Movie> movies) throws Exception {
+                        onMoviesFetched(movies);
+                    }
+                });
+    }
+
+    private void onMoviesFetched(List<Movie> movies) {
+        List<MoviesItem> moviesItems = new ArrayList<MoviesItem>();
+        for (Movie movie : movies)
+            moviesItems.add(new MoviesItem_().movieId(movie.getMovieId()).movieName(movie.getMovieName()));
+        moviesView.loadMovieItem(moviesItems);
+
+    }
+
+    void onSearchTypeTwo(String newText) {
+        if (newText == null || newText.length() == 0) {
+            moviesView.clearMovieItems();
+        } else {
+            subject.onNext(newText);
+        }
 
     }
 }

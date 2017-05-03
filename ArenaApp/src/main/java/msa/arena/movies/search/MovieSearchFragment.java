@@ -45,6 +45,19 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView {
 
     private BaseEpoxyAdapter baseEpoxyAdapter;
 
+    private SearchView.OnQueryTextListener textListener = new SearchView.OnQueryTextListener() {
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            movieSearchPresenterLazy.get().onSearchTypeTwo(newText);
+            return true;
+        }
+    };
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,22 +90,32 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_search, menu);
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_main, menu);
         MenuItem searchMenuItem = menu.findItem(R.id.action_search);
         searchView = (SearchView) searchMenuItem.getActionView();
+        searchView.setOnQueryTextListener(textListener);
+        //setupSearchView();
     }
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
+    private void setupSearchView() {
         RxSearch.fromSearchView(searchView)
                 .debounce(300, TimeUnit.MILLISECONDS)
                 .filter(item -> item.length() > 1)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(query -> movieSearchPresenterLazy.get().onSearch(query));
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        movieSearchPresenterLazy.get().onResume();
+    }
+
+    @Override
+    public void onPause() {
+        movieSearchPresenterLazy.get().onPause();
+        super.onPause();
     }
 
     @Override
@@ -104,6 +127,11 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView {
     public void loadMovieItem(List<MoviesItem> moviesItemList) {
         baseEpoxyAdapter.removeAllItems();
         baseEpoxyAdapter.addItem(moviesItemList);
+    }
+
+    @Override
+    public void clearMovieItems() {
+        baseEpoxyAdapter.removeAllItems();
     }
 
     @Override
