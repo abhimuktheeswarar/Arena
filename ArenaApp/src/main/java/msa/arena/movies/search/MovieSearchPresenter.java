@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -139,11 +140,18 @@ class MovieSearchPresenter implements BasePresenterInterface {
     private void initDisposable() {
         disposable = subject
                 .debounce(300, TimeUnit.MILLISECONDS)
+                .distinctUntilChanged()
                 .switchMap(new Function<String, ObservableSource<List<Movie>>>() {
                     @Override
                     public ObservableSource<List<Movie>> apply(String s) throws Exception {
                         Log.d(TAG, "getting books for " + s);
                         return searchMovieTypeTwo.execute(s);
+                    }
+                })
+                .retryWhen(new Function<Observable<Throwable>, ObservableSource<?>>() {
+                    @Override
+                    public ObservableSource<?> apply(@NonNull Observable<Throwable> throwableObservable) throws Exception {
+                        return null;
                     }
                 })
                 .subscribeOn(Schedulers.io())

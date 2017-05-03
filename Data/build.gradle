@@ -48,6 +48,7 @@ dependencies {
     compile dataDependencies.javaxInject
     compile dataDependencies.rxJava
     compile dataDependencies.rxAndroid
+    compile dataDependencies.rxJava2Extras
     compile dataDependencies.androidAnnotations
 
     compile dataDependencies.okHttp
