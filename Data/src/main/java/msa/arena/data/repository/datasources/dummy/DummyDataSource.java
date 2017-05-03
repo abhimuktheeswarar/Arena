@@ -1,5 +1,8 @@
 package msa.arena.data.repository.datasources.dummy;
 
+import android.accounts.NetworkErrorException;
+import android.util.Log;
+
 import com.msa.domain.entities.Movie;
 
 import org.reactivestreams.Publisher;
@@ -20,6 +23,8 @@ import msa.arena.data.repository.BaseDataSource;
  */
 
 public class DummyDataSource implements BaseDataSource {
+
+    private static final String TAG = DummyDataSource.class.getSimpleName();
 
     Observable<Movie> movieObservable;
     Flowable<Movie> movieFlowable;
@@ -46,9 +51,11 @@ public class DummyDataSource implements BaseDataSource {
 
     @Override
     public Observable<List<Movie>> searchMovie(String query) {
+        Log.d(TAG, "Searching -> " + query);
         List<Movie> movieList = new LinkedList<>();
         for (int i = 0; i < 5; i++) movieList.add(new Movie("id" + i, "Movie " + query + i));
-        return Observable.just(movieList);
+        if (query.equals("error")) return Observable.error(new NetworkErrorException());
+        else return Observable.just(movieList);
     }
 
     public Flowable<Movie> getMoviesTypeThree(int page) {
