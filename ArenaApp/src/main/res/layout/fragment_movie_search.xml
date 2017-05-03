@@ -15,12 +15,21 @@
         android:layout_margin="8dp"
         android:text="show" />
 
+    <EditText
+        android:id="@+id/edit_suggestions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="Search something"
+        android:visibility="gone" />
+
     <AutoCompleteTextView
         android:id="@+id/autoCompleteTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="Search something" />
+        android:hint="Search something"
+        android:visibility="visible" />
 
 
     <android.support.v7.widget.RecyclerView

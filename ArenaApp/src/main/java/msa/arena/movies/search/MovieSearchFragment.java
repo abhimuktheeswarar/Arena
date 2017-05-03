@@ -16,8 +16,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListPopupWindow;
 
 import com.msa.domain.entities.Movie;
 
@@ -46,25 +50,19 @@ import msa.arena.utilities.RxSearch;
 public class MovieSearchFragment extends BaseFragment implements MoviesView, MovieArrayAdapter.MovieArrayAdapterInterface {
 
     private static final String TAG = MovieSearchFragment.class.getSimpleName();
-
+    final int EXPAND_MAX = 3;
     @BindView(R.id.autoCompleteTextView)
     AutoCompleteTextView autoCompleteTextView;
-
+    @BindView(R.id.edit_suggestions)
+    EditText editText;
     @BindView(R.id.recycler_movies)
     RecyclerView recyclerView_Movies;
-
     SearchView searchView;
-
     @Inject
     Lazy<MovieSearchPresenter> movieSearchPresenterLazy;
-
-
     ArrayAdapter<String> arrayAdapter;
     private MovieArrayAdapter movieArrayAdapter;
-
-
     private BaseEpoxyAdapter baseEpoxyAdapter;
-
     private SearchView.OnQueryTextListener textListener = new SearchView.OnQueryTextListener() {
         @Override
         public boolean onQueryTextSubmit(String query) {
@@ -78,6 +76,9 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView, Mov
         }
     };
 
+    //----------------------------------------------------------------------------------------------
+    private Context mPopupContext;
+    private ListPopupWindow listPopupWindow;
     private TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -92,9 +93,33 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView, Mov
         @Override
         public void afterTextChanged(Editable s) {
             Log.d(TAG, "afterTextChanged = " + s.toString());
+            if (s.length() <= 0) listPopupWindow.dismiss();
             movieSearchPresenterLazy.get().onSearchTypeTwo(s.toString());
         }
     };
+    //private PassThroughClickListener mPassThroughClickListener;
+    private ListAdapter mAdapter;
+    private int mThreshold;
+    private boolean mDropDownDismissedOnCompletion = true;
+    private boolean mOpenBefore;
+    private boolean mPopupCanBeUpdated = true;
+
+
+    private void setUpMyAutoSugesTxt() {
+        listPopupWindow = new ListPopupWindow(getActivity());
+        listPopupWindow.setAdapter(arrayAdapter);
+        listPopupWindow.setAnchorView(editText);
+        listPopupWindow.setModal(true);
+        listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
+    }
+
+
+    //----------------------------------------------------------------------------------------------
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -119,6 +144,7 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView, Mov
         arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item);
         movieArrayAdapter = new MovieArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, this);
         autoCompleteTextView.setAdapter(movieArrayAdapter);
+        setUpMyAutoSugesTxt();
     }
 
     @Override
@@ -152,6 +178,7 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView, Mov
         super.onResume();
         movieSearchPresenterLazy.get().onResume();
         //autoCompleteTextView.addTextChangedListener(textWatcher);
+        //editText.addTextChangedListener(textWatcher);
     }
 
     @Override
@@ -162,7 +189,13 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView, Mov
 
     @Override
     public void loadMovies(List<Movie> movies) {
+        /*List<String> strings = new ArrayList<>();
+        for (Movie moviesItem : movies) strings.add(moviesItem.getMovieName());
+        arrayAdapter.clear();
+        arrayAdapter.addAll(strings);
+        listPopupWindow.show();*/
         movieArrayAdapter.addAll(movies);
+
     }
 
     @Override
@@ -177,7 +210,7 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView, Mov
         List<String> strings = new ArrayList<>();
         for (MoviesItem moviesItem : moviesItemList) strings.add(moviesItem.movieName);
 
-        arrayAdapter.addAll(strings);
+
         autoCompleteTextView.enoughToFilter();
         new Handler().postDelayed(new Runnable() {
 

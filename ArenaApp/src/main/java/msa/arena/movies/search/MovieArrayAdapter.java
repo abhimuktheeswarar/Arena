@@ -26,13 +26,29 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> implements Filterable
     private static final String TAG = MovieArrayAdapter.class.getSimpleName();
     private final MovieArrayAdapterInterface movieArrayAdapterInterface;
     private ArrayList<Movie> movieArrayList;
+    private Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            return null;
+        }
 
-    public MovieArrayAdapter(@NonNull Context context, @LayoutRes int resource, MovieArrayAdapterInterface movieArrayAdapterInterface) {
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+
+        }
+
+        @Override
+        public CharSequence convertResultToString(Object resultValue) {
+            return super.convertResultToString(resultValue);
+        }
+    };
+
+
+    MovieArrayAdapter(@NonNull Context context, @LayoutRes int resource, MovieArrayAdapterInterface movieArrayAdapterInterface) {
         super(context, resource);
         this.movieArrayAdapterInterface = movieArrayAdapterInterface;
         initialize();
     }
-
 
     private void initialize() {
         if (movieArrayList == null) movieArrayList = new ArrayList<>();
@@ -43,7 +59,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> implements Filterable
     public void add(@Nullable Movie object) {
         super.add(object);
         movieArrayList.add(object);
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
     }
 
     @Override
@@ -74,11 +90,11 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> implements Filterable
                 ArrayList<Movie> filterData = new ArrayList<>();
                 if (constraint != null) {
                     // Query the autocomplete API for the (constraint) search string.
-                    filterData = doTheQuery(constraint);
+                    doTheQuery(constraint);
                 }
-                results.values = filterData;
-                if (filterData != null) {
-                    results.count = filterData.size();
+                results.values = movieArrayList;
+                if (movieArrayList != null) {
+                    results.count = movieArrayList.size();
                 } else {
                     results.count = 0;
                 }
@@ -90,7 +106,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> implements Filterable
                 if (results != null && results.count > 0) {
                     // The API returned at least one result, update the data.
                     movieArrayList = (ArrayList<Movie>) results.values;
-                    notifyDataSetChanged();
+                    //notifyDataSetChanged();
                 } else {
                     // The API did not return any results, invalidate the data set.
                     notifyDataSetInvalidated();
@@ -114,7 +130,8 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> implements Filterable
         //movies.add(new Movie("1", "Abhi"));
         //movies.add(new Movie("2", "Abi"));
         movieArrayAdapterInterface.getMovieSuggestionsFromCloud(query.toString());
-        return (ArrayList<Movie>) movies;
+        //return (ArrayList<Movie>) movies;
+        return movieArrayList;
 
     }
 
