@@ -1,7 +1,9 @@
 package msa.arena.movies.search;
 
+import android.accounts.NetworkErrorException;
 import android.util.Log;
 
+import com.github.davidmoten.rx2.RetryWhen;
 import com.msa.domain.entities.Movie;
 import com.msa.domain.usecases.SearchMovie;
 import com.msa.domain.usecases.SearchMovieTypeTwo;
@@ -12,7 +14,8 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -41,9 +44,9 @@ class MovieSearchPresenter implements BasePresenterInterface {
     private final SearchMovie searchMovie;
     private final SearchMovieTypeTwo searchMovieTypeTwo;
     PublishSubject<String> subject = PublishSubject.create();
+    Flowable<Long> delays = Flowable.just(10L, 20L, 30L, 30L, 30L);
     private MoviesView moviesView;
     private Disposable disposable;
-    private boolean isFixed = false;
 
     @Inject
     MovieSearchPresenter(SearchMovie searchMovie, SearchMovieTypeTwo searchMovieTypeTwo) {
@@ -137,7 +140,9 @@ class MovieSearchPresenter implements BasePresenterInterface {
 
     }
 
+
     private void initDisposable() {
+        //noinspection unchecked
         disposable = subject
                 .debounce(300, TimeUnit.MILLISECONDS)
                 .distinctUntilChanged()
@@ -147,13 +152,9 @@ class MovieSearchPresenter implements BasePresenterInterface {
                         Log.d(TAG, "getting books for " + s);
                         return searchMovieTypeTwo.execute(s);
                     }
-                })
-                .retryWhen(new Function<Observable<Throwable>, ObservableSource<?>>() {
-                    @Override
-                    public ObservableSource<?> apply(@NonNull Observable<Throwable> throwableObservable) throws Exception {
-                        return null;
-                    }
-                })
+                }).toFlowable(BackpressureStrategy.BUFFER)
+                .retryWhen(RetryWhen.retryWhenInstanceOf(NetworkErrorException.class).build())
+                .retryWhen(RetryWhen.delays(delays, TimeUnit.SECONDS).build())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<Movie>>() {

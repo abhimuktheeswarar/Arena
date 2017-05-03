@@ -18,7 +18,8 @@ ext {
     butterKnifeVersion = '8.5.1'
     rxJavaVersion = '2.1.0'
     rxAndroidVersion = '2.0.1'
-    rxJava2ExtrasVersion = '0.1.9'
+    rxJavaExtrasVersion = '0.8.0.7'
+    rxJava2ExtrasVersion = '0.1.10'
     javaxAnnotationVersion = '1.0'
     javaxInjectVersion = '1'
     arrowVersion = '1.0.0'
@@ -61,6 +62,7 @@ ext {
             butterKnife        : "com.jakewharton:butterknife:${butterKnifeVersion}",
             rxJava             : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
             rxAndroid          : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            rxJavaExtras       : "com.github.davidmoten:rxjava-extras:${rxJavaExtrasVersion}",
             rxJava2Extras      : "com.github.davidmoten:rxjava2-extras:${rxJava2ExtrasVersion}",
             javaxAnnotation    : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
 
@@ -103,18 +105,19 @@ ext {
 
     dataDependencies = [
 
-            daggerCompiler    : "com.google.dagger:dagger-compiler:${daggerVersion}",
-            dagger            : "com.google.dagger:dagger:${daggerVersion}",
-            rxJava            : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
-            rxAndroid         : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
-            rxJava2Extras     : "com.github.davidmoten:rxjava2-extras:${rxJava2ExtrasVersion}",
-            javaxAnnotation   : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-            javaxInject       : "javax.inject:javax.inject:${javaxInjectVersion}",
-            androidAnnotations: "com.android.support:support-annotations:${supportLibraryVersion}",
+            daggerCompiler         : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger                 : "com.google.dagger:dagger:${daggerVersion}",
+            rxJava                 : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxAndroid              : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            rxJavaExtras           : "com.github.davidmoten:rxjava-extras:${rxJavaExtrasVersion}",
+            rxJava2Extras          : "com.github.davidmoten:rxjava2-extras:${rxJava2ExtrasVersion}",
+            javaxAnnotation        : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject            : "javax.inject:javax.inject:${javaxInjectVersion}",
+            androidAnnotations     : "com.android.support:support-annotations:${supportLibraryVersion}",
 
-            okHttp            : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
-            okHttpInterceptor : "com.squareup.okhttp3:logging-interceptor:${okHttpInterceptorVersion}",
-            loggingInterceptor: "com.github.ihsanbal:LoggingInterceptor:${loggingInterceptorVersion}",
+            okHttp                 : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
+            okHttpInterceptor      : "com.squareup.okhttp3:logging-interceptor:${okHttpInterceptorVersion}",
+            loggingInterceptor     : "com.github.ihsanbal:LoggingInterceptor:${loggingInterceptorVersion}",
             retrofit               : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
             RetrofitAdapaterJackson: "com.squareup.retrofit2:converter-jackson:${RetrofitAdapaterJacksonVersion}",
             rxCallAdapter          : "com.squareup.retrofit2:adapter-rxjava:${rxCallAdapterVersion}",
