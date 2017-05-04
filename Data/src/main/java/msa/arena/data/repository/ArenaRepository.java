@@ -10,6 +10,7 @@ import javax.inject.Singleton;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.
@@ -29,16 +30,21 @@ public class ArenaRepository implements Repository {
     @Override
     public Observable<Movie> getMovies(int page) {
         //return dataStoreFactory.createRemoteDataSource().getMovies(page);
-        return dataStoreFactory.createDummyDataSource().getMovies(page);
+        return dataStoreFactory.createRemoteDataSource().getMovies(page);
     }
 
     @Override
     public Flowable<Movie> getMoviesTypeTwo(int page) {
-        return dataStoreFactory.createDummyDataSource().getMoviesTypeTwo(page);
+        return dataStoreFactory.createRemoteDataSource().getMoviesTypeTwo(page);
     }
 
     @Override
     public Observable<List<Movie>> searchMovie(String query) {
-        return dataStoreFactory.createDummyDataSource().searchMovie(query);
+        return dataStoreFactory.createRemoteDataSource().searchMovie(query);
+    }
+
+    @Override
+    public Single<List<Movie>> searchForMovie(String query) {
+        return dataStoreFactory.createRemoteDataSource().searchForMovie(query);
     }
 }

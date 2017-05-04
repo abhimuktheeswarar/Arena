@@ -13,6 +13,7 @@ android {
         minSdkVersion globalConfiguration.getAt("androidMinSdkVersion")
         targetSdkVersion globalConfiguration.getAt("androidTargetSdkVersion")
         versionCode globalConfiguration.getAt("androidVersionCode")
+        buildConfigField("String", "THEMOVIEDB_API_KEY", theMovieDb_apiKey)
     }
 
     compileOptions {
@@ -58,8 +59,15 @@ dependencies {
         exclude group: 'org.json', module: 'json'
     }
     compile dataDependencies.retrofit
-    compile dataDependencies.RetrofitAdapaterJackson
+    compile dataDependencies.retrofitAdapaterJackson
+    compile dataDependencies.retrofitAdapaterGson
     compile dataDependencies.rxCallAdapter
+
+    compile(
+            [group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.2.3'],
+            [group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.2.3'],
+            [group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.2.3']
+    )
 
     androidTestCompile testDependencies.junit
     androidTestCompile testDependencies.assertj

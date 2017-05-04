@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.github.davidmoten.rx2.RetryWhen;
 import com.msa.domain.entities.Movie;
+import com.msa.domain.usecases.SearchForMovie;
 import com.msa.domain.usecases.SearchMovie;
 import com.msa.domain.usecases.SearchMovieTypeTwo;
 
@@ -43,6 +44,7 @@ class MovieSearchPresenter implements BasePresenterInterface {
 
     private final SearchMovie searchMovie;
     private final SearchMovieTypeTwo searchMovieTypeTwo;
+    private final SearchForMovie searchForMovie;
     PublishSubject<String> subject = PublishSubject.create();
     Flowable<Long> delays = Flowable.just(10L, 20L, 30L, 30L, 30L);
     String[] countries = {"India", "Sweden", "Austria", "France", "Germany", "Canada", "Mexico", "Brazil", "Chile"};
@@ -50,9 +52,10 @@ class MovieSearchPresenter implements BasePresenterInterface {
     private Disposable disposable;
 
     @Inject
-    MovieSearchPresenter(SearchMovie searchMovie, SearchMovieTypeTwo searchMovieTypeTwo) {
+    MovieSearchPresenter(SearchMovie searchMovie, SearchMovieTypeTwo searchMovieTypeTwo, SearchForMovie searchForMovie) {
         this.searchMovie = searchMovie;
         this.searchMovieTypeTwo = searchMovieTypeTwo;
+        this.searchForMovie = searchForMovie;
     }
 
     void setMoviesView(MoviesView moviesView) {
@@ -150,8 +153,8 @@ class MovieSearchPresenter implements BasePresenterInterface {
                 .switchMap(new Function<String, ObservableSource<List<Movie>>>() {
                     @Override
                     public ObservableSource<List<Movie>> apply(String s) throws Exception {
-                        Log.d(TAG, "getting books for " + s);
-                        return searchMovieTypeTwo.execute(s);
+                        Log.d(TAG, "getting movies " + s);
+                        return searchForMovie.execute(s).toObservable();
                     }
                 }).toFlowable(BackpressureStrategy.BUFFER)
                 .retryWhen(RetryWhen.retryWhenInstanceOf(NetworkErrorException.class).build())

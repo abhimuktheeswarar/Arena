@@ -33,7 +33,8 @@ ext {
     okHttpInterceptorVersion = '3.6.0'
     loggingInterceptorVersion = '2.0.0'
     retrofitVersion = '2.2.0'
-    RetrofitAdapaterJacksonVersion = '2.2.0'
+    retrofitAdapaterJacksonVersion = '2.2.0'
+    retrofitAdapaterGsonVersion = '2.2.0'
     rxCallAdapterVersion = '2.2.0'
 
     //Libraries
@@ -119,8 +120,9 @@ ext {
             okHttpInterceptor      : "com.squareup.okhttp3:logging-interceptor:${okHttpInterceptorVersion}",
             loggingInterceptor     : "com.github.ihsanbal:LoggingInterceptor:${loggingInterceptorVersion}",
             retrofit               : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
-            RetrofitAdapaterJackson: "com.squareup.retrofit2:converter-jackson:${RetrofitAdapaterJacksonVersion}",
-            rxCallAdapter          : "com.squareup.retrofit2:adapter-rxjava:${rxCallAdapterVersion}",
+            retrofitAdapaterJackson: "com.squareup.retrofit2:converter-jackson:${retrofitAdapaterJacksonVersion}",
+            retrofitAdapaterGson   : "com.squareup.retrofit2:converter-gson:${retrofitAdapaterGsonVersion}",
+            rxCallAdapter          : "com.squareup.retrofit2:adapter-rxjava2:${rxCallAdapterVersion}",
 
     ]
 

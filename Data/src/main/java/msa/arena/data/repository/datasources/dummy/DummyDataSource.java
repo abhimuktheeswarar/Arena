@@ -13,6 +13,7 @@ import java.util.List;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 import io.reactivex.processors.PublishProcessor;
@@ -56,6 +57,11 @@ public class DummyDataSource implements BaseDataSource {
         for (int i = 0; i < 5; i++) movieList.add(new Movie("id" + i, "Movie " + query + i));
         if (query.equals("error")) return Observable.error(new NetworkErrorException());
         else return Observable.just(movieList);
+    }
+
+    @Override
+    public Single<List<Movie>> searchForMovie(String query) {
+        return null;
     }
 
     public Flowable<Movie> getMoviesTypeThree(int page) {
