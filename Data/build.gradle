@@ -60,14 +60,9 @@ dependencies {
     }
     compile dataDependencies.retrofit
     compile dataDependencies.retrofitAdapaterJackson
-    compile dataDependencies.retrofitAdapaterGson
+    //compile dataDependencies.retrofitAdapaterGson
     compile dataDependencies.rxCallAdapter
 
-    compile(
-            [group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.2.3'],
-            [group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.2.3'],
-            [group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.2.3']
-    )
 
     androidTestCompile testDependencies.junit
     androidTestCompile testDependencies.assertj
