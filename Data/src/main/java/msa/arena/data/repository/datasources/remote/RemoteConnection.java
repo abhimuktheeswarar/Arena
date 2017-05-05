@@ -22,6 +22,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 public class RemoteConnection {
 
     private static final String BASE_URL = "https://api.themoviedb.org/3/";
+    //private static final String BASE_URL = BuildConfig.MEDI_BASE_URL;
 
     private static HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
     private static LoggingInterceptor loggingInterceptor = new LoggingInterceptor.Builder()
@@ -57,7 +58,9 @@ public class RemoteConnection {
 
             Request.Builder requestBuilder = original.newBuilder()
                     .header("Accept", "application/json")
-                    .method(original.method(), original.body()).url(url);
+                    //.header(BuildConfig.MEDI_TOKEN_KEY, BuildConfig.MEDI_TOKEN)
+                    .method(original.method(), original.body())
+                    .url(url);
 
             Request request = requestBuilder.build();
             return chain.proceed(request);

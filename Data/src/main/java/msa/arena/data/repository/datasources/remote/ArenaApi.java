@@ -1,13 +1,19 @@
 package msa.arena.data.repository.datasources.remote;
 
-import org.intellij.lang.annotations.Flow;
+
+import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import msa.arena.data.entities.remote.MovieSearchPojo;
 import msa.arena.data.entities.remote.list.MovieListPojo;
+import msa.arena.data.entities.remote.medi.SearchDTestResult;
+import msa.arena.data.entities.remote.medi.SearchMedResult;
+import msa.arena.data.entities.remote.medi.SearchSubmit;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
@@ -28,4 +34,7 @@ public interface ArenaApi {
 
     @GET("discover/movie?&language=en-US&sort_by=popularity.desc&page=1")
     Flowable<MovieListPojo> getMoviesTypeTwo();
+
+    @POST("api/serve_appointment/searchMedicine")
+    Single<List<SearchMedResult>> getMedicineSuggestions(@Body SearchSubmit searchSubmit);
 }

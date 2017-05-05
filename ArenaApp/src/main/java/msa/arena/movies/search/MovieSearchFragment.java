@@ -175,7 +175,7 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView, Mov
     @Override
     public void loadMovieItem(List<MoviesItem> moviesItemList) {
         baseEpoxyAdapter.removeAllItems();
-        //baseEpoxyAdapter.addItem(moviesItemList);
+        baseEpoxyAdapter.addItem(moviesItemList);
         List<String> strings = new ArrayList<>();
         for (MoviesItem moviesItem : moviesItemList) strings.add(moviesItem.movieName);
 

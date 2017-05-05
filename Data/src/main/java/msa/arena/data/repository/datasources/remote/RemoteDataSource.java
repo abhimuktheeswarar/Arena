@@ -9,17 +9,17 @@ import org.reactivestreams.Publisher;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
-import msa.arena.data.entities.remote.MovieSearchPojo;
 import msa.arena.data.entities.remote.MovieSearchResult;
 import msa.arena.data.entities.remote.list.MovieListPojo;
 import msa.arena.data.entities.remote.list.MovieListResult;
+import msa.arena.data.entities.remote.medi.SearchMedResult;
+import msa.arena.data.entities.remote.medi.SearchSubmit;
 import msa.arena.data.repository.BaseDataSource;
 
 /**
@@ -82,5 +82,14 @@ public class RemoteDataSource implements BaseDataSource {
                 movies.add(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle()));
             return movies;
         });
+        /*return arenaApi.getMedicineSuggestions(new SearchSubmit(query)).map(new Function<List<SearchMedResult>, List<Movie>>() {
+            @Override
+            public List<Movie> apply(@NonNull List<SearchMedResult> searchMedResults) throws Exception {
+                List<Movie> movies = new ArrayList<Movie>();
+                for (SearchMedResult medResult : searchMedResults)
+                    movies.add(new Movie(String.valueOf(medResult.getId()), medResult.getTabletName()));
+                return movies;
+            }
+        });*/
     }
 }

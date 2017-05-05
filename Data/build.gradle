@@ -13,7 +13,11 @@ android {
         minSdkVersion globalConfiguration.getAt("androidMinSdkVersion")
         targetSdkVersion globalConfiguration.getAt("androidTargetSdkVersion")
         versionCode globalConfiguration.getAt("androidVersionCode")
+
         buildConfigField("String", "THEMOVIEDB_API_KEY", theMovieDb_apiKey)
+        buildConfigField("String", "MEDI_BASE_URL", mediBaseUrl)
+        buildConfigField("String", "MEDI_TOKEN_KEY", mediTokenKey)
+        buildConfigField("String", "MEDI_TOKEN", mediToken)
     }
 
     compileOptions {
