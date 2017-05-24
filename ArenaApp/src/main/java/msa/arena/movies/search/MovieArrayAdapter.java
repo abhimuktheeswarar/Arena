@@ -18,32 +18,32 @@ import msa.arena.injector.PerActivity;
 /**
  * Created by Abhimuktheeswarar on 03-05-2017.
  */
-
 @PerActivity
 public class MovieArrayAdapter extends ArrayAdapter<Movie> implements Filterable {
 
     private static final String TAG = MovieArrayAdapter.class.getSimpleName();
     private final MovieArrayAdapterInterface movieArrayAdapterInterface;
     private ArrayList<Movie> movieArrayList;
-    private Filter filter = new Filter() {
+    private Filter filter =
+            new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             return null;
         }
 
         @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-
-        }
+        protected void publishResults(CharSequence constraint, FilterResults results) {}
 
         @Override
         public CharSequence convertResultToString(Object resultValue) {
             return super.convertResultToString(resultValue);
         }
-    };
+            };
 
-
-    MovieArrayAdapter(@NonNull Context context, @LayoutRes int resource, MovieArrayAdapterInterface movieArrayAdapterInterface) {
+    MovieArrayAdapter(
+            @NonNull Context context,
+            @LayoutRes int resource,
+            MovieArrayAdapterInterface movieArrayAdapterInterface) {
         super(context, resource);
         this.movieArrayAdapterInterface = movieArrayAdapterInterface;
         initialize();
@@ -51,7 +51,6 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> implements Filterable
 
     private void initialize() {
         if (movieArrayList == null) movieArrayList = new ArrayList<>();
-
     }
 
     @Override
@@ -110,7 +109,6 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> implements Filterable
                     // The API did not return any results, invalidate the data set.
                     notifyDataSetInvalidated();
                 }
-
             }
 
             @Override
@@ -127,11 +125,9 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> implements Filterable
     private ArrayList<Movie> doTheQuery(CharSequence query) {
         movieArrayAdapterInterface.getMovieSuggestionsFromCloud(query.toString());
         return movieArrayList;
-
     }
 
     interface MovieArrayAdapterInterface {
         void getMovieSuggestionsFromCloud(String query);
-
-    }
+  }
 }

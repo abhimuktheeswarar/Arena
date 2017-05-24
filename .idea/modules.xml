@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Arena.iml" filepath="$PROJECT_DIR$/Arena.iml" />
       <module fileurl="file://$PROJECT_DIR$/ArenaApp/ArenaApp.iml" filepath="$PROJECT_DIR$/ArenaApp/ArenaApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DagAndApp/DagAndApp.iml" filepath="$PROJECT_DIR$/DagAndApp/DagAndApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/Data/Data.iml" filepath="$PROJECT_DIR$/Data/Data.iml" />
       <module fileurl="file://$PROJECT_DIR$/Domain/Domain.iml" filepath="$PROJECT_DIR$/Domain/Domain.iml" />
     </modules>

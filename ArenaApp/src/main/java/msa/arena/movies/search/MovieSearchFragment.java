@@ -45,23 +45,29 @@ import msa.arena.utilities.RxSearch;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MovieSearchFragment extends BaseFragment implements MoviesView, MovieArrayAdapter.MovieArrayAdapterInterface {
+public class MovieSearchFragment extends BaseFragment
+        implements MoviesView, MovieArrayAdapter.MovieArrayAdapterInterface {
 
     private static final String TAG = MovieSearchFragment.class.getSimpleName();
     final int EXPAND_MAX = 3;
+
     @BindView(R.id.autoCompleteTextView)
     AutoCompleteTextView autoCompleteTextView;
+
     @BindView(R.id.edit_suggestions)
     EditText editText;
+
     @BindView(R.id.recycler_movies)
     RecyclerView recyclerView_Movies;
+
     SearchView searchView;
     @Inject
     Lazy<MovieSearchPresenter> movieSearchPresenterLazy;
     ArrayAdapter<String> arrayAdapter;
     private MovieArrayAdapter movieArrayAdapter;
     private BaseEpoxyAdapter baseEpoxyAdapter;
-    private SearchView.OnQueryTextListener textListener = new SearchView.OnQueryTextListener() {
+    private SearchView.OnQueryTextListener textListener =
+            new SearchView.OnQueryTextListener() {
         @Override
         public boolean onQueryTextSubmit(String query) {
             return false;
@@ -72,12 +78,13 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView, Mov
             movieSearchPresenterLazy.get().onSearchTypeTwo(newText);
             return true;
         }
-    };
+            };
 
     //----------------------------------------------------------------------------------------------
     private Context mPopupContext;
     private ListPopupWindow listPopupWindow;
-    private TextWatcher textWatcher = new TextWatcher() {
+    private TextWatcher textWatcher =
+            new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             Log.d(TAG, "beforeTextChanged = " + s.toString());
@@ -94,7 +101,7 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView, Mov
             if (s.length() <= 0) listPopupWindow.dismiss();
             movieSearchPresenterLazy.get().onSearchTypeTwo(s.toString());
         }
-    };
+            };
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -103,7 +110,8 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView, Mov
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(
+            LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_movie_search, container, false);
         ButterKnife.bind(this, rootView);
         return rootView;
@@ -117,7 +125,8 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView, Mov
         baseEpoxyAdapter = new BaseEpoxyAdapter();
         recyclerView_Movies.setAdapter(baseEpoxyAdapter);
         arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item);
-        movieArrayAdapter = new MovieArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, this);
+        movieArrayAdapter =
+                new MovieArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, this);
         autoCompleteTextView.setAdapter(movieArrayAdapter);
     }
 
@@ -164,7 +173,6 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView, Mov
     @Override
     public void loadMovies(List<Movie> movies) {
         movieArrayAdapter.addAll(movies);
-
     }
 
     @Override
@@ -179,17 +187,17 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView, Mov
         List<String> strings = new ArrayList<>();
         for (MoviesItem moviesItem : moviesItemList) strings.add(moviesItem.movieName);
 
-
         autoCompleteTextView.enoughToFilter();
-        new Handler().postDelayed(new Runnable() {
+        new Handler()
+                .postDelayed(
+                        new Runnable() {
 
-            @Override
-            public void run() {
+                            @Override
+                            public void run() {
                 autoCompleteTextView.showDropDown();
-            }
-        }, 500);
-
-
+                            }
+                        },
+                        500);
     }
 
     @Override
@@ -199,7 +207,6 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView, Mov
 
     @Override
     public void onComplete() {
-
     }
 
     @Override
@@ -209,7 +216,6 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView, Mov
 
     @Override
     public void hideError() {
-
     }
 
     @Override
@@ -225,5 +231,5 @@ public class MovieSearchFragment extends BaseFragment implements MoviesView, Mov
     @Override
     public void getMovieSuggestionsFromCloud(String query) {
         movieSearchPresenterLazy.get().onSearchTypeTwo(query);
-    }
+  }
 }

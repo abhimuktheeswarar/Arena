@@ -9,7 +9,6 @@ import msa.arena.R;
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.
  */
-
 @EpoxyModelClass(layout = R.layout.item_movie)
 public abstract class MoviesItem extends EpoxyModelWithHolder<MoviesHolder> {
 
@@ -25,5 +24,5 @@ public abstract class MoviesItem extends EpoxyModelWithHolder<MoviesHolder> {
     @Override
     public void unbind(MoviesHolder holder) {
         super.unbind(holder);
-    }
+  }
 }

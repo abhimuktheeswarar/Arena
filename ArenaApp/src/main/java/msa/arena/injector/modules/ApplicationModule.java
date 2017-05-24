@@ -18,7 +18,6 @@ import msa.arena.data.repository.ArenaRepository;
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.
  */
-
 @Module
 public class ApplicationModule {
 
@@ -48,22 +47,21 @@ public class ApplicationModule {
         return AndroidSchedulers.mainThread();
     }
 
-   /* @Provides
-    @Singleton
-    ThreadExecutor provideThreadExecutor(JobExecutor jobExecutor) {
-        return jobExecutor;
-    }
+  /* @Provides
+  @Singleton
+  ThreadExecutor provideThreadExecutor(JobExecutor jobExecutor) {
+      return jobExecutor;
+  }
 
-    @Provides
-    @Singleton
-    PostExecutionThread providePostExecutionThread(UIThread uiThread) {
-        return uiThread;
-    }*/
-
+  @Provides
+  @Singleton
+  PostExecutionThread providePostExecutionThread(UIThread uiThread) {
+      return uiThread;
+  }*/
 
     @Provides
     @Singleton
     Repository provideMedikoeRepository(ArenaRepository medikoeRepository) {
         return medikoeRepository;
-    }
+  }
 }

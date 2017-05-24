@@ -48,9 +48,9 @@ public class MoviesFragment extends BaseFragment implements MoviesView {
 
     private boolean shouldEnableEndlessScroll;
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(
+            LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_movies, container, false);
         ButterKnife.bind(this, rootView);
         return rootView;
@@ -64,13 +64,14 @@ public class MoviesFragment extends BaseFragment implements MoviesView {
         baseEpoxyAdapter = new BaseEpoxyAdapter();
         recyclerView_Movies.setAdapter(baseEpoxyAdapter);
 
-        endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                textView_Page.setText(String.valueOf(page));
-                moviesPresenterLazy.get().onLoadMore(page);
-            }
-        };
+        endlessRecyclerViewScrollListener =
+                new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+                    @Override
+                    public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                        textView_Page.setText(String.valueOf(page));
+                        moviesPresenterLazy.get().onLoadMore(page);
+                    }
+                };
     }
 
     @Override
@@ -104,7 +105,6 @@ public class MoviesFragment extends BaseFragment implements MoviesView {
 
     @Override
     public void loadMovies(List<Movie> movies) {
-
     }
 
     @SuppressWarnings("unchecked")
@@ -121,7 +121,6 @@ public class MoviesFragment extends BaseFragment implements MoviesView {
 
     @Override
     public void clearMovieItems() {
-
     }
 
     @Override
@@ -137,7 +136,6 @@ public class MoviesFragment extends BaseFragment implements MoviesView {
 
     @Override
     public void hideError() {
-
     }
 
     @Override
@@ -148,5 +146,5 @@ public class MoviesFragment extends BaseFragment implements MoviesView {
     @OnClick(R.id.btn_complete)
     void onClick() {
         moviesPresenterLazy.get().callComplete();
-    }
+  }
 }

@@ -14,7 +14,6 @@ import msa.arena.injector.modules.ApplicationModule;
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.
  */
-
 @Singleton // Constraints this component to one-per-application or unscoped bindings.
 @Component(modules = ApplicationModule.class)
 public interface ApplicationComponent {

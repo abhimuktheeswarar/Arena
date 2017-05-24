@@ -6,11 +6,9 @@ import com.msa.domain.interactor.DefaultObserver;
 import msa.arena.movies.MoviesItem_;
 import msa.arena.movies.MoviesView;
 
-
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.
  */
-
 public class MoviesObserver extends DefaultObserver<Movie> {
 
     private final MoviesView moviesView;
@@ -22,7 +20,8 @@ public class MoviesObserver extends DefaultObserver<Movie> {
     @Override
     public void onNext(Movie movie) {
         super.onNext(movie);
-        moviesView.loadMovieItem(new MoviesItem_().movieId(movie.getMovieId()).movieName(movie.getMovieName()));
+        moviesView.loadMovieItem(
+                new MoviesItem_().movieId(movie.getMovieId()).movieName(movie.getMovieName()));
     }
 
     @Override
@@ -34,5 +33,5 @@ public class MoviesObserver extends DefaultObserver<Movie> {
     public void onError(Throwable exception) {
         super.onError(exception);
         moviesView.onError(exception.getMessage());
-    }
+  }
 }

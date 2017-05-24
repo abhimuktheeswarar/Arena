@@ -9,7 +9,6 @@ import msa.arena.injector.modules.ActivityModule;
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.
  */
-
 @PerActivity
 @Component(dependencies = ApplicationComponent.class, modules = ActivityModule.class)
 public interface ActivityComponent {

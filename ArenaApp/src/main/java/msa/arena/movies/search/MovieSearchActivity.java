@@ -29,18 +29,21 @@ public class MovieSearchActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+        fab.setOnClickListener(
+                view ->
+                        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null)
+                                .show());
     }
 
     @Override
     protected void initializeInjector(ApplicationComponent applicationComponent) {
-        movieComponent = DaggerMovieComponent.builder()
-                .applicationComponent(getApplicationComponent())
-                .activityModule(getActivityModule())
-                .build();
+        movieComponent =
+                DaggerMovieComponent.builder()
+                        .applicationComponent(getApplicationComponent())
+                        .activityModule(getActivityModule())
+                        .build();
     }
-
 
     @Override
     public MovieComponent getComponent() {

@@ -10,7 +10,6 @@ import butterknife.ButterKnife;
 /**
  * Created by Abhimuktheeswarar on 11-03-2017.
  */
-
 public abstract class BaseEpoxyHolder extends EpoxyHolder {
 
     public View itemView;

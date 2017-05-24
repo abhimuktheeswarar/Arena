@@ -9,7 +9,6 @@ import msa.arena.base.BaseView;
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.
  */
-
 public interface MoviesView extends BaseView {
 
     void loadMovies(List<Movie> movies);

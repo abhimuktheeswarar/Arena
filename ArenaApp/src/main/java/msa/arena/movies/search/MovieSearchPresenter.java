@@ -35,24 +35,27 @@ import msa.arena.movies.MoviesView;
 /**
  * Created by Abhimuktheeswarar on 02-05-2017.
  */
-
 @PerActivity
 class MovieSearchPresenter implements BasePresenterInterface {
 
     private static final String TAG = MovieSearchPresenter.class.getSimpleName();
-
 
     private final SearchMovie searchMovie;
     private final SearchMovieTypeTwo searchMovieTypeTwo;
     private final SearchForMovie searchForMovie;
     PublishSubject<String> subject = PublishSubject.create();
     Flowable<Long> delays = Flowable.just(10L, 20L, 30L, 30L, 30L);
-    String[] countries = {"India", "Sweden", "Austria", "France", "Germany", "Canada", "Mexico", "Brazil", "Chile"};
+    String[] countries = {
+            "India", "Sweden", "Austria", "France", "Germany", "Canada", "Mexico", "Brazil", "Chile"
+    };
     private MoviesView moviesView;
     private Disposable disposable;
 
     @Inject
-    MovieSearchPresenter(SearchMovie searchMovie, SearchMovieTypeTwo searchMovieTypeTwo, SearchForMovie searchForMovie) {
+    MovieSearchPresenter(
+            SearchMovie searchMovie,
+            SearchMovieTypeTwo searchMovieTypeTwo,
+            SearchForMovie searchForMovie) {
         this.searchMovie = searchMovie;
         this.searchMovieTypeTwo = searchMovieTypeTwo;
         this.searchForMovie = searchForMovie;
@@ -64,70 +67,61 @@ class MovieSearchPresenter implements BasePresenterInterface {
 
     @Override
     public void initializePresenter() {
-
     }
 
     @Override
     public void onRefresh() {
-
     }
 
     @Override
     public void onCreate() {
-
     }
 
     @Override
     public void onStart() {
-
     }
 
     @Override
     public void onResume() {
         onSubscribe();
-
     }
 
     @Override
     public void onPause() {
         unSubscribe();
-
     }
 
     @Override
     public void onStop() {
-
     }
 
     @Override
     public void onDestroy() {
-
     }
 
     void onSearch(String query) {
-        searchMovie.execute(new DisposableObserver<List<Movie>>() {
-            @Override
-            public void onNext(@NonNull List<Movie> movies) {
-                List<MoviesItem> moviesItems = new ArrayList<MoviesItem>();
-                for (Movie movie : movies)
-                    moviesItems.add(new MoviesItem_().movieId(movie.getMovieId()).movieName(movie.getMovieName()));
-                moviesView.loadMovieItem(moviesItems);
+        searchMovie.execute(
+                new DisposableObserver<List<Movie>>() {
+                    @Override
+                    public void onNext(@NonNull List<Movie> movies) {
+                        List<MoviesItem> moviesItems = new ArrayList<MoviesItem>();
+                        for (Movie movie : movies)
+                            moviesItems.add(
+                                    new MoviesItem_().movieId(movie.getMovieId()).movieName(movie.getMovieName()));
+                        moviesView.loadMovieItem(moviesItems);
+                    }
 
-            }
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        moviesView.onError(e.getMessage());
+                    }
 
-            @Override
-            public void onError(@NonNull Throwable e) {
-                moviesView.onError(e.getMessage());
-
-            }
-
-            @Override
-            public void onComplete() {
-                dispose();
-
-            }
-        }, query);
-
+                    @Override
+                    public void onComplete() {
+                        dispose();
+                    }
+                },
+                query);
     }
 
     private void onSubscribe() {
@@ -141,41 +135,43 @@ class MovieSearchPresenter implements BasePresenterInterface {
             disposable.dispose();
             disposable = null;
         }
-
     }
-
 
     private void initDisposable() {
         //noinspection unchecked
-        disposable = subject
-                .debounce(300, TimeUnit.MILLISECONDS)
-                .distinctUntilChanged()
-                .switchMap(new Function<String, ObservableSource<List<Movie>>>() {
-                    @Override
-                    public ObservableSource<List<Movie>> apply(String s) throws Exception {
-                        Log.d(TAG, "getting movies " + s);
-                        return searchForMovie.execute(s).toObservable();
-                    }
-                }).toFlowable(BackpressureStrategy.BUFFER)
-                .retryWhen(RetryWhen.retryWhenInstanceOf(NetworkErrorException.class).build())
-                .retryWhen(RetryWhen.delays(delays, TimeUnit.SECONDS).build())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<Movie>>() {
-                    @Override
-                    public void accept(List<Movie> movies) throws Exception {
-                        onMoviesFetched(movies);
-                    }
-                });
+        disposable =
+                subject
+                        .debounce(300, TimeUnit.MILLISECONDS)
+                        .distinctUntilChanged()
+                        .switchMap(
+                                new Function<String, ObservableSource<List<Movie>>>() {
+                                    @Override
+                                    public ObservableSource<List<Movie>> apply(String s) throws Exception {
+                                        Log.d(TAG, "getting movies " + s);
+                                        return searchForMovie.execute(s).toObservable();
+                                    }
+                                })
+                        .toFlowable(BackpressureStrategy.BUFFER)
+                        .retryWhen(RetryWhen.retryWhenInstanceOf(NetworkErrorException.class).build())
+                        .retryWhen(RetryWhen.delays(delays, TimeUnit.SECONDS).build())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                new Consumer<List<Movie>>() {
+                                    @Override
+                                    public void accept(List<Movie> movies) throws Exception {
+                                        onMoviesFetched(movies);
+                                    }
+                                });
     }
 
     private void onMoviesFetched(List<Movie> movies) {
         moviesView.loadMovies(movies);
         List<MoviesItem> moviesItems = new ArrayList<MoviesItem>();
         for (Movie movie : movies)
-            moviesItems.add(new MoviesItem_().movieId(movie.getMovieId()).movieName(movie.getMovieName()));
+            moviesItems.add(
+                    new MoviesItem_().movieId(movie.getMovieId()).movieName(movie.getMovieName()));
         moviesView.loadMovieItem(moviesItems);
-
     }
 
     void onSearchTypeTwo(String newText) {
@@ -184,8 +180,5 @@ class MovieSearchPresenter implements BasePresenterInterface {
         } else {
             subject.onNext(newText);
         }
-
-    }
-
-
+  }
 }

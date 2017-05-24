@@ -1,5 +1,6 @@
 package msa.arena;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +9,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import msa.arena.tryout.di.DaggerActivity;
+
 public class MainActivity extends AppCompatActivity {
+
+    private String camelCase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,12 +23,13 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigator.navigateToMoviesActivity(MainActivity.this);
-            }
-        });
+        fab.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(MainActivity.this, DaggerActivity.class));
+                    }
+                });
     }
 
     @Override

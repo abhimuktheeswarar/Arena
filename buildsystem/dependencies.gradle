@@ -15,6 +15,7 @@ ext {
 
     //Core-Libraries
     daggerVersion = '2.11-rc1'
+    findBugsVersion = '3.0.2'
     butterKnifeVersion = '8.5.1'
     rxJavaVersion = '2.1.0'
     rxAndroidVersion = '2.0.1'
@@ -57,25 +58,30 @@ ext {
     leakCanaryVersion = '1.5.1'
 
     presentationDependencies = [
-            daggerCompiler     : "com.google.dagger:dagger-compiler:${daggerVersion}",
-            dagger             : "com.google.dagger:dagger:${daggerVersion}",
-            butterKnifeCompiler: "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
-            butterKnife        : "com.jakewharton:butterknife:${butterKnifeVersion}",
-            rxJava             : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
-            rxAndroid          : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
-            rxJavaExtras       : "com.github.davidmoten:rxjava-extras:${rxJavaExtrasVersion}",
-            rxJava2Extras      : "com.github.davidmoten:rxjava2-extras:${rxJava2ExtrasVersion}",
-            javaxAnnotation    : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            daggerCompiler        : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger                : "com.google.dagger:dagger:${daggerVersion}",
+            daggerAndroidProcessor: "com.google.dagger:dagger-android-processor:${daggerVersion}",
+            daggerAndroid         : "com.google.dagger:dagger-android:${daggerVersion}",
+            daggerAndroidSupport  : "com.google.dagger:dagger-android-support:${daggerVersion}",
+            findBugs              : "com.google.code.findbugs:jsr305:${findBugsVersion}",
+            butterKnifeCompiler   : "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
+            butterKnife           : "com.jakewharton:butterknife:${butterKnifeVersion}",
+            rxJava                : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxAndroid             : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            rxJavaExtras          : "com.github.davidmoten:rxjava-extras:${rxJavaExtrasVersion}",
+            rxJava2Extras         : "com.github.davidmoten:rxjava2-extras:${rxJava2ExtrasVersion}",
+            javaxAnnotation       : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
 
-            supportLibrary     : "com.android.support:appcompat-v7:${supportLibraryVersion}",
-            designSupport      : "com.android.support:design:${supportLibraryVersion}",
-            constraintLayout   : "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
+            supportLibrary        : "com.android.support:appcompat-v7:${supportLibraryVersion}",
+            designSupport         : "com.android.support:design:${supportLibraryVersion}",
+            cardView              : "com.android.support:cardview-v7:${supportLibraryVersion}",
+            constraintLayout      : "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
 
-            epoxy              : "com.airbnb.android:epoxy:${epoxyVersion}",
-            epoxyProcessor     : "com.airbnb.android:epoxy-processor:${epoxyVersion}",
+            epoxy                 : "com.airbnb.android:epoxy:${epoxyVersion}",
+            epoxyProcessor        : "com.airbnb.android:epoxy-processor:${epoxyVersion}",
 
-            androidAnnotations : "com.android.support:support-annotations:${supportLibraryVersion}",
-            leakCanary         : "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}",
+            androidAnnotations    : "com.android.support:support-annotations:${supportLibraryVersion}",
+            leakCanary            : "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}",
     ]
 
     presentationTestDependencies = [
@@ -88,7 +94,8 @@ ext {
             rules             : "com.android.support.test:rules:${testVersion}",
             uiautomator       : "com.android.support.test.uiautomator:uiautomator-v18:${uiAutomatorVersion}",
             androidAnnotations: "com.android.support:support-annotations:${supportLibraryVersion}",
-            testing           : "org.testng:testng:${testingVersion}"
+            testing           : "org.testng:testng:${testingVersion}",
+            findBugs          : "com.google.code.findbugs:jsr305:${findBugsVersion}",
     ]
 
     domainDependencies = [

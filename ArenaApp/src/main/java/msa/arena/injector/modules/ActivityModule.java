@@ -9,7 +9,6 @@ import msa.arena.injector.PerActivity;
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.
  */
-
 @Module
 public class ActivityModule {
 
@@ -26,8 +25,5 @@ public class ActivityModule {
     @PerActivity
     Activity activity() {
         return this.activity;
-    }
-
-
+  }
 }
-

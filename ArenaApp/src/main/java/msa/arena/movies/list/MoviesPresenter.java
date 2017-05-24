@@ -24,7 +24,6 @@ import msa.arena.movies.MoviesView;
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.
  */
-
 @PerActivity
 class MoviesPresenter implements BasePresenterInterface {
 
@@ -51,27 +50,22 @@ class MoviesPresenter implements BasePresenterInterface {
 
     @Override
     public void onRefresh() {
-
     }
 
     @Override
     public void onCreate() {
-
     }
 
     @Override
     public void onStart() {
-
     }
 
     @Override
     public void onResume() {
-
     }
 
     @Override
     public void onPause() {
-
     }
 
     @Override
@@ -90,69 +84,82 @@ class MoviesPresenter implements BasePresenterInterface {
 
     private void setupSubscriberTypeTwo() {
 
-        disMovSubs = new DisposableSubscriber<Movie>() {
-            @Override
-            public void onNext(Movie movie) {
-                if (movie.getMovieId() != null) {
-                    moviesView.loadMovieItem(new MoviesItem_().movieId(movie.getMovieId()).movieName(movie.getMovieName()));
-                } else {
-                    Log.d(TAG, "Movie is empty");
-                    paginator.onComplete();
-                }
-            }
+        disMovSubs =
+                new DisposableSubscriber<Movie>() {
+                    @Override
+                    public void onNext(Movie movie) {
+                        if (movie.getMovieId() != null) {
+                            moviesView.loadMovieItem(
+                                    new MoviesItem_().movieId(movie.getMovieId()).movieName(movie.getMovieName()));
+                        } else {
+                            Log.d(TAG, "Movie is empty");
+                            paginator.onComplete();
+                        }
+                    }
 
-            @Override
-            public void onError(Throwable throwable) {
-                moviesView.onError(throwable.getMessage());
-                Log.e(TAG, throwable.getMessage());
-            }
+                    @Override
+                    public void onError(Throwable throwable) {
+                        moviesView.onError(throwable.getMessage());
+                        Log.e(TAG, throwable.getMessage());
+                    }
 
-            @Override
-            public void onComplete() {
-                Log.d(TAG, "onComplete");
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, "onComplete");
+                    }
+                };
 
-            }
-        };
-
-        paginator.concatMap(new Function<Integer, Publisher<Movie>>() {
-            @Override
-            public Publisher<Movie> apply(@NonNull Integer integer) throws Exception {
+        paginator
+                .concatMap(
+                        new Function<Integer, Publisher<Movie>>() {
+                            @Override
+                            public Publisher<Movie> apply(@NonNull Integer integer) throws Exception {
                 return getMoviesTypeTwo.execute(integer);
-            }
-        }).subscribe(disMovSubs);
-
+                            }
+                        })
+                .subscribe(disMovSubs);
     }
 
     @Deprecated
     private void setupSubscriber() {
 
-        paginator.onBackpressureDrop().concatMap(new Function<Integer, Publisher<Movie>>() {
-            @Override
-            public Publisher<Movie> apply(@NonNull Integer integer) throws Exception {
+        paginator
+                .onBackpressureDrop()
+                .concatMap(
+                        new Function<Integer, Publisher<Movie>>() {
+                            @Override
+                            public Publisher<Movie> apply(@NonNull Integer integer) throws Exception {
                 return getMoviesTypeTwo.execute(integer);
-            }
-        }).subscribe(new Consumer<Movie>() {
-            @Override
-            public void accept(@NonNull Movie movie) throws Exception {
+                            }
+                        })
+                .subscribe(
+                        new Consumer<Movie>() {
+                            @Override
+                            public void accept(@NonNull Movie movie) throws Exception {
                 if (movie != null) {
-                    moviesView.loadMovieItem(new MoviesItem_().movieId(movie.getMovieId()).movieName(movie.getMovieName()));
+                    moviesView.loadMovieItem(
+                            new MoviesItem_()
+                                    .movieId(movie.getMovieId())
+                                    .movieName(movie.getMovieName()));
                 } else {
                     Log.d(TAG, "Movie is empty");
                     paginator.onComplete();
                 }
-            }
-        }, new Consumer<Throwable>() {
-            @Override
-            public void accept(@NonNull Throwable throwable) throws Exception {
+                            }
+                        },
+                        new Consumer<Throwable>() {
+                            @Override
+                            public void accept(@NonNull Throwable throwable) throws Exception {
                 moviesView.onError(throwable.getMessage());
                 Log.e(TAG, throwable.getMessage());
-            }
-        }, new Action() {
-            @Override
-            public void run() throws Exception {
+                            }
+                        },
+                        new Action() {
+                            @Override
+                            public void run() throws Exception {
                 Log.d(TAG, "onComplete");
-            }
-        });
+                            }
+                        });
     }
 
     void onLoadMore(int page) {
@@ -161,6 +168,5 @@ class MoviesPresenter implements BasePresenterInterface {
 
     void callComplete() {
         paginator.onComplete();
-
-    }
+  }
 }

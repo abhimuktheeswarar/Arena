@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * Created by Abhimuktheeswarar on 02-01-2017.
  */
-
 public class BaseEpoxyAdapter<T extends EpoxyModelWithHolder<EpoxyHolder>> extends EpoxyAdapter {
 
     private static final String TAG = BaseEpoxyAdapter.class.getSimpleName();
@@ -44,6 +43,5 @@ public class BaseEpoxyAdapter<T extends EpoxyModelWithHolder<EpoxyHolder>> exten
 
     public void removeAllItems() {
         removeAllModels();
-    }
-
+  }
 }

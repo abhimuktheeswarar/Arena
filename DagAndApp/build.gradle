@@ -1,0 +1,123 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.f2prateek.javafmt'
+
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+
+        applicationId "msa.dagandapp"
+        minSdkVersion 19
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        pickFirst 'META-INF/rxjava.properties'
+    }
+
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        disable 'InvalidPackage'            //Some libraries have issues with this.
+        disable 'OldTargetApi'
+        //Lint gives this warning but SDK 20 would be Android L Beta.
+        disable 'IconDensities'             //For testing purpose. This is safe to remove.
+        disable 'IconMissingDensityFolder'  //For testing purpose. This is safe to remove.
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('../buildsystem/debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+
+
+    buildToolsVersion '25.0.2'
+}
+
+dependencies {
+    def presentationDependencies = rootProject.ext.presentationDependencies
+    def presentationTestDependencies = rootProject.ext.presentationTestDependencies
+    def developmentDependencies = rootProject.ext.developmentDependencies
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile project(':Domain')
+    compile project(':Data')
+
+    annotationProcessor presentationDependencies.daggerCompiler
+    compile presentationDependencies.dagger
+    annotationProcessor presentationDependencies.daggerAndroidProcessor
+    compile presentationDependencies.daggerAndroid
+    compile presentationDependencies.daggerAndroidSupport
+    compile presentationDependencies.findBugs
+    annotationProcessor presentationDependencies.butterKnifeCompiler
+    compile presentationDependencies.butterKnife
+    compile presentationDependencies.rxJava
+    compile presentationDependencies.rxAndroid
+    compile presentationDependencies.rxJavaExtras
+    compile presentationDependencies.rxJava2Extras
+    provided presentationDependencies.javaxAnnotation
+
+    compile presentationDependencies.supportLibrary
+    compile presentationDependencies.designSupport
+    compile presentationDependencies.cardView
+    compile presentationDependencies.constraintLayout
+
+    annotationProcessor presentationDependencies.epoxyProcessor
+    compile presentationDependencies.epoxy
+
+    compile presentationDependencies.androidAnnotations
+    compile presentationDependencies.leakCanary
+
+    androidTestCompile presentationTestDependencies.androidAnnotations
+    androidTestCompile presentationTestDependencies.junit
+    androidTestCompile presentationTestDependencies.mockito
+    androidTestCompile presentationTestDependencies.dexmaker
+    androidTestCompile presentationTestDependencies.dexmakerMockito
+    androidTestCompile(presentationTestDependencies.espresso) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestCompile presentationTestDependencies.runner
+    androidTestCompile presentationTestDependencies.rules
+    androidTestCompile presentationTestDependencies.uiautomator
+    androidTestCompile presentationTestDependencies.findBugs
+
+    testCompile presentationDependencies.leakCanary
+    testCompile presentationTestDependencies.testing
+
+    //Development
+    debugCompile developmentDependencies.leakCanary
+}

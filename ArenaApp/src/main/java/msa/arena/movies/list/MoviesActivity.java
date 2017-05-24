@@ -15,34 +15,33 @@ import msa.arena.injector.components.MovieComponent;
 
 public class MoviesActivity extends BaseActivity {
 
+  @BindView(R.id.toolbar)
+  Toolbar toolbar;
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+  private MovieComponent movieComponent;
 
-    private MovieComponent movieComponent;
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_movies);
+    ButterKnife.bind(this);
+    setSupportActionBar(toolbar);
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movies);
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+    fab.setOnClickListener(view -> Navigator.navigateToMovieSearchActivity(MoviesActivity.this));
+  }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(view -> Navigator.navigateToMovieSearchActivity(MoviesActivity.this));
-    }
+  @Override
+  protected void initializeInjector(ApplicationComponent applicationComponent) {
+    movieComponent =
+            DaggerMovieComponent.builder()
+                    .applicationComponent(getApplicationComponent())
+                    .activityModule(getActivityModule())
+                    .build();
+  }
 
-    @Override
-    protected void initializeInjector(ApplicationComponent applicationComponent) {
-        movieComponent = DaggerMovieComponent.builder()
-                .applicationComponent(getApplicationComponent())
-                .activityModule(getActivityModule())
-                .build();
-    }
-
-
-    @Override
-    public MovieComponent getComponent() {
-        return movieComponent;
-    }
+  @Override
+  public MovieComponent getComponent() {
+    return movieComponent;
+  }
 }

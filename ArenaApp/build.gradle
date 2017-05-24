@@ -62,6 +62,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+
+
     buildToolsVersion '25.0.2'
 }
 
@@ -77,6 +80,10 @@ dependencies {
 
     annotationProcessor presentationDependencies.daggerCompiler
     compile presentationDependencies.dagger
+    annotationProcessor presentationDependencies.daggerAndroidProcessor
+    compile presentationDependencies.daggerAndroid
+    compile presentationDependencies.daggerAndroidSupport
+    compile presentationDependencies.findBugs
     annotationProcessor presentationDependencies.butterKnifeCompiler
     compile presentationDependencies.butterKnife
     compile presentationDependencies.rxJava
@@ -87,7 +94,7 @@ dependencies {
 
     compile presentationDependencies.supportLibrary
     compile presentationDependencies.designSupport
-    compile presentationDependencies.constraintLayout
+    compile presentationDependencies.cardView
     compile presentationDependencies.constraintLayout
 
     annotationProcessor presentationDependencies.epoxyProcessor
@@ -107,6 +114,7 @@ dependencies {
     androidTestCompile presentationTestDependencies.runner
     androidTestCompile presentationTestDependencies.rules
     androidTestCompile presentationTestDependencies.uiautomator
+    androidTestCompile presentationTestDependencies.findBugs
 
     testCompile presentationDependencies.leakCanary
     testCompile presentationTestDependencies.testing

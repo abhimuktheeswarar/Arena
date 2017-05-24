@@ -9,7 +9,6 @@ import msa.arena.injector.modules.ApplicationModule;
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.
  */
-
 public class ArenaApplication extends Application {
 
     private ApplicationComponent applicationComponent;
@@ -21,10 +20,11 @@ public class ArenaApplication extends Application {
     }
 
     private void initializeInjector() {
-        this.applicationComponent = DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(this)).build();
+        this.applicationComponent =
+                DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(this)).build();
     }
 
     public ApplicationComponent getApplicationComponent() {
         return this.applicationComponent;
-    }
+  }
 }

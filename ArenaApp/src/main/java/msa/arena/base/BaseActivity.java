@@ -15,7 +15,6 @@ import msa.arena.injector.modules.ActivityModule;
  */
 public abstract class BaseActivity extends AppCompatActivity implements HasComponent {
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +47,5 @@ public abstract class BaseActivity extends AppCompatActivity implements HasCompo
 
     protected void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
+  }
 }

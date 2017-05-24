@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="msa.arena">
 
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -39,6 +38,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="msa.arena.movies.list.MoviesActivity" />
         </activity>
+        <activity android:name=".constraint.ConstraintActivity" />
+        <activity android:name=".tryout.di.DaggerActivity"></activity>
     </application>
 
 </manifest>
