@@ -8,9 +8,9 @@ import msa.dagandapp.simple.FeatureActivity;
  * Created by Abhimuktheeswarar on 24-05-2017.
  */
 
-@Subcomponent
+//@Subcomponent
 public interface FeatureSubComponent extends AndroidInjector<FeatureActivity> {
-    @Subcomponent.Builder
+    //@Subcomponent.Builder
     abstract class Builder extends AndroidInjector.Builder<FeatureActivity> {
     }
 }

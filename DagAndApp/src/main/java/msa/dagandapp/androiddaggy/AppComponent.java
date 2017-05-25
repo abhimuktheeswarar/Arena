@@ -9,14 +9,14 @@ import msa.dagandapp.DagAndApp;
  * Created by Abhimuktheeswarar on 24-05-2017.
  */
 
-@Component(modules = {AndroidSupportInjectionModule.class, AppModule.class, BuildersModule.class})
+//@Component(modules = {AndroidSupportInjectionModule.class, AppModule.class, BuildersModule.class})
 public interface AppComponent {
 
     void inject(DagAndApp app);
 
-    @Component.Builder
+    //@Component.Builder
     interface Builder {
-        @BindsInstance
+        //@BindsInstance
         Builder application(DagAndApp application);
 
         AppComponent build();

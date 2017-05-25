@@ -14,15 +14,15 @@ import msa.dagandapp.simple.SomeClientApiImpl;
  * Created by Abhimuktheeswarar on 24-05-2017.
  */
 
-@Module(subcomponents = {FeatureSubComponent.class})
-public class AppModule {
-    @Provides
+//@Module(subcomponents = {FeatureSubComponent.class})
+class AppModule {
+    //@Provides
     Context provideContext(DagAndApp application) {
         return application.getApplicationContext();
     }
 
 
-    @Provides
+    //@Provides
     SomeClientApi provideSomeClientApi() {
         return new SomeClientApiImpl(66);
     }

@@ -29,6 +29,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="msa.dagandapp.MainActivity" />
         </activity>
+        <activity
+            android:name=".round2.Round2Activity"
+            android:label="@string/title_activity_round2"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="msa.dagandapp.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
