@@ -1,4 +1,4 @@
-package msa.rehearsal.round1;
+package msa.rehearsal.round1.subround1;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,27 +24,33 @@ import msa.rehearsal.R;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class Round1Fragment extends Fragment {
+public class SubRound1Fragment extends Fragment {
 
     @BindView(R.id.edit_1)
     EditText editText;
 
     @BindView(R.id.text_1)
     TextView textView;
-    Round1ViewModel round1ViewModel;
+    SubRound1ViewModel subRound1ViewModel;
     @android.support.annotation.NonNull
     private CompositeDisposable compositeDisposable;
+
+
+    public static SubRound1Fragment newInstance() {
+        return new SubRound1Fragment();
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        round1ViewModel = new Round1ViewModel();
+        subRound1ViewModel = new SubRound1ViewModel();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_round1, container, false);
         ButterKnife.bind(this, rootView);
+        setupViews();
         return rootView;
     }
 
@@ -81,7 +87,7 @@ public class Round1Fragment extends Fragment {
             }
         }));
 
-        compositeDisposable.add(round1ViewModel.getMsg().subscribe(new Consumer<String>() {
+        compositeDisposable.add(subRound1ViewModel.getMsg().subscribe(new Consumer<String>() {
             @Override
             public void accept(@NonNull String s) throws Exception {
                 setText(s);
@@ -94,7 +100,7 @@ public class Round1Fragment extends Fragment {
     }
 
     private void sendMsg(String msg) {
-        round1ViewModel.setMsg(msg);
+        subRound1ViewModel.setMsg(msg);
     }
 
     private void setText(String msg) {
