@@ -15,13 +15,11 @@ public class Round1ViewModel {
 
     private String msg;
 
-    private int i;
-
     Observable<String> getMsg() {
         return behaviorProcessor.map(new Function<String, String>() {
             @Override
             public String apply(@NonNull String msg) throws Exception {
-                return msg + "_" + (i++);
+                return msg + "_" + msg.length();
             }
         }).toObservable();
     }
