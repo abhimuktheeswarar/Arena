@@ -10,10 +10,10 @@ import msa.dagandapp.DagAndApp;
  * Created by Abhimuktheeswarar on 24-05-2017.
  */
 
-@Module
+//@Module
 public class DagAndAppModule {
 
-    @Provides
+    //@Provides
     Context provideContext(DagAndApp application) {
         return application.getApplicationContext();
     }

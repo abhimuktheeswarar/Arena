@@ -39,7 +39,10 @@
                 android:value="msa.arena.movies.list.MoviesActivity" />
         </activity>
         <activity android:name=".constraint.ConstraintActivity" />
-        <activity android:name=".tryout.di.DaggerActivity"></activity>
+        <activity android:name=".tryout.di.DaggerActivity" />
+        <activity
+            android:name=".epoxyplay.EpoxyPlayActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

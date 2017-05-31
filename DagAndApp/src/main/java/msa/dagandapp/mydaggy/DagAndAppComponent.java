@@ -11,14 +11,14 @@ import msa.dagandapp.androiddaggy.BuildersModule;
  * Created by Abhimuktheeswarar on 25-05-2017.
  */
 
-@Component(modules = {AndroidSupportInjectionModule.class, DagAndAppModule.class, Round2Module.class})
+//@Component(modules = {AndroidSupportInjectionModule.class, DagAndAppModule.class, Round2Module.class})
 public interface DagAndAppComponent {
 
     void inject(DagAndApp dagAndApp);
 
-    @Component.Builder
+    //@Component.Builder
     interface Builder {
-        @BindsInstance
+        //@BindsInstance
         DagAndAppComponent.Builder application(DagAndApp dagAndApp);
 
         DagAndAppComponent build();

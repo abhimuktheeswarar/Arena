@@ -43,6 +43,9 @@ ext {
     glideOkhttp3Version = '1.4.0@aar'
     epoxyVersion = '2.0.0'
 
+    //RxLibraries
+    rxBindingVersion = '2.0.0'
+
     //Testing
     robolectricVersion = '3.2.2'
     jUnitVersion = '4.12'
@@ -79,6 +82,8 @@ ext {
 
             epoxy                 : "com.airbnb.android:epoxy:${epoxyVersion}",
             epoxyProcessor        : "com.airbnb.android:epoxy-processor:${epoxyVersion}",
+
+            rxBinding             : "com.jakewharton.rxbinding2:rxbinding:${rxBindingVersion}",
 
             androidAnnotations    : "com.android.support:support-annotations:${supportLibraryVersion}",
             leakCanary            : "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}",

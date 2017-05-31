@@ -1,4 +1,4 @@
-package msa.dagandapp.mydaggy;
+package msa.dagandapp.androiddaggy;
 
 import dagger.Subcomponent;
 import dagger.android.AndroidInjector;
@@ -10,7 +10,7 @@ import msa.dagandapp.simple.FeatureActivity;
  */
 
 @Subcomponent
-interface Round2SubComponent extends AndroidInjector<Round2Activity> {
+public interface Round2SubComponent extends AndroidInjector<Round2Activity> {
 
     @Subcomponent.Builder
     abstract class Builder extends AndroidInjector.Builder<Round2Activity> {

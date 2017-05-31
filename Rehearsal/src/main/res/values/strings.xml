@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Rehearsal</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_round1">Round1Activity</string>
+</resources>

@@ -11,9 +11,7 @@ import msa.arena.movies.search.MovieSearchFragment;
  * Created by Abhimuktheeswarar on 01-05-2017.
  */
 @PerActivity
-@Component(
-        dependencies = ApplicationComponent.class,
-        modules = {ActivityModule.class, MovieModule.class}
+@Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class, MovieModule.class}
 )
 public interface MovieComponent {
 
