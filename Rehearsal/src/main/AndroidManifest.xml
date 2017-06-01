@@ -3,6 +3,7 @@
     package="msa.rehearsal">
 
     <application
+        android:name=".RehearsalApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -22,6 +23,15 @@
         <activity
             android:name=".round1.Round1Activity"
             android:label="@string/title_activity_round1"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="msa.rehearsal.MainActivity" />
+        </activity>
+        <activity
+            android:name=".round2.Round2Activity"
+            android:label="@string/title_activity_round2"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

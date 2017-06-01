@@ -7,4 +7,6 @@ package msa.dagandapp.round2;
 public interface BaseView {
 
     void loadData(int a);
+
+    void loadData(String msg);
 }

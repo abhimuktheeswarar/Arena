@@ -48,7 +48,7 @@ public class SubRound1Fragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_round1, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_round1_subround1, container, false);
         ButterKnife.bind(this, rootView);
         setupViews();
         return rootView;

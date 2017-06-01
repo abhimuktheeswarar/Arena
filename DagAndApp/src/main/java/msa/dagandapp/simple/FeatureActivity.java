@@ -14,7 +14,7 @@ import msa.dagandapp.R;
 
 public class FeatureActivity extends AppCompatActivity {
 
-    @Inject
+    //@Inject
     SomeClientApi mSomeClientApi;
 
     @Override

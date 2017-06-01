@@ -21,8 +21,7 @@ class AppModule {
     }
 
 
-    @Provides
-    SomeClientApi provideSomeClientApi() {
+    /*@Provides SomeClientApi provideSomeClientApi() {
         return new SomeClientApiImpl(66);
-    }
+    }*/
 }

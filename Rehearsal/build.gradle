@@ -85,7 +85,6 @@ dependencies {
     compile presentationDependencies.butterKnife
     compile presentationDependencies.rxJava
     compile presentationDependencies.rxAndroid
-    compile presentationDependencies.rxJavaExtras
     compile presentationDependencies.rxJava2Extras
     provided presentationDependencies.javaxAnnotation
 
