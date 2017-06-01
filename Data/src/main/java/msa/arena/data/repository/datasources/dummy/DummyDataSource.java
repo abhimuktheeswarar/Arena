@@ -34,8 +34,9 @@ public class DummyDataSource implements BaseDataSource {
     @Override
     public Observable<Movie> getMovies(int page) {
         List<Movie> movieList = new LinkedList<>();
-        for (int i = page; i < page + 10; i++)
-            movieList.add(new Movie(UUID.randomUUID().toString() + i, "Movie " + i));
+        for (int i = page; i < page + 10; i++) {
+            movieList.add(new Movie(UUID.randomUUID().toString() + i, "Movie " + i, i % 2 == 0));
+        }
         //if (page > 5) movieList.add(new Movie());
         return Observable.fromIterable(movieList).concatWith(Observable.never());
     }
@@ -43,15 +44,30 @@ public class DummyDataSource implements BaseDataSource {
     @Override
     public Observable<List<Movie>> getMovieList(int page) {
         List<Movie> movieList = new LinkedList<>();
-        for (int i = page; i < page + 30; i++) movieList.add(new Movie("id" + i, "Movie " + i));
-        return Observable.just(movieList).concatWith(Observable.never());
+        for (int i = page; i < page + 30; i++)
+            movieList.add(new Movie("id" + i, "Movie " + i, i % 2 == 0));
+        return Observable.just(movieList);
+    }
+
+    @Override
+    public Flowable<List<Movie>> getMovieFlow(int page) {
+        List<Movie> movieList = new LinkedList<>();
+        for (int i = page; i < page + 20; i++)
+            movieList.add(new Movie("id" + i, "Movie " + i, i % 2 == 0));
+        return Flowable.just(true).map(new Function<Boolean, List<Movie>>() {
+            @Override
+            public List<Movie> apply(@NonNull Boolean aBoolean) throws Exception {
+                return movieList;
+            }
+        });
     }
 
     @Override
     public Flowable<Movie> getMoviesTypeTwo(int page) {
         List<Movie> movieList = new LinkedList<>();
 
-        for (int i = page; i < page + 10; i++) movieList.add(new Movie("id" + i, "Movie " + i));
+        for (int i = page; i < page + 10; i++)
+            movieList.add(new Movie("id" + i, "Movie " + i, i % 2 == 0));
         if (page > 20) movieList.add(new Movie());
         return Flowable.fromIterable(movieList);
         //if (page < 5) return Flowable.fromIterable(movieList);
@@ -63,7 +79,8 @@ public class DummyDataSource implements BaseDataSource {
     public Observable<List<Movie>> searchMovie(String query) {
         Log.d(TAG, "Searching -> " + query);
         List<Movie> movieList = new LinkedList<>();
-        for (int i = 0; i < 5; i++) movieList.add(new Movie("id" + i, "Movie " + query + i));
+        for (int i = 0; i < 5; i++)
+            movieList.add(new Movie("id" + i, "Movie " + query + i, i % 2 == 0));
         if (query.equals("error")) return Observable.error(new NetworkErrorException());
         else return Observable.just(movieList);
     }
@@ -89,7 +106,7 @@ public class DummyDataSource implements BaseDataSource {
             @Override
             public Publisher<Movie> apply(@NonNull Integer page) throws Exception {
                 for (int i = page; i < page + 10; i++)
-                    movieList.add(new Movie("id" + i, "Movie " + i));
+                    movieList.add(new Movie("id" + i, "Movie " + i, i % 2 == 0));
                 if (page < 5) return Flowable.fromIterable(movieList);
                 else {
                     publishProcessor.onComplete();

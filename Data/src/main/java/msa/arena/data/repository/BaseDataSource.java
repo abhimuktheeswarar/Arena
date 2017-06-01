@@ -18,6 +18,8 @@ public interface BaseDataSource {
 
     Observable<List<Movie>> getMovieList(int page);
 
+    Flowable<List<Movie>> getMovieFlow(int page);
+
     Flowable<Movie> getMoviesTypeTwo(int page);
 
     Observable<List<Movie>> searchMovie(String query);

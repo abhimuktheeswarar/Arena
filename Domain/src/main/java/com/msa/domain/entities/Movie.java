@@ -8,12 +8,15 @@ public class Movie {
 
     private String movieId, movieName;
 
+    private boolean isFavorite;
+
     public Movie() {
     }
 
-    public Movie(String movieId, String movieName) {
+    public Movie(String movieId, String movieName, boolean isFavorite) {
         this.movieId = movieId;
         this.movieName = movieName;
+        this.isFavorite = isFavorite;
     }
 
     public String getMovieId() {
@@ -22,6 +25,10 @@ public class Movie {
 
     public String getMovieName() {
         return movieName;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
     }
 
     @Override

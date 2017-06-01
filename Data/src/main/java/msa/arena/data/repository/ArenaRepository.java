@@ -41,6 +41,11 @@ public class ArenaRepository implements Repository {
     }
 
     @Override
+    public Flowable<List<Movie>> getMovieFlow(int page) {
+        return dataStoreFactory.createDummyDataSource().getMovieFlow(page);
+    }
+
+    @Override
     public Flowable<Movie> getMoviesTypeTwo(int page) {
         return dataStoreFactory.createRemoteDataSource().getMoviesTypeTwo(page);
     }

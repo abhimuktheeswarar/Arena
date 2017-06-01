@@ -18,8 +18,6 @@ import io.reactivex.functions.Function;
 import msa.arena.data.entities.remote.MovieSearchResult;
 import msa.arena.data.entities.remote.list.MovieListPojo;
 import msa.arena.data.entities.remote.list.MovieListResult;
-import msa.arena.data.entities.remote.medi.SearchMedResult;
-import msa.arena.data.entities.remote.medi.SearchSubmit;
 import msa.arena.data.repository.BaseDataSource;
 
 /**
@@ -43,7 +41,7 @@ public class RemoteDataSource implements BaseDataSource {
             public ObservableSource<Movie> apply(@NonNull MovieListPojo movieSearchPojo) throws Exception {
                 List<Movie> movies = new ArrayList<Movie>();
                 for (MovieListResult movieSearchResult : movieSearchPojo.getResults())
-                    movies.add(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle()));
+                    movies.add(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false));
                 return Observable.fromIterable(movies);
             }
         });
@@ -55,13 +53,18 @@ public class RemoteDataSource implements BaseDataSource {
     }
 
     @Override
+    public Flowable<List<Movie>> getMovieFlow(int page) {
+        return null;
+    }
+
+    @Override
     public Flowable<Movie> getMoviesTypeTwo(int page) {
         return arenaApi.getMoviesTypeTwo().flatMap(new Function<MovieListPojo, Publisher<Movie>>() {
             @Override
             public Publisher<Movie> apply(@NonNull MovieListPojo movieListPojo) throws Exception {
                 List<Movie> movies = new ArrayList<Movie>();
                 for (MovieListResult movieSearchResult : movieListPojo.getResults())
-                    movies.add(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle()));
+                    movies.add(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false));
                 return Flowable.fromIterable(movies);
             }
         });
@@ -73,7 +76,7 @@ public class RemoteDataSource implements BaseDataSource {
         return arenaApi.searchMovie(query).map(movieSearchPojo -> {
             List<Movie> movies = new ArrayList<Movie>();
             for (MovieSearchResult movieSearchResult : movieSearchPojo.getResults())
-                movies.add(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle()));
+                movies.add(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false));
             return movies;
         });
     }
@@ -84,7 +87,7 @@ public class RemoteDataSource implements BaseDataSource {
         return arenaApi.searchForMovie(query).map(movieSearchPojo -> {
             List<Movie> movies = new ArrayList<Movie>();
             for (MovieSearchResult movieSearchResult : movieSearchPojo.getResults())
-                movies.add(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle()));
+                movies.add(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false));
             return movies;
         });
         /*return arenaApi.getMedicineSuggestions(new SearchSubmit(query)).map(new Function<List<SearchMedResult>, List<Movie>>() {
