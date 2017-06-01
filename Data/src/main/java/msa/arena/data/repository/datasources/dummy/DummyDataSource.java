@@ -9,6 +9,7 @@ import org.reactivestreams.Publisher;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
@@ -33,9 +34,17 @@ public class DummyDataSource implements BaseDataSource {
     @Override
     public Observable<Movie> getMovies(int page) {
         List<Movie> movieList = new LinkedList<>();
-        for (int i = page; i < page + 10; i++) movieList.add(new Movie("id" + i, "Movie " + i));
-        if (page > 5) movieList.add(new Movie());
-        return Observable.fromIterable(movieList);
+        for (int i = page; i < page + 10; i++)
+            movieList.add(new Movie(UUID.randomUUID().toString() + i, "Movie " + i));
+        //if (page > 5) movieList.add(new Movie());
+        return Observable.fromIterable(movieList).concatWith(Observable.never());
+    }
+
+    @Override
+    public Observable<List<Movie>> getMovieList(int page) {
+        List<Movie> movieList = new LinkedList<>();
+        for (int i = page; i < page + 30; i++) movieList.add(new Movie("id" + i, "Movie " + i));
+        return Observable.just(movieList).concatWith(Observable.never());
     }
 
     @Override

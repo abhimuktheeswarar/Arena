@@ -1,4 +1,4 @@
-package msa.rehearsal.round1.subround1;
+package msa.rehearsal.round1.subround1_1;
 
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
@@ -9,7 +9,7 @@ import io.reactivex.processors.BehaviorProcessor;
  * Created by Abhimuktheeswarar on 31-05-2017.
  */
 
-public class SubRound1ViewModel {
+public class SubRound1_1ViewModel {
 
     private BehaviorProcessor<String> behaviorProcessor = BehaviorProcessor.create();
 

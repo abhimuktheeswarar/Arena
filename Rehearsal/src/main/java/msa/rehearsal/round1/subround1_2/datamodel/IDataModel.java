@@ -1,4 +1,4 @@
-package msa.rehearsal.round1.subround2.datamodel;
+package msa.rehearsal.round1.subround1_2.datamodel;
 
 import android.support.annotation.NonNull;
 
@@ -6,7 +6,7 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
-import msa.rehearsal.round1.subround2.model.Language;
+import msa.rehearsal.round1.subround1_2.model.Language;
 
 
 public interface IDataModel {

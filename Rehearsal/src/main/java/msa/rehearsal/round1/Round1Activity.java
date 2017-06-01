@@ -3,13 +3,12 @@ package msa.rehearsal.round1;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import msa.rehearsal.R;
-import msa.rehearsal.round1.subround1.SubRound1Fragment;
-import msa.rehearsal.round1.subround2.SubRound2Fragment;
+import msa.rehearsal.round1.subround1_1.SubRound1_1Fragment;
+import msa.rehearsal.round1.subround1_2.SubRound1_2Fragment;
 
 public class Round1Activity extends AppCompatActivity {
 
@@ -23,12 +22,12 @@ public class Round1Activity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null)
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, SubRound1Fragment.newInstance(), SubRound1Fragment.class.getSimpleName()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, SubRound1_1Fragment.newInstance(), SubRound1_1Fragment.class.getSimpleName()).commit();
     }
 
     @OnClick(R.id.fab)
     void onClickSwitchFragment() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, SubRound2Fragment.newInstance(), SubRound2Fragment.class.getSimpleName()).addToBackStack(SubRound2Fragment.class.getSimpleName()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, SubRound1_2Fragment.newInstance(), SubRound1_2Fragment.class.getSimpleName()).addToBackStack(SubRound1_2Fragment.class.getSimpleName()).commit();
 
     }
 

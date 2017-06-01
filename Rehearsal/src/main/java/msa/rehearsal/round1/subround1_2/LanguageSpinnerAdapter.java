@@ -1,4 +1,4 @@
-package msa.rehearsal.round1.subround2;
+package msa.rehearsal.round1.subround1_2;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,8 +11,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import msa.rehearsal.R;
-import msa.rehearsal.round1.subround2.model.Language;
+import msa.rehearsal.round1.subround1_2.model.Language;
 
 public class LanguageSpinnerAdapter extends ArrayAdapter<Language> {
 

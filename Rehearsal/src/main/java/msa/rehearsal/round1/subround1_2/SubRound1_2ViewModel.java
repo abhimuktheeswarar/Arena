@@ -1,4 +1,4 @@
-package msa.rehearsal.round1.subround2;
+package msa.rehearsal.round1.subround1_2;
 
 import android.support.annotation.NonNull;
 
@@ -9,16 +9,15 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 import io.reactivex.processors.BehaviorProcessor;
-import msa.rehearsal.R;
-import msa.rehearsal.round1.subround2.datamodel.IDataModel;
-import msa.rehearsal.round1.subround2.model.Language;
-import msa.rehearsal.round1.subround2.schedulers.ISchedulerProvider;
+import msa.rehearsal.round1.subround1_2.datamodel.IDataModel;
+import msa.rehearsal.round1.subround1_2.model.Language;
+import msa.rehearsal.round1.subround1_2.schedulers.ISchedulerProvider;
 
 /**
  * Created by Abhimuktheeswarar on 31-05-2017.
  */
 
-public class SubRound2ViewModel {
+public class SubRound1_2ViewModel {
 
     @NonNull
     private final IDataModel mDataModel;
@@ -29,7 +28,7 @@ public class SubRound2ViewModel {
     @NonNull
     private final BehaviorProcessor<Language> mSelectedLanguage = BehaviorProcessor.create();
 
-    SubRound2ViewModel(@NonNull IDataModel mDataModel, @NonNull ISchedulerProvider mSchedulerProvider) {
+    SubRound1_2ViewModel(@NonNull IDataModel mDataModel, @NonNull ISchedulerProvider mSchedulerProvider) {
         this.mDataModel = mDataModel;
         this.mSchedulerProvider = mSchedulerProvider;
     }

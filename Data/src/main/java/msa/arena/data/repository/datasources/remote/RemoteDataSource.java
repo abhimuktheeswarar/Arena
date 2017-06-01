@@ -50,6 +50,11 @@ public class RemoteDataSource implements BaseDataSource {
     }
 
     @Override
+    public Observable<List<Movie>> getMovieList(int page) {
+        return null;
+    }
+
+    @Override
     public Flowable<Movie> getMoviesTypeTwo(int page) {
         return arenaApi.getMoviesTypeTwo().flatMap(new Function<MovieListPojo, Publisher<Movie>>() {
             @Override

@@ -1,4 +1,4 @@
-package msa.arena.base;
+package msa.rehearsal.base;
 
 import android.support.annotation.CallSuper;
 import android.view.View;
@@ -12,7 +12,7 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseEpoxyHolder extends EpoxyHolder {
 
-    protected View itemView;
+    public View itemView;
 
     @CallSuper
     @Override

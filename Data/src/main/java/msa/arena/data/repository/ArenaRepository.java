@@ -30,7 +30,14 @@ public class ArenaRepository implements Repository {
     @Override
     public Observable<Movie> getMovies(int page) {
         //return dataStoreFactory.createRemoteDataSource().getMovies(page);
-        return dataStoreFactory.createRemoteDataSource().getMovies(page);
+        //return dataStoreFactory.createRemoteDataSource().getMovies(page);
+        return dataStoreFactory.createDummyDataSource().getMovies(page);
+
+    }
+
+    @Override
+    public Observable<List<Movie>> getMovieList(int page) {
+        return dataStoreFactory.createDummyDataSource().getMovieList(page);
     }
 
     @Override

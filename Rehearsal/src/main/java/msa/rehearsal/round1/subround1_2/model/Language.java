@@ -1,4 +1,4 @@
-package msa.rehearsal.round1.subround2.model;
+package msa.rehearsal.round1.subround1_2.model;
 
 import android.support.annotation.NonNull;
 

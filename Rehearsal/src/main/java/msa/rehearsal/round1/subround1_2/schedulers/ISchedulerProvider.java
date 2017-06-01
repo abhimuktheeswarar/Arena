@@ -1,4 +1,4 @@
-package msa.rehearsal.round1.subround2.schedulers;
+package msa.rehearsal.round1.subround1_2.schedulers;
 
 import android.support.annotation.NonNull;
 

@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import msa.rehearsal.round1.Round1Activity;
+import msa.rehearsal.round2.Round2Activity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                startActivity(new Intent(MainActivity.this, Round1Activity.class));
+                startActivity(new Intent(MainActivity.this, Round2Activity.class));
             }
         });
     }

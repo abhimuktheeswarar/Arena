@@ -1,4 +1,4 @@
-package msa.rehearsal.round1.subround2;
+package msa.rehearsal.round1.subround1_2;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,15 +19,15 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import msa.rehearsal.R;
-import msa.rehearsal.round1.subround2.datamodel.DataModel;
-import msa.rehearsal.round1.subround2.model.Language;
-import msa.rehearsal.round1.subround2.schedulers.SchedulerProvider;
+import msa.rehearsal.round1.subround1_2.datamodel.DataModel;
+import msa.rehearsal.round1.subround1_2.model.Language;
+import msa.rehearsal.round1.subround1_2.schedulers.SchedulerProvider;
 
 /**
  * Created by Abhimuktheeswarar on 31-05-2017.
  */
 
-public class SubRound2Fragment extends Fragment {
+public class SubRound1_2Fragment extends Fragment {
 
     @BindView(R.id.spinner_languages)
     Spinner spinner;
@@ -35,20 +35,20 @@ public class SubRound2Fragment extends Fragment {
     @BindView(R.id.text_greeting)
     TextView textView;
 
-    private SubRound2ViewModel subRound2ViewModel;
+    private SubRound1_2ViewModel subRound12ViewModel;
 
     private LanguageSpinnerAdapter languageSpinnerAdapter;
 
     private CompositeDisposable compositeDisposable;
 
-    public static SubRound2Fragment newInstance() {
-        return new SubRound2Fragment();
+    public static SubRound1_2Fragment newInstance() {
+        return new SubRound1_2Fragment();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        subRound2ViewModel = new SubRound2ViewModel(new DataModel(), SchedulerProvider.getInstance());
+        subRound12ViewModel = new SubRound1_2ViewModel(new DataModel(), SchedulerProvider.getInstance());
     }
 
     @Override
@@ -96,7 +96,7 @@ public class SubRound2Fragment extends Fragment {
 
         compositeDisposable = new CompositeDisposable();
 
-        compositeDisposable.add(subRound2ViewModel.getGreeting().subscribeOn(io.reactivex.schedulers.Schedulers.computation())
+        compositeDisposable.add(subRound12ViewModel.getGreeting().subscribeOn(io.reactivex.schedulers.Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<String>() {
                     @Override
                     public void accept(@NonNull String greeting) throws Exception {
@@ -105,7 +105,7 @@ public class SubRound2Fragment extends Fragment {
                     }
                 }));
 
-        compositeDisposable.add(subRound2ViewModel.getSupportedLanguages().subscribeOn(io.reactivex.schedulers.Schedulers.computation())
+        compositeDisposable.add(subRound12ViewModel.getSupportedLanguages().subscribeOn(io.reactivex.schedulers.Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<Language>>() {
                     @Override
                     public void accept(@NonNull List<Language> languages) throws Exception {
@@ -131,7 +131,7 @@ public class SubRound2Fragment extends Fragment {
 
     private void itemSelected(final int position) {
         Language languageSelected = languageSpinnerAdapter.getItem(position);
-        subRound2ViewModel.languageSelected(languageSelected);
+        subRound12ViewModel.languageSelected(languageSelected);
     }
 
 }
