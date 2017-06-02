@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 
 import com.msa.domain.entities.Movie;
 
-import org.reactivestreams.Publisher;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +20,11 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.Lazy;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import msa.rehearsal.R;
@@ -119,38 +119,43 @@ public class SubRound2_1Fragment extends BaseFragment {
         }));*/
 
 
-      /*  compositeDisposable.add(endlessRecyclerViewScrollListener.getScrollState().subscribeOn(io.reactivex.schedulers.Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).switchMap(new Function<EndlessRecyclerViewScrollListener.ScrollState, Observable<Movie>>() {
+        compositeDisposable.add(endlessRecyclerViewScrollListener.getScrollState().subscribeOn(io.reactivex.schedulers.Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).switchMap(new Function<EndlessRecyclerViewScrollListener.ScrollState, Observable<Movie>>() {
             @Override
             public Observable<Movie> apply(@NonNull EndlessRecyclerViewScrollListener.ScrollState scrollState) throws Exception {
                 Log.d(SubRound2_1Fragment.class.getSimpleName(), "Page = " + scrollState.getPage());
                 return subRound2_1ViewModelLazy.get().getMovieFeed(scrollState.getPage());
             }
-        }).subscribe(new Consumer<Movie>() {
+        }).scan(new ArrayList<>(), new BiFunction<ArrayList<Movie>, Movie, ArrayList<Movie>>() {
             @Override
-            public void accept(@NonNull Movie movie) throws Exception {
-                movieEpoxyController.addMovie(movie);
-                movieEpoxyController.requestModelBuild();
+            public ArrayList<Movie> apply(@NonNull ArrayList<Movie> array, @NonNull Movie item) throws Exception {
+                array.add(item);
+                return array;
             }
-        }));*/
+        }).subscribe(new Consumer<ArrayList<Movie>>() {
+            @Override
+            public void accept(@NonNull ArrayList<Movie> movies) throws Exception {
+                movieTypedEpoxyController.setData(movies);
+            }
+        }));
 
 
-        compositeDisposable.add(endlessRecyclerViewScrollListener.getPaginator().onBackpressureDrop().concatMap(new Function<EndlessRecyclerViewScrollListener.ScrollState, Publisher<List<Movie>>>() {
+        /*compositeDisposable.add(endlessRecyclerViewScrollListener.getPaginator().onBackpressureDrop().concatMap(new Function<EndlessRecyclerViewScrollListener.ScrollState, Publisher<List<Movie>>>() {
             @Override
             public Publisher<List<Movie>> apply(@NonNull EndlessRecyclerViewScrollListener.ScrollState scrollState) throws Exception {
                 Log.d(SubRound2_1Fragment.class.getSimpleName(), "Page = " + scrollState.getPage());
                 return subRound2_1ViewModelLazy.get().getMovieFlow(scrollState.getPage());
             }
-        }).map(new Function<List<Movie>, List<Movie>>() {
+        }).replay().map(new Function<List<Movie>, List<Movie>>() {
             @Override
             public List<Movie> apply(@NonNull List<Movie> movies) throws Exception {
                 Log.d(SubRound2_1Fragment.class.getSimpleName(), "Size = " + movies.size());
-                movieList.addAll(movies);
-                movieTypedEpoxyController.setData(movieList);
+                //movieList.addAll(movies);
+                movieTypedEpoxyController.setData(movies);
                 return movies;
             }
-        }).subscribe());
+        }).subscribe());*/
 
-        endlessRecyclerViewScrollListener.initialize();
+        //endlessRecyclerViewScrollListener.initialize();
 
         /*compositeDisposable.add(endlessRecyclerViewScrollListener.getScrollState().subscribeOn(io.reactivex.schedulers.Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).concatMap(new Function<EndlessRecyclerViewScrollListener.ScrollState, Observable<List<Movie>>>() {
             @Override

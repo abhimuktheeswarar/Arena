@@ -38,7 +38,7 @@ public class DummyDataSource implements BaseDataSource {
             movieList.add(new Movie(UUID.randomUUID().toString() + i, "Movie " + i, i % 2 == 0));
         }
         //if (page > 5) movieList.add(new Movie());
-        return Observable.fromIterable(movieList).concatWith(Observable.never());
+        return Observable.fromIterable(movieList);
     }
 
     @Override
