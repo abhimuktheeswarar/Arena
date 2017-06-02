@@ -1,8 +1,8 @@
 package msa.rehearsal.round2.subround2_1;
 
 
-import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -58,12 +58,6 @@ public class SubRound2_1Fragment extends BaseFragment {
         return new SubRound2_1Fragment();
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        getComponent(MovieComponent.class).inject(this);
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,6 +67,11 @@ public class SubRound2_1Fragment extends BaseFragment {
         return rootView;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getComponent(MovieComponent.class).inject(this);
+    }
 
     private void setupViews() {
 
@@ -175,6 +174,20 @@ public class SubRound2_1Fragment extends BaseFragment {
     private void unBind() {
         compositeSubscription.unsubscribe();
         compositeDisposable.dispose();
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        movieTypedEpoxyController.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        movieTypedEpoxyController.onRestoreInstanceState(savedInstanceState);
+
     }
 
     @Override
