@@ -119,7 +119,7 @@ public class SubRound2_1Fragment extends BaseFragment {
         }));*/
 
 
-        compositeDisposable.add(endlessRecyclerViewScrollListener.getScrollState().subscribeOn(io.reactivex.schedulers.Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).switchMap(new Function<EndlessRecyclerViewScrollListener.ScrollState, Observable<Movie>>() {
+      /*compositeDisposable.add(endlessRecyclerViewScrollListener.getScrollState().subscribeOn(io.reactivex.schedulers.Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).switchMap(new Function<EndlessRecyclerViewScrollListener.ScrollState, Observable<Movie>>() {
             @Override
             public Observable<Movie> apply(@NonNull EndlessRecyclerViewScrollListener.ScrollState scrollState) throws Exception {
                 Log.d(SubRound2_1Fragment.class.getSimpleName(), "Page = " + scrollState.getPage());
@@ -136,39 +136,28 @@ public class SubRound2_1Fragment extends BaseFragment {
             public void accept(@NonNull ArrayList<Movie> movies) throws Exception {
                 movieTypedEpoxyController.setData(movies);
             }
-        }));
+        }));*/
 
-
-        /*compositeDisposable.add(endlessRecyclerViewScrollListener.getPaginator().onBackpressureDrop().concatMap(new Function<EndlessRecyclerViewScrollListener.ScrollState, Publisher<List<Movie>>>() {
-            @Override
-            public Publisher<List<Movie>> apply(@NonNull EndlessRecyclerViewScrollListener.ScrollState scrollState) throws Exception {
-                Log.d(SubRound2_1Fragment.class.getSimpleName(), "Page = " + scrollState.getPage());
-                return subRound2_1ViewModelLazy.get().getMovieFlow(scrollState.getPage());
-            }
-        }).replay().map(new Function<List<Movie>, List<Movie>>() {
-            @Override
-            public List<Movie> apply(@NonNull List<Movie> movies) throws Exception {
-                Log.d(SubRound2_1Fragment.class.getSimpleName(), "Size = " + movies.size());
-                //movieList.addAll(movies);
-                movieTypedEpoxyController.setData(movies);
-                return movies;
-            }
-        }).subscribe());*/
-
-        //endlessRecyclerViewScrollListener.initialize();
-
-        /*compositeDisposable.add(endlessRecyclerViewScrollListener.getScrollState().subscribeOn(io.reactivex.schedulers.Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).concatMap(new Function<EndlessRecyclerViewScrollListener.ScrollState, Observable<List<Movie>>>() {
+        compositeDisposable.add(endlessRecyclerViewScrollListener.getScrollState().subscribeOn(io.reactivex.schedulers.Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).switchMap(new Function<EndlessRecyclerViewScrollListener.ScrollState, Observable<List<Movie>>>() {
             @Override
             public Observable<List<Movie>> apply(@NonNull EndlessRecyclerViewScrollListener.ScrollState scrollState) throws Exception {
+                Log.d(SubRound2_1Fragment.class.getSimpleName(), "Page = " + scrollState.getPage());
                 return subRound2_1ViewModelLazy.get().getMovies(scrollState.getPage());
+            }
+        }).scan(new BiFunction<List<Movie>, List<Movie>, List<Movie>>() {
+            @Override
+            public List<Movie> apply(@NonNull List<Movie> movies, @NonNull List<Movie> movies2) throws Exception {
+                movies.addAll(movies2);
+                return movies;
             }
         }).subscribe(new Consumer<List<Movie>>() {
             @Override
             public void accept(@NonNull List<Movie> movies) throws Exception {
-                movieEpoxyController.setMovies(movies);
-                movieEpoxyController.requestModelBuild();
+                movieTypedEpoxyController.setData(movies);
             }
-        }));*/
+        }));
+
+
 
 
         compositeDisposable.add(movieEpoxyController.getSelectedMovie().subscribeOn(io.reactivex.schedulers.Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Movie>() {

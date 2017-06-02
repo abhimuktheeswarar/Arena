@@ -41,6 +41,11 @@ public class ArenaRepository implements Repository {
     }
 
     @Override
+    public Observable<List<Movie>> getMovieList2(int page) {
+        return null;
+    }
+
+    @Override
     public Flowable<List<Movie>> getMovieFlow(int page) {
         return dataStoreFactory.createDummyDataSource().getMovieFlow(page);
     }

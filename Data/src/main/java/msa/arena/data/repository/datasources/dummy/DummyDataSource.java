@@ -45,8 +45,13 @@ public class DummyDataSource implements BaseDataSource {
     public Observable<List<Movie>> getMovieList(int page) {
         List<Movie> movieList = new LinkedList<>();
         for (int i = page; i < page + 30; i++)
-            movieList.add(new Movie("id" + i, "Movie " + i, i % 2 == 0));
+            movieList.add(new Movie(UUID.randomUUID().toString() + i, "Movie " + i, i % 2 == 0));
         return Observable.just(movieList);
+    }
+
+    @Override
+    public Observable<List<Movie>> getMovieList2(int page) {
+        return null;
     }
 
     @Override

@@ -19,6 +19,8 @@ public interface Repository {
 
     Observable<List<Movie>> getMovieList(int page);
 
+    Observable<List<Movie>> getMovieList2(int page);
+
     Flowable<List<Movie>> getMovieFlow(int page);
 
     Flowable<Movie> getMoviesTypeTwo(int page);

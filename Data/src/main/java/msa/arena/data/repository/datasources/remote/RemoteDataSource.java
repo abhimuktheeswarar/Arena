@@ -53,6 +53,11 @@ public class RemoteDataSource implements BaseDataSource {
     }
 
     @Override
+    public Observable<List<Movie>> getMovieList2(int page) {
+        return null;
+    }
+
+    @Override
     public Flowable<List<Movie>> getMovieFlow(int page) {
         return null;
     }
