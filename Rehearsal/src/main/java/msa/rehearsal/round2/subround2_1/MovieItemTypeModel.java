@@ -1,6 +1,5 @@
 package msa.rehearsal.round2.subround2_1;
 
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -9,6 +8,7 @@ import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyModel;
 import com.airbnb.epoxy.EpoxyModelClass;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
+import com.msa.domain.entities.Movie;
 
 import java.util.List;
 
@@ -21,21 +21,19 @@ import msa.rehearsal.base.BaseEpoxyHolder;
  */
 
 @EpoxyModelClass(layout = R.layout.item_movie_simple)
-abstract class MovieItemModel extends EpoxyModelWithHolder<MovieItemModel.MovieItemHolder> {
+abstract class MovieItemTypeModel extends EpoxyModelWithHolder<MovieItemTypeModel.MovieItemHolder> {
 
     @EpoxyAttribute
-    String movieId;
-    @EpoxyAttribute
-    String movieName;
-    @EpoxyAttribute
-    boolean isFavorite;
-    @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash)
-    View.OnClickListener onClickListener;
+    Movie movie;
+    @EpoxyAttribute(hash = false)
+    MovieItemTypeClickListener movieItemTypeClickListener;
 
     private CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            isFavorite = isChecked;
+            movie.setFavorite(isChecked);
+            if (movieItemTypeClickListener != null)
+                movieItemTypeClickListener.onClickFavorite(movie);
         }
     };
 
@@ -52,10 +50,10 @@ abstract class MovieItemModel extends EpoxyModelWithHolder<MovieItemModel.MovieI
     @Override
     public void bind(MovieItemHolder holder) {
         super.bind(holder);
-        holder.tV_MovieName.setText(movieId);
-        holder.checkBox.setChecked(isFavorite);
-        //holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
-        holder.itemView.setOnClickListener(onClickListener);
+        holder.tV_MovieName.setText(movie.getMovieId());
+        holder.checkBox.setChecked(movie.isFavorite());
+        holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
+        //holder.itemView.setOnClickListener(onClickListener);
     }
 
     @Override
@@ -65,8 +63,8 @@ abstract class MovieItemModel extends EpoxyModelWithHolder<MovieItemModel.MovieI
         holder.itemView.setOnClickListener(null);
     }
 
-    interface MovieItemClickListener {
-        void onClickFavorite(String movie);
+    interface MovieItemTypeClickListener {
+        void onClickFavorite(Movie movie);
     }
 
     class MovieItemHolder extends BaseEpoxyHolder {

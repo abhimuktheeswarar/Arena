@@ -2,6 +2,7 @@ package com.msa.domain;
 
 import com.msa.domain.entities.Movie;
 
+import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Flowable;
@@ -20,6 +21,8 @@ public interface Repository {
     Observable<List<Movie>> getMovieList(int page);
 
     Observable<List<Movie>> getMovieList2(int page);
+
+    Observable<HashMap<String, Movie>> getMovieHashes(int page);
 
     Flowable<List<Movie>> getMovieFlow(int page);
 

@@ -23,16 +23,47 @@ public class Movie {
         return movieId;
     }
 
+    public void setMovieId(String movieId) {
+        this.movieId = movieId;
+    }
+
     public String getMovieName() {
         return movieName;
+    }
+
+    public void setMovieName(String movieName) {
+        this.movieName = movieName;
     }
 
     public boolean isFavorite() {
         return isFavorite;
     }
 
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
+
     @Override
     public String toString() {
         return movieName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Movie movie = (Movie) o;
+
+        if (!movieId.equals(movie.movieId)) return false;
+        return movieName.equals(movie.movieName);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = movieId.hashCode();
+        result = 31 * result + movieName.hashCode();
+        return result;
     }
 }

@@ -20,6 +20,7 @@ import io.reactivex.processors.BehaviorProcessor;
 class MovieEpoxyController extends EpoxyController implements OnModelClickListener {
 
     private final BehaviorProcessor<Movie> movieBehaviorProcessor = BehaviorProcessor.create();
+    private final BehaviorProcessor<Integer> integerBehaviorProcessor = BehaviorProcessor.create();
     private List<Movie> movies;
 
     MovieEpoxyController() {
@@ -52,9 +53,14 @@ class MovieEpoxyController extends EpoxyController implements OnModelClickListen
         movieBehaviorProcessor.onNext(movies.get(position));
 
 
+
     }
 
     Observable<Movie> getSelectedMovie() {
         return movieBehaviorProcessor.toObservable();
+    }
+
+    Observable<Integer> getSelectedPosition() {
+        return integerBehaviorProcessor.toObservable();
     }
 }

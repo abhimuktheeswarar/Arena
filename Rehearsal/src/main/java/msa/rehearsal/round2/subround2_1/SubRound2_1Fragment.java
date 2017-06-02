@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.msa.domain.entities.Movie;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -45,6 +46,7 @@ public class SubRound2_1Fragment extends BaseFragment {
     @Inject
     Lazy<SubRound2_1ViewModel> subRound2_1ViewModelLazy;
     List<Movie> movieList = new ArrayList<>();
+    HashMap<String, Movie> movieHashMap = new HashMap<>();
     private LinearLayoutManager linearLayoutManager;
     private MovieEpoxyController movieEpoxyController;
     private MovieTypedEpoxyController movieTypedEpoxyController;
@@ -153,16 +155,17 @@ public class SubRound2_1Fragment extends BaseFragment {
         }).subscribe(new Consumer<List<Movie>>() {
             @Override
             public void accept(@NonNull List<Movie> movies) throws Exception {
-                movieTypedEpoxyController.setData(movies);
+                movieList = movies;
+                movieTypedEpoxyController.setData(movieList);
             }
         }));
 
 
-
-
-        compositeDisposable.add(movieEpoxyController.getSelectedMovie().subscribeOn(io.reactivex.schedulers.Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Movie>() {
+        compositeDisposable.add(movieTypedEpoxyController.getSelectedMovie().subscribeOn(io.reactivex.schedulers.Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Movie>() {
             @Override
             public void accept(@NonNull Movie movie) throws Exception {
+                movieList.set(movieList.indexOf(movie), movie);
+                updateController();
                 showToastMessage(movie.getMovieName());
             }
         }));
@@ -178,5 +181,11 @@ public class SubRound2_1Fragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         recyclerView.removeOnScrollListener(endlessRecyclerViewScrollListener);
+    }
+
+
+    private void updateController() {
+        //movieEpoxyController.setMovies(movieList);
+        movieTypedEpoxyController.setData(movieList);
     }
 }

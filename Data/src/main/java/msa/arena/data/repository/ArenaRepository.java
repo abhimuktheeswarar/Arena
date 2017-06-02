@@ -3,6 +3,7 @@ package msa.arena.data.repository;
 import com.msa.domain.Repository;
 import com.msa.domain.entities.Movie;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -43,6 +44,11 @@ public class ArenaRepository implements Repository {
     @Override
     public Observable<List<Movie>> getMovieList2(int page) {
         return null;
+    }
+
+    @Override
+    public Observable<HashMap<String, Movie>> getMovieHashes(int page) {
+        return dataStoreFactory.createDummyDataSource().getMovieHashes(page);
     }
 
     @Override

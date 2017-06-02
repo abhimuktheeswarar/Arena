@@ -1,6 +1,7 @@
 package msa.rehearsal.injector.modules;
 
 import com.msa.domain.Repository;
+import com.msa.domain.usecases.GetMovieHashes;
 import com.msa.domain.usecases.GetMoviesTypeFive;
 import com.msa.domain.usecases.GetMoviesTypeFour;
 import com.msa.domain.usecases.GetMoviesTypeOne;
@@ -58,6 +59,12 @@ public class MovieModule {
     @PerActivity
     GetMoviesTypeSix provideGetMoviesTypeSixUseCase(Repository repository, @Named("executor_thread") Scheduler mUiThread, @Named("ui_thread") Scheduler mExecutorThread) {
         return new GetMoviesTypeSix(repository, mUiThread, mExecutorThread);
+    }
+
+    @Provides
+    @PerActivity
+    GetMovieHashes provideGetMovieHashesUseCase(Repository repository, @Named("executor_thread") Scheduler mUiThread, @Named("ui_thread") Scheduler mExecutorThread) {
+        return new GetMovieHashes(repository, mUiThread, mExecutorThread);
     }
 
     @Provides

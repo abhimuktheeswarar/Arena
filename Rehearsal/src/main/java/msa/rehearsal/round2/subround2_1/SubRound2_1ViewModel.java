@@ -3,10 +3,12 @@ package msa.rehearsal.round2.subround2_1;
 import android.util.Log;
 
 import com.msa.domain.entities.Movie;
+import com.msa.domain.usecases.GetMovieHashes;
 import com.msa.domain.usecases.GetMoviesTypeFive;
 import com.msa.domain.usecases.GetMoviesTypeFour;
 import com.msa.domain.usecases.GetMoviesTypeSix;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -27,16 +29,22 @@ public class SubRound2_1ViewModel {
     private final GetMoviesTypeFour getMoviesTypeFour;
     private final GetMoviesTypeFive getMoviesTypeFive;
     private final GetMoviesTypeSix getMoviesTypeSix;
+    private final GetMovieHashes getMovieHashes;
 
     @Inject
-    public SubRound2_1ViewModel(GetMoviesTypeFour getMoviesTypeFour, GetMoviesTypeFive getMoviesTypeFive, GetMoviesTypeSix getMoviesTypeSix) {
+    public SubRound2_1ViewModel(GetMoviesTypeFour getMoviesTypeFour, GetMoviesTypeFive getMoviesTypeFive, GetMoviesTypeSix getMoviesTypeSix, GetMovieHashes getMovieHashes) {
         this.getMoviesTypeFour = getMoviesTypeFour;
         this.getMoviesTypeFive = getMoviesTypeFive;
         this.getMoviesTypeSix = getMoviesTypeSix;
+        this.getMovieHashes = getMovieHashes;
     }
 
     Observable<List<Movie>> getMovies(int page) {
         return getMoviesTypeFour.execute(page);
+    }
+
+    Observable<HashMap<String, Movie>> getMovieHashes(int page) {
+        return getMovieHashes.execute(page);
     }
 
     Flowable<List<Movie>> getMovieFlow(int page) {
