@@ -8,7 +8,7 @@ import com.msa.domain.usecases.GetMoviesTypeFive;
 import com.msa.domain.usecases.GetMoviesTypeFour;
 import com.msa.domain.usecases.GetMoviesTypeSix;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -43,9 +43,18 @@ public class SubRound2_1ViewModel {
         return getMoviesTypeFour.execute(page);
     }
 
-    Observable<HashMap<String, Movie>> getMovieHashes(int page) {
+    Observable<LinkedHashMap<String, Movie>> getMovieHashes(int page) {
         return getMovieHashes.execute(page);
     }
+
+   /* Observable<List<Movie>> getMovieHashList(int page) {
+        return getMovieHashes(page).map(new Function<LinkedHashMap<String, Movie>, List<Movie>>() {
+            @Override
+            public List<Movie> apply(@NonNull LinkedHashMap<String, Movie> stringMovieHashMap) throws Exception {
+                return new ArrayList<Movie>(stringMovieHashMap.values());
+            }
+        });
+    }*/
 
     Flowable<List<Movie>> getMovieFlow(int page) {
         //return getMoviesTypeSix.execute(page);

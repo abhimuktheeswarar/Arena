@@ -7,7 +7,7 @@ import com.msa.domain.entities.Movie;
 
 import org.reactivestreams.Publisher;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -56,12 +56,13 @@ public class DummyDataSource implements BaseDataSource {
     }
 
     @Override
-    public Observable<HashMap<String, Movie>> getMovieHashes(int page) {
-        HashMap<String, Movie> movieHashMap = new HashMap<>();
+    public Observable<LinkedHashMap<String, Movie>> getMovieHashes(int page) {
+        LinkedHashMap<String, Movie> movieHashMap = new LinkedHashMap<>();
         for (int i = page; i < page + 30; i++) {
             Movie movie = new Movie(UUID.randomUUID().toString() + i, "Movie " + i, i % 2 == 0);
             movieHashMap.put(movie.getMovieId(), movie);
         }
+
         return Observable.just(movieHashMap);
     }
 

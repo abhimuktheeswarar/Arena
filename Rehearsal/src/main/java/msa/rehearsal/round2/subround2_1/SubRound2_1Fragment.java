@@ -14,6 +14,7 @@ import com.msa.domain.entities.Movie;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -74,6 +75,9 @@ public class SubRound2_1Fragment extends BaseFragment {
     }
 
     private void setupViews() {
+
+        //movieList = new ArrayList<>(movieHashMap.values());
+
 
         linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -139,7 +143,7 @@ public class SubRound2_1Fragment extends BaseFragment {
             }
         }));*/
 
-        compositeDisposable.add(endlessRecyclerViewScrollListener.getScrollState().subscribeOn(io.reactivex.schedulers.Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).switchMap(new Function<EndlessRecyclerViewScrollListener.ScrollState, Observable<List<Movie>>>() {
+       /* compositeDisposable.add(endlessRecyclerViewScrollListener.getScrollState().subscribeOn(io.reactivex.schedulers.Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).switchMap(new Function<EndlessRecyclerViewScrollListener.ScrollState, Observable<List<Movie>>>() {
             @Override
             public Observable<List<Movie>> apply(@NonNull EndlessRecyclerViewScrollListener.ScrollState scrollState) throws Exception {
                 Log.d(SubRound2_1Fragment.class.getSimpleName(), "Page = " + scrollState.getPage());
@@ -156,6 +160,26 @@ public class SubRound2_1Fragment extends BaseFragment {
             public void accept(@NonNull List<Movie> movies) throws Exception {
                 movieList = movies;
                 movieTypedEpoxyController.setData(movieList);
+            }
+        }));*/
+
+
+        compositeDisposable.add(endlessRecyclerViewScrollListener.getScrollState().subscribeOn(io.reactivex.schedulers.Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).switchMap(new Function<EndlessRecyclerViewScrollListener.ScrollState, Observable<LinkedHashMap<String, Movie>>>() {
+            @Override
+            public Observable<LinkedHashMap<String, Movie>> apply(@NonNull EndlessRecyclerViewScrollListener.ScrollState scrollState) throws Exception {
+                Log.d(SubRound2_1Fragment.class.getSimpleName(), "Page = " + scrollState.getPage());
+                return subRound2_1ViewModelLazy.get().getMovieHashes(scrollState.getPage());
+            }
+        }).scan(new BiFunction<LinkedHashMap<String, Movie>, LinkedHashMap<String, Movie>, LinkedHashMap<String, Movie>>() {
+            @Override
+            public LinkedHashMap<String, Movie> apply(@NonNull LinkedHashMap<String, Movie> stringMovieLinkedHashMap, @NonNull LinkedHashMap<String, Movie> stringMovieLinkedHashMap2) throws Exception {
+                stringMovieLinkedHashMap.putAll(stringMovieLinkedHashMap2);
+                return stringMovieLinkedHashMap;
+            }
+        }).subscribe(new Consumer<LinkedHashMap<String, Movie>>() {
+            @Override
+            public void accept(@NonNull LinkedHashMap<String, Movie> stringMovieLinkedHashMap) throws Exception {
+                movieTypedEpoxyController.setMovies(stringMovieLinkedHashMap);
             }
         }));
 

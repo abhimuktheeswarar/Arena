@@ -7,7 +7,7 @@ import com.msa.domain.entities.Movie;
 import org.reactivestreams.Publisher;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import io.reactivex.Flowable;
@@ -59,7 +59,7 @@ public class RemoteDataSource implements BaseDataSource {
     }
 
     @Override
-    public Observable<HashMap<String, Movie>> getMovieHashes(int page) {
+    public Observable<LinkedHashMap<String, Movie>> getMovieHashes(int page) {
         return null;
     }
 

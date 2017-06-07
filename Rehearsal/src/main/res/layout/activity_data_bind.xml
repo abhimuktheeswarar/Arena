@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="user"
+            type="msa.rehearsal.databind.User" />
+
+        <variable
+            name="myHandlers"
+            type="msa.rehearsal.databind.MyHandlers" />
+
+        <variable
+            name="presenter"
+            type="msa.rehearsal.databind.DataBindPresenter" />
+
+        <variable
+            name="view"
+            type="android.view.View" />
+    </data>
+
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="msa.rehearsal.databind.DataBindActivity">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{user.firstName}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{user.middleName}" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{myHandlers::onClickFriend}"
+            android:text="PRESS 1 " />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->presenter.onClickUser(view, user)}"
+            android:text="PRESS 2" />
+
+    </LinearLayout>
+
+</layout>

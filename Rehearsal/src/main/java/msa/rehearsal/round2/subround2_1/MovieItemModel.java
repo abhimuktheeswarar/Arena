@@ -29,13 +29,27 @@ abstract class MovieItemModel extends EpoxyModelWithHolder<MovieItemModel.MovieI
     String movieName;
     @EpoxyAttribute
     boolean isFavorite;
+    @EpoxyAttribute
+    int clickCount;
     @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash)
     View.OnClickListener onClickListener;
+    @EpoxyAttribute(hash = false)
+    MovieItemClickListener movieItemClickListener;
+
 
     private CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            isFavorite = isChecked;
+            if (movieItemClickListener != null)
+                movieItemClickListener.onClickFavorite(movieId, isChecked);
+
+        }
+    };
+
+    private View.OnClickListener onClickListener2 = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            clickCount++;
         }
     };
 
@@ -52,10 +66,10 @@ abstract class MovieItemModel extends EpoxyModelWithHolder<MovieItemModel.MovieI
     @Override
     public void bind(MovieItemHolder holder) {
         super.bind(holder);
-        holder.tV_MovieName.setText(movieId);
+        holder.tV_MovieName.setText(String.valueOf(clickCount));
         holder.checkBox.setChecked(isFavorite);
-        //holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
-        holder.itemView.setOnClickListener(onClickListener);
+        holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
+        holder.itemView.setOnClickListener(onClickListener2);
     }
 
     @Override
@@ -65,8 +79,9 @@ abstract class MovieItemModel extends EpoxyModelWithHolder<MovieItemModel.MovieI
         holder.itemView.setOnClickListener(null);
     }
 
+
     interface MovieItemClickListener {
-        void onClickFavorite(String movie);
+        void onClickFavorite(String movieId, boolean isFavorite);
     }
 
     class MovieItemHolder extends BaseEpoxyHolder {

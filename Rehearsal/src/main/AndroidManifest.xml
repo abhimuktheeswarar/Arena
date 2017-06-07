@@ -38,6 +38,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="msa.rehearsal.MainActivity" />
         </activity>
+        <activity android:name=".databind.DataBindActivity"></activity>
     </application>
 
 </manifest>

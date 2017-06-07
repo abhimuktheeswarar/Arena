@@ -4,7 +4,7 @@ import com.msa.domain.Repository;
 import com.msa.domain.entities.Movie;
 import com.msa.domain.interactor.UseCaseTypeThree;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import javax.inject.Inject;
 
@@ -15,7 +15,7 @@ import io.reactivex.Scheduler;
  * Created by Abhimuktheeswarar on 01-05-2017.
  */
 
-public class GetMovieHashes extends UseCaseTypeThree<HashMap<String, Movie>, Integer> {
+public class GetMovieHashes extends UseCaseTypeThree<LinkedHashMap<String, Movie>, Integer> {
 
     private final Repository repository;
 
@@ -26,7 +26,7 @@ public class GetMovieHashes extends UseCaseTypeThree<HashMap<String, Movie>, Int
     }
 
     @Override
-    protected Observable<HashMap<String, Movie>> buildUseCaseObservable(Integer page) {
+    protected Observable<LinkedHashMap<String, Movie>> buildUseCaseObservable(Integer page) {
         return repository.getMovieHashes(page);
     }
 }

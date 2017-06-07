@@ -37,6 +37,7 @@ abstract class MovieItemTypeModel extends EpoxyModelWithHolder<MovieItemTypeMode
         }
     };
 
+
     @Override
     public void bind(MovieItemHolder holder, List<Object> payloads) {
         super.bind(holder, payloads);
@@ -61,6 +62,11 @@ abstract class MovieItemTypeModel extends EpoxyModelWithHolder<MovieItemTypeMode
         super.unbind(holder);
         holder.checkBox.setOnCheckedChangeListener(null);
         holder.itemView.setOnClickListener(null);
+    }
+
+    @Override
+    public boolean shouldSaveViewState() {
+        return true;
     }
 
     interface MovieItemTypeClickListener {

@@ -8,6 +8,8 @@ import com.airbnb.epoxy.OnModelClickListener;
 import com.airbnb.epoxy.TypedEpoxyController;
 import com.msa.domain.entities.Movie;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -17,23 +19,27 @@ import io.reactivex.processors.BehaviorProcessor;
  * Created by Abhimuktheeswarar on 01-06-2017.
  */
 
-class MovieTypedEpoxyController extends TypedEpoxyController<List<Movie>> implements OnModelClickListener, MovieItemTypeModel.MovieItemTypeClickListener {
+class MovieTypedEpoxyController extends TypedEpoxyController<List<Movie>> implements OnModelClickListener, MovieItemModel.MovieItemClickListener, MovieItemTypeModel.MovieItemTypeClickListener {
 
     private final BehaviorProcessor<Movie> movieBehaviorProcessor = BehaviorProcessor.create();
     private final BehaviorProcessor<Integer> integerBehaviorProcessor = BehaviorProcessor.create();
+    private LinkedHashMap<String, Movie> linkedHashMap = new LinkedHashMap<>();
 
-    MovieTypedEpoxyController() {
 
+    void setMovies(LinkedHashMap<String, Movie> linkedHashMap) {
+        this.linkedHashMap = linkedHashMap;
+        setData(new ArrayList<>(this.linkedHashMap.values()));
     }
 
     @Override
     protected void buildModels(List<Movie> data) {
 
+
         for (Movie movie : data) {
             {
                 //Log.d(MovieEpoxyController.class.getSimpleName(), movie.getMovieName());
-                //new MovieItemModel_().id(movie.getMovieId()).movieId(movie.getMovieId()).movieName(movie.getMovieName()).isFavorite(movie.isFavorite()).onClickListener(this).addTo(this);
-                new MovieItemTypeModel_().id(movie.getMovieId()).movie(movie).movieItemTypeClickListener(this).addTo(this);
+                new MovieItemModel_().id(movie.getMovieId()).movieId(movie.getMovieId()).movieName(movie.getMovieName()).isFavorite(movie.isFavorite()).clickCount(1).onClickListener(this).movieItemClickListener(this).addTo(this);
+                //new MovieItemTypeModel_().id(movie.getMovieId()).movie(movie).movieItemTypeClickListener(this).addTo(this);
             }
         }
     }
@@ -56,5 +62,10 @@ class MovieTypedEpoxyController extends TypedEpoxyController<List<Movie>> implem
     public void onClickFavorite(Movie movie) {
         movieBehaviorProcessor.onNext(movie);
 
+    }
+
+    @Override
+    public void onClickFavorite(String movieId, boolean isFavorite) {
+        linkedHashMap.get(movieId).setFavorite(isFavorite);
     }
 }
