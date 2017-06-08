@@ -8,6 +8,7 @@ import dagger.Module;
 import dagger.multibindings.IntoMap;
 import msa.arc.base.ArcViewModelFactory;
 import msa.arc.di.ViewModelKey;
+import msa.arc.movies.MovieChildViewModel;
 import msa.arc.movies.MoviesViewModel;
 
 /**
@@ -20,6 +21,11 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(MoviesViewModel.class)
     abstract ViewModel bindMoviesViewModel(MoviesViewModel moviesViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MovieChildViewModel.class)
+    abstract ViewModel bindMovieChildViewModel(MovieChildViewModel movieChildViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(ArcViewModelFactory factory);

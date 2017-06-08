@@ -14,13 +14,14 @@ import io.reactivex.Scheduler;
 import msa.arc.ArcApp;
 import msa.arc.di.module.ArcAppModule;
 import msa.arc.di.module.BuildersModule;
+import msa.arc.di.module.UseCaseModule;
 
 /**
  * Created by Abhimuktheeswarar on 08-06-2017.
  */
 
 @Singleton
-@Component(modules = {AndroidInjectionModule.class, ArcAppModule.class, BuildersModule.class})
+@Component(modules = {AndroidInjectionModule.class, ArcAppModule.class, BuildersModule.class, UseCaseModule.class})
 public interface ArcAppComponent {
 
     void inject(ArcApp arcApp);

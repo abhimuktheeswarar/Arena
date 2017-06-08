@@ -10,6 +10,6 @@ import msa.arc.movies.MoviesActivity;
 @Module
 public abstract class BuildersModule {
 
-    @ContributesAndroidInjector(modules = {FragmentBuildersModule.class})
+    @ContributesAndroidInjector(modules = {FragmentBuildersModule.class, MovieModule.class})
     abstract MoviesActivity contributeMoviesActivity();
 }

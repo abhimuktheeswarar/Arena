@@ -3,6 +3,8 @@ package msa.arc;
 import android.app.Activity;
 import android.app.Application;
 
+import com.frogermcs.androiddevmetrics.AndroidDevMetrics;
+
 import javax.inject.Inject;
 
 import dagger.android.DispatchingAndroidInjector;
@@ -22,6 +24,9 @@ public class ArcApp extends Application implements HasActivityInjector {
     public void onCreate() {
         super.onCreate();
         AppInjector.init(this);
+        if (BuildConfig.DEBUG) {
+            AndroidDevMetrics.initWith(this);
+        }
     }
 
     @Override

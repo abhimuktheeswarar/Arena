@@ -2,6 +2,7 @@ package msa.arc.di.module;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
+import msa.arc.movies.MovieChildFragment;
 import msa.arc.movies.MoviesFragment;
 
 /**
@@ -11,7 +12,9 @@ import msa.arc.movies.MoviesFragment;
 @Module
 public abstract class FragmentBuildersModule {
 
-
     @ContributesAndroidInjector
     abstract MoviesFragment contributeMoviesFragment();
+
+    @ContributesAndroidInjector
+    abstract MovieChildFragment contributeMovieChildFragment();
 }

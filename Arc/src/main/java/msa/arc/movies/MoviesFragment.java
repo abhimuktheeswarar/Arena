@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,16 +28,13 @@ public class MoviesFragment extends BaseFragment {
 
     MoviesViewModel moviesViewModel;
 
+    MovieChildFragment movieChildFragment;
+
     public static MoviesFragment newInstance() {
         MoviesFragment fragment = new MoviesFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -56,5 +54,16 @@ public class MoviesFragment extends BaseFragment {
     @OnClick(R.id.button_add)
     void onClickAdd() {
         moviesViewModel.add();
+        if (movieChildFragment == null) movieChildFragment = MovieChildFragment.newInstance();
+        getChildFragmentManager().beginTransaction().replace(R.id.fragment_container, movieChildFragment, MovieChildFragment.class.getSimpleName()).commit();
+    }
+
+    @OnClick(R.id.button_remove)
+    void onClickRemove() {
+        if (getChildFragmentManager().findFragmentByTag(MovieChildFragment.class.getSimpleName()) != null) {
+            getChildFragmentManager().beginTransaction().remove(getChildFragmentManager().findFragmentByTag(MovieChildFragment.class.getSimpleName())).commit();
+            Toast.makeText(getContext(), "removed", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(getContext(), "not removed", Toast.LENGTH_SHORT).show();
+
     }
 }
