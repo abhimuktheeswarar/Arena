@@ -11,6 +11,7 @@ import msa.arc.movies.MoviesFragment;
 @Module
 public abstract class FragmentBuildersModule {
 
+
     @ContributesAndroidInjector
     abstract MoviesFragment contributeMoviesFragment();
 }

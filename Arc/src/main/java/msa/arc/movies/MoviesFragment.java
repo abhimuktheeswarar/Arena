@@ -7,7 +7,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import msa.arc.R;
 import msa.arc.base.BaseFragment;
 
@@ -17,6 +21,9 @@ import msa.arc.base.BaseFragment;
  * create an instance of this fragment.
  */
 public class MoviesFragment extends BaseFragment {
+
+    @BindView(R.id.text_identifier)
+    TextView textView;
 
     MoviesViewModel moviesViewModel;
 
@@ -34,13 +41,20 @@ public class MoviesFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_movies, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_movies, container, false);
+        ButterKnife.bind(this, rootView);
+        return rootView;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         moviesViewModel = getViewModel(MoviesViewModel.class);
+        textView.setText(String.valueOf(moviesViewModel.a));
+    }
+
+    @OnClick(R.id.button_add)
+    void onClickAdd() {
+        moviesViewModel.add();
     }
 }
