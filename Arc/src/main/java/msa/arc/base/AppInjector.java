@@ -13,7 +13,6 @@ import dagger.android.support.AndroidSupportInjection;
 import dagger.android.support.HasSupportFragmentInjector;
 import msa.arc.ArcApp;
 import msa.arc.di.component.DaggerArcAppComponent;
-
 /**
  * Created by Abhimuktheeswarar on 08-06-2017.
  */

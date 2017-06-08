@@ -19,7 +19,7 @@ import msa.arena.data.repository.DataStoreFactory;
  * Created by Abhimuktheeswarar on 08-06-2017.
  */
 
-@Module(includes = ViewModelModule.class)
+@Module(includes = {ViewModelModule.class})
 public class ArcAppModule {
 
     @Provides
