@@ -23,6 +23,8 @@ class MovieTypedEpoxyController extends TypedEpoxyController<List<Movie>> implem
 
     private final BehaviorProcessor<Movie> movieBehaviorProcessor = BehaviorProcessor.create();
     private final BehaviorProcessor<Integer> integerBehaviorProcessor = BehaviorProcessor.create();
+
+
     private LinkedHashMap<String, Movie> linkedHashMap = new LinkedHashMap<>();
 
 

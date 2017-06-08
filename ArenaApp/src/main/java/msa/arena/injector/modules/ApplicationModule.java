@@ -61,7 +61,7 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    Repository provideMedikoeRepository(ArenaRepository medikoeRepository) {
+    Repository provideRepository(ArenaRepository medikoeRepository) {
         return medikoeRepository;
-  }
+    }
 }

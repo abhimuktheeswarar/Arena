@@ -2,6 +2,7 @@ allprojects {
     repositories {
         jcenter()
         maven { url 'https://jitpack.io' }
+        maven { url 'https://maven.google.com' }
         mavenCentral()
     }
 }
@@ -46,6 +47,9 @@ ext {
     //RxLibraries
     rxBindingVersion = '2.0.0'
 
+    //ArchitectureComponents
+    archCompVersion = '1.0.0-alpha1'
+
     //Testing
     robolectricVersion = '3.2.2'
     jUnitVersion = '4.12'
@@ -84,6 +88,10 @@ ext {
             epoxyProcessor        : "com.airbnb.android:epoxy-processor:${epoxyVersion}",
 
             rxBinding             : "com.jakewharton.rxbinding2:rxbinding:${rxBindingVersion}",
+
+            lifeCycleRuntime      : "android.arch.lifecycle:runtime:${archCompVersion}",
+            lifeCycleExtensions   : "android.arch.lifecycle:extensions:${archCompVersion}",
+            lifeCycleCompiler     : "android.arch.lifecycle:compiler:${archCompVersion}",
 
             androidAnnotations    : "com.android.support:support-annotations:${supportLibraryVersion}",
             leakCanary            : "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}",

@@ -1,21 +1,22 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'com.f2prateek.javafmt'
 
 android {
+
     def globalConfiguration = rootProject.extensions.getByName("ext")
 
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-
-        applicationId "msa.dagandapp"
-        minSdkVersion 19
+        applicationId "msa.arc"
+        minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
 
     compileOptions {
@@ -61,7 +62,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
@@ -99,6 +99,10 @@ dependencies {
     compile presentationDependencies.androidAnnotations
     compile presentationDependencies.leakCanary
 
+    compile presentationDependencies.lifeCycleRuntime
+    compile presentationDependencies.lifeCycleExtensions
+    annotationProcessor presentationDependencies.lifeCycleCompiler
+
     androidTestCompile presentationTestDependencies.androidAnnotations
     androidTestCompile presentationTestDependencies.junit
     androidTestCompile presentationTestDependencies.mockito
@@ -118,4 +122,5 @@ dependencies {
     //Development
     debugCompile developmentDependencies.leakCanary
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:support-v4:25.3.1'
 }

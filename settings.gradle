@@ -1,1 +1,1 @@
-include ':ArenaApp', ':Data', ':Domain', ':DagAndApp', ':Rehearsal'
+include ':ArenaApp', ':Data', ':Domain', ':DagAndApp', ':Rehearsal', ':Arc'

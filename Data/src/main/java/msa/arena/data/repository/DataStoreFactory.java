@@ -30,12 +30,12 @@ import msa.arena.data.repository.datasources.remote.RemoteDataSource;
  * Factory that creates different implementations of {@link BaseDataSource}.
  */
 @Singleton
-class DataStoreFactory {
+public class DataStoreFactory {
 
     private final Context context;
 
     @Inject
-    DataStoreFactory(@NonNull Context context) {
+    public DataStoreFactory(@NonNull Context context) {
         this.context = context.getApplicationContext();
     }
 

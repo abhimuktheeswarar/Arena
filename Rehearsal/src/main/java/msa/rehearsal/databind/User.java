@@ -1,5 +1,6 @@
 package msa.rehearsal.databind;
 
+import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableField;
 
@@ -7,7 +8,7 @@ import android.databinding.ObservableField;
  * Created by Abhimuktheeswarar on 07-06-2017.
  */
 
-public class User {
+public class User extends BaseObservable {
     public final ObservableField<String> middleName = new ObservableField<>();
     private String firstName;
     private String lastName;
