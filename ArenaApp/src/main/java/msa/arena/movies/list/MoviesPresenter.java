@@ -136,9 +136,10 @@ class MoviesPresenter implements BasePresenterInterface {
                     Log.d(TAG, "Loading...");
 
                 } else if (movieLce.hasError()) {
-                    Log.d(TAG, "Error found -> " + movieLce.getError().getMessage());
+                    Log.e(TAG, "Error found -> " + movieLce.getError().getMessage());
                     movieLce.getError();
                 } else {
+                    Log.d(TAG, "Movies received");
                     movieLce.getData();
                     if (movieLce.getData().getMovieId() != null) {
                         moviesView.loadMovieItem(

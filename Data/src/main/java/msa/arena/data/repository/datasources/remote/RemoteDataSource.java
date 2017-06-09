@@ -41,6 +41,7 @@ public class RemoteDataSource<T> implements BaseDataSource {
 
     private final ArenaApi arenaApi;
     private final Context context;
+    private boolean isInternetAvailable;
 
     public RemoteDataSource(ArenaApi arenaApi, Context context) {
         this.arenaApi = arenaApi;
@@ -48,6 +49,7 @@ public class RemoteDataSource<T> implements BaseDataSource {
         ReactiveNetwork.observeNetworkConnectivity(context).subscribe(new Consumer<Connectivity>() {
             @Override
             public void accept(@NonNull Connectivity connectivity) throws Exception {
+                isInternetAvailable = connectivity.isAvailable();
                 Log.d(TAG, "Is network available 0 = " + connectivity.isAvailable());
             }
         });
@@ -77,6 +79,158 @@ public class RemoteDataSource<T> implements BaseDataSource {
                 return Observable.fromIterable(movies);
             }
         });
+    }
+
+
+    @Override
+    public Observable<List<Movie>> getMovieList(int page) {
+        return null;
+    }
+
+    @Override
+    public Observable<List<Movie>> getMovieList2(int page) {
+        return null;
+    }
+
+    @Override
+    public Observable<LinkedHashMap<String, Movie>> getMovieHashes(int page) {
+        return null;
+    }
+
+    @Override
+    public Flowable<List<Movie>> getMovieFlow(int page) {
+        return null;
+    }
+
+    @Override
+    public Flowable<Movie> getMoviesTypeTwo(int page) {
+        return getFlow3(arenaApi.getMoviesTypeTwo()).flatMap(new Function<MovieListPojo, Publisher<Movie>>() {
+            @Override
+            public Publisher<Movie> apply(@NonNull MovieListPojo movieListPojo) throws Exception {
+                List<Movie> movies = new ArrayList<Movie>();
+                for (MovieListResult movieSearchResult : movieListPojo.getResults())
+                    movies.add(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false));
+                return Flowable.fromIterable(movies);
+            }
+        });
+    }
+
+    @Override
+    public Flowable<Lce<Movie>> getMoviesTypeTwoLce(int page) {
+
+        return ReactiveNetwork.observeNetworkConnectivity(context).map(new Function<Connectivity, Boolean>() {
+            @Override
+            public Boolean apply(@NonNull Connectivity connectivity) throws Exception {
+                return connectivity.isAvailable();
+            }
+        }).switchMap(new Function<Boolean, ObservableSource<Lce<Movie>>>() {
+            @Override
+            public ObservableSource<Lce<Movie>> apply(@NonNull Boolean aBoolean) throws Exception {
+                if (aBoolean)
+                    return arenaApi.getMoviesTypeTwo().toObservable().flatMap(new Function<MovieListPojo, ObservableSource<Lce<Movie>>>() {
+                        @Override
+                        public ObservableSource<Lce<Movie>> apply(@NonNull MovieListPojo movieListPojo) throws Exception {
+                            Log.d(TAG, "Loading movies...,,,");
+                            List<Lce<Movie>> movies = new ArrayList<>();
+                            int i = 0;
+                            Log.d(TAG, "Loading movie size = " + movieListPojo.getResults().size());
+                            for (MovieListResult movieSearchResult : movieListPojo.getResults()) {
+                                Log.d(TAG, "Loading movie = " + i);
+                                i++;
+                                movies.add(Lce.data(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false)));
+                            }
+                            return Observable.fromIterable(movies);
+                        }
+                    });
+                else return Observable.just(Lce.error(new Throwable("No network")));
+            }
+        }).startWith(Lce.loading()).toFlowable(BackpressureStrategy.BUFFER);
+
+        /*return arenaApi.getMoviesTypeTwo().flatMap(new Function<MovieListPojo, Publisher<Lce<Movie>>>() {
+            @Override
+            public Publisher<Lce<Movie>> apply(@NonNull MovieListPojo movieListPojo) throws Exception {
+                Log.d(TAG, "Loading movies...,,,");
+                List<Lce<Movie>> movies = new ArrayList<>();
+                int i = 0;
+                Log.d(TAG, "Loading movie size = " + movieListPojo.getResults().size());
+                for (MovieListResult movieSearchResult : movieListPojo.getResults()) {
+                    Log.d(TAG, "Loading movie = " + i);
+                    i++;
+                    movies.add(Lce.data(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false)));
+                }
+                return Flowable.fromIterable(movies);
+            }
+        }).retryWhen(new RetryWithDelay(5, 1000));*/
+
+        /*return ReactiveNetwork.observeNetworkConnectivity(context).toFlowable(BackpressureStrategy.BUFFER).switchMap(new Function<Connectivity, Publisher<Lce<Movie>>>() {
+            @Override
+            public Publisher<Lce<Movie>> apply(@NonNull Connectivity connectivity) throws Exception {
+                if (connectivity.isAvailable())
+                    return Flowable.just(Lce.error(new Throwable("No network")));
+                else
+                    return arenaApi.getMoviesTypeTwo().flatMap(new Function<MovieListPojo, Publisher<Lce<Movie>>>() {
+                        @Override
+                        public Publisher<Lce<Movie>> apply(@NonNull MovieListPojo movieListPojo) throws Exception {
+                            Log.d(TAG, "Loading movies...,,,");
+                            List<Lce<Movie>> movies = new ArrayList<>();
+                            int i = 0;
+                            Log.d(TAG, "Loading movie size = " + movieListPojo.getResults().size());
+                            for (MovieListResult movieSearchResult : movieListPojo.getResults()) {
+                                Log.d(TAG, "Loading movie = " + i);
+                                i++;
+                                movies.add(Lce.data(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false)));
+                            }
+                            return Flowable.fromIterable(movies);
+                        }
+                    });
+            }
+        });*/
+       /* return getFlow6(arenaApi.getMoviesTypeTwo()).flatMap(new Function<Lce<MovieListPojo>, Publisher<Lce<Movie>>>() {
+            @Override
+            public Publisher<Lce<Movie>> apply(@NonNull Lce<MovieListPojo> movieListPojoLce) throws Exception {
+                Log.d(TAG, "Loading movies...,,,");
+                List<Lce<Movie>> movies = new ArrayList<>();
+                int i = 0;
+                Log.d(TAG, "Loading movie size = " + movieListPojoLce.getData().getResults().size());
+                for (MovieListResult movieSearchResult : movieListPojoLce.getData().getResults()) {
+                    Log.d(TAG, "Loading movie = " + i);
+                    i++;
+                    movies.add(Lce.data(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false)));
+                }
+                return Flowable.fromIterable(movies);
+            }
+        });*/
+    }
+
+    @Override
+    public Observable<List<Movie>> searchMovie(String query) {
+        Log.d(TAG, "searchMovie = " + query);
+        return arenaApi.searchMovie(query).map(movieSearchPojo -> {
+            List<Movie> movies = new ArrayList<Movie>();
+            for (MovieSearchResult movieSearchResult : movieSearchPojo.getResults())
+                movies.add(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false));
+            return movies;
+        });
+    }
+
+    @Override
+    public Single<List<Movie>> searchForMovie(String query) {
+        Log.d(TAG, "searchForMovie = " + query);
+        return arenaApi.searchForMovie(query).map(movieSearchPojo -> {
+            List<Movie> movies = new ArrayList<Movie>();
+            for (MovieSearchResult movieSearchResult : movieSearchPojo.getResults())
+                movies.add(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false));
+            return movies;
+        });
+        /*return arenaApi.getMedicineSuggestions(new SearchSubmit(query)).map(new Function<List<SearchMedResult>, List<Movie>>() {
+            @Override
+            public List<Movie> apply(@NonNull List<SearchMedResult> searchMedResults) throws Exception {
+                List<Movie> movies = new ArrayList<Movie>();
+                for (SearchMedResult medResult : searchMedResults)
+                    movies.add(new Movie(String.valueOf(medResult.getId()), medResult.getTabletName()));
+                return movies;
+            }
+        });*/
     }
 
     private <V> Observable<V> getObs(Observable<V> observable) {
@@ -145,82 +299,75 @@ public class RemoteDataSource<T> implements BaseDataSource {
 
     }
 
-
-    @Override
-    public Observable<List<Movie>> getMovieList(int page) {
-        return null;
-    }
-
-    @Override
-    public Observable<List<Movie>> getMovieList2(int page) {
-        return null;
-    }
-
-    @Override
-    public Observable<LinkedHashMap<String, Movie>> getMovieHashes(int page) {
-        return null;
-    }
-
-    @Override
-    public Flowable<List<Movie>> getMovieFlow(int page) {
-        return null;
-    }
-
-    @Override
-    public Flowable<Movie> getMoviesTypeTwo(int page) {
-        return getFlow3(arenaApi.getMoviesTypeTwo()).flatMap(new Function<MovieListPojo, Publisher<Movie>>() {
+    private <V> Flowable<Lce<V>> getFlow4(Flowable<V> flowable) {
+        return ReactiveNetwork.observeNetworkConnectivity(context).toFlowable(BackpressureStrategy.BUFFER).switchMap(new Function<Connectivity, Publisher<? extends Lce<V>>>() {
             @Override
-            public Publisher<Movie> apply(@NonNull MovieListPojo movieListPojo) throws Exception {
-                List<Movie> movies = new ArrayList<Movie>();
-                for (MovieListResult movieSearchResult : movieListPojo.getResults())
-                    movies.add(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false));
-                return Flowable.fromIterable(movies);
+            public Publisher<? extends Lce<V>> apply(@NonNull Connectivity connectivity) throws Exception {
+                Log.d(TAG, "Is network available 1 = " + connectivity.isAvailable());
+                if (connectivity.isAvailable()) return null;
+                return Flowable.just(Lce.error(new Throwable("No network")));
+            }
+        });
+
+    }
+
+
+    private <V> Flowable<Lce<V>> getFlow5(Flowable<V> flowable) {
+        return ReactiveNetwork.observeNetworkConnectivity(context).toFlowable(BackpressureStrategy.BUFFER).switchMap(new Function<Connectivity, Publisher<? extends Lce<V>>>() {
+            @Override
+            public Publisher<? extends Lce<V>> apply(@NonNull Connectivity connectivity) throws Exception {
+                Log.d(TAG, "Is network available 1 = " + connectivity.isAvailable());
+                if (connectivity.isAvailable()) {
+                    Log.d(TAG, "Is network available 2 oh yeah = " + connectivity.isAvailable());
+                    return flowable.map(new Function<V, Lce<V>>() {
+                        @Override
+                        public Lce<V> apply(@NonNull V v) throws Exception {
+                            return Lce.data(v);
+                        }
+                    });
+                } else {
+                    Log.d(TAG, "Is network available 3 nooo = " + connectivity.isAvailable());
+                    return Flowable.just(Lce.error(new Throwable("No network")));
+                }
             }
         });
     }
 
-    @Override
-    public Flowable<Lce<Movie>> getMoviesTypeTwoLce(int page) {
-        return arenaApi.getMoviesTypeTwo().flatMap(new Function<MovieListPojo, Publisher<Lce<Movie>>>() {
+    private <V> Flowable<Lce<V>> getFlow6(Flowable<V> flowable) {
+        return ReactiveNetwork.observeNetworkConnectivity(context).repeatWhen(new Function<Observable<Object>, ObservableSource<?>>() {
             @Override
-            public Publisher<Lce<Movie>> apply(@NonNull MovieListPojo movieListPojo) throws Exception {
-                List<Lce<Movie>> movies = new ArrayList<>();
-                for (MovieListResult movieSearchResult : movieListPojo.getResults())
-                    movies.add(Lce.data(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false)));
-                if (page < 3) return Flowable.fromIterable(movies);
-                else return Flowable.just(Lce.error(new Throwable("Test error for Lce")));
+            public ObservableSource<?> apply(@NonNull Observable<Object> objectObservable) throws Exception {
+                Log.v(TAG, "repeatWhen, call");
+                /**
+                 * This is called only once.
+                 * 5 means each repeated call will be delayed by 5 seconds
+                 */
+                return objectObservable.delay(5, TimeUnit.SECONDS);
+            }
+        }).takeUntil(new Predicate<Connectivity>() {
+            @Override
+            public boolean test(@NonNull Connectivity connectivity) throws Exception {
+                return connectivity.isAvailable();
+            }
+        }).filter(new Predicate<Connectivity>() {
+            @Override
+            public boolean test(@NonNull Connectivity connectivity) throws Exception {
+                return connectivity.isAvailable();
+            }
+        }).toFlowable(BackpressureStrategy.BUFFER).flatMap(new Function<Connectivity, Publisher<Lce<V>>>() {
+            @Override
+            public Publisher<Lce<V>> apply(@NonNull Connectivity connectivity) throws Exception {
+                Log.d(TAG, "Is network available 1 = " + connectivity.isAvailable());
+                if (connectivity.isAvailable()) return flowable.map(new Function<V, Lce<V>>() {
+                    @Override
+                    public Lce<V> apply(@NonNull V v) throws Exception {
+                        return Lce.data(v);
+                    }
+                });
+                else return Flowable.just(Lce.error(new Throwable("No network")));
             }
         });
     }
 
-    @Override
-    public Observable<List<Movie>> searchMovie(String query) {
-        Log.d(TAG, "searchMovie = " + query);
-        return arenaApi.searchMovie(query).map(movieSearchPojo -> {
-            List<Movie> movies = new ArrayList<Movie>();
-            for (MovieSearchResult movieSearchResult : movieSearchPojo.getResults())
-                movies.add(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false));
-            return movies;
-        });
-    }
 
-    @Override
-    public Single<List<Movie>> searchForMovie(String query) {
-        Log.d(TAG, "searchForMovie = " + query);
-        return arenaApi.searchForMovie(query).map(movieSearchPojo -> {
-            List<Movie> movies = new ArrayList<Movie>();
-            for (MovieSearchResult movieSearchResult : movieSearchPojo.getResults())
-                movies.add(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false));
-            return movies;
-        });
-        /*return arenaApi.getMedicineSuggestions(new SearchSubmit(query)).map(new Function<List<SearchMedResult>, List<Movie>>() {
-            @Override
-            public List<Movie> apply(@NonNull List<SearchMedResult> searchMedResults) throws Exception {
-                List<Movie> movies = new ArrayList<Movie>();
-                for (SearchMedResult medResult : searchMedResults)
-                    movies.add(new Movie(String.valueOf(medResult.getId()), medResult.getTabletName()));
-                return movies;
-            }
-        });*/
-    }
 }

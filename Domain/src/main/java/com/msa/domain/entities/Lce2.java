@@ -5,10 +5,10 @@ package com.msa.domain.entities;
  */
 
 // Lce -> Loading / Content / Error
-public abstract class Lce<T> {
+public abstract class Lce2<T> {
 
-    public static <T> Lce<T> data(final T data) {
-        return new Lce<T>() {
+    public static <T> Lce2<T> data(final T data) {
+        return new Lce2<T>() {
             @Override
             public boolean isLoading() {
                 return false;
@@ -32,8 +32,8 @@ public abstract class Lce<T> {
     }
 
 
-    public static <T> Lce<T> error(final Throwable error) {
-        return new Lce<T>() {
+    public static <T> Lce2<T> error(final Throwable error) {
+        return new Lce2<T>() {
             @Override
             public boolean isLoading() {
                 return false;
@@ -57,8 +57,8 @@ public abstract class Lce<T> {
     }
 
 
-    public static <T> Lce<T> loading() {
-        return new Lce<T>() {
+    public static <T> Lce2<T> loading() {
+        return new Lce2<T>() {
             @Override
             public boolean isLoading() {
                 return true;
