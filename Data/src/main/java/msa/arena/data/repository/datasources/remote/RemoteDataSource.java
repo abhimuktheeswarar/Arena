@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -38,6 +39,11 @@ public class RemoteDataSource implements BaseDataSource {
 
     @Override
     public Observable<User> getUser() {
+        return null;
+    }
+
+    @Override
+    public Completable updateUser(User user) {
         return null;
     }
 

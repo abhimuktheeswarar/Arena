@@ -31,7 +31,7 @@ public class ArenaRepository implements Repository {
 
     @Override
     public Observable<User> getUser() {
-        return dataStoreFactory.createDummyDataSource().getUser();
+        return dataStoreFactory.createSharedPreferenceDataSource().getUser();
     }
 
     @Override

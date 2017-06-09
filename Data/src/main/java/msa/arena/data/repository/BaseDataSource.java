@@ -6,6 +6,7 @@ import com.msa.domain.entities.User;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -17,6 +18,8 @@ import io.reactivex.Single;
 public interface BaseDataSource {
 
     Observable<User> getUser();
+
+    Completable updateUser(User user);
 
     Observable<Movie> getMovies(int page);
 

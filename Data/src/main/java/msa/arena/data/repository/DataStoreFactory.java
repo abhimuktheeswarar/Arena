@@ -22,6 +22,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import msa.arena.data.repository.datasources.dummy.DummyDataSource;
+import msa.arena.data.repository.datasources.local.sp.SharedPreferenceDataSource;
 import msa.arena.data.repository.datasources.remote.ArenaApi;
 import msa.arena.data.repository.datasources.remote.RemoteConnection;
 import msa.arena.data.repository.datasources.remote.RemoteDataSource;
@@ -49,5 +50,9 @@ public class DataStoreFactory {
 
     DummyDataSource createDummyDataSource() {
         return new DummyDataSource();
+    }
+
+    SharedPreferenceDataSource createSharedPreferenceDataSource() {
+        return new SharedPreferenceDataSource(context);
     }
 }

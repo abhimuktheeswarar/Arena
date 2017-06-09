@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 import io.reactivex.BackpressureStrategy;
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -36,6 +37,11 @@ public class DummyDataSource implements BaseDataSource {
     @Override
     public Observable<User> getUser() {
         return Observable.just(new User("id1234", "Iron Man"));
+    }
+
+    @Override
+    public Completable updateUser(User user) {
+        return null;
     }
 
     @Override
