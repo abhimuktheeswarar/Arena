@@ -1,8 +1,11 @@
 package msa.arena.data.repository.datasources.dummy;
 
 import android.accounts.NetworkErrorException;
+import android.content.Context;
 import android.util.Log;
 
+import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity;
+import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.msa.domain.entities.Movie;
 import com.msa.domain.entities.User;
 
@@ -17,6 +20,7 @@ import io.reactivex.BackpressureStrategy;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
@@ -30,9 +34,23 @@ import msa.arena.data.repository.BaseDataSource;
 public class DummyDataSource implements BaseDataSource {
 
     private static final String TAG = DummyDataSource.class.getSimpleName();
-
+    private final Context context;
     Observable<Movie> movieObservable;
     Flowable<Movie> movieFlowable;
+
+    public DummyDataSource(Context context) {
+        this.context = context;
+    }
+
+    private <V> Observable<V> getObs(Observable<V> observable) {
+        return ReactiveNetwork.observeNetworkConnectivity(context).switchMap(new Function<Connectivity, ObservableSource<? extends V>>() {
+            @Override
+            public ObservableSource<? extends V> apply(@NonNull Connectivity connectivity) throws Exception {
+                if (connectivity.isAvailable()) return observable;
+                else return Observable.error(new Throwable("no internet"));
+            }
+        });
+    }
 
     @Override
     public Observable<User> getUser() {

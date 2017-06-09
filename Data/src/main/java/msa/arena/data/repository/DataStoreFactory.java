@@ -45,11 +45,11 @@ public class DataStoreFactory {
      */
     RemoteDataSource createRemoteDataSource() {
 
-        return new RemoteDataSource(RemoteConnection.createService(ArenaApi.class));
+        return new RemoteDataSource(RemoteConnection.createService(ArenaApi.class), context);
     }
 
     DummyDataSource createDummyDataSource() {
-        return new DummyDataSource();
+        return new DummyDataSource(context);
     }
 
     SharedPreferenceDataSource createSharedPreferenceDataSource() {

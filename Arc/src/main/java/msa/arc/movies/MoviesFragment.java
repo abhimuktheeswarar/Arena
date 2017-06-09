@@ -115,8 +115,8 @@ public class MoviesFragment extends BaseFragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        super.onStop();
         compositeDisposable.dispose();
     }
 }
