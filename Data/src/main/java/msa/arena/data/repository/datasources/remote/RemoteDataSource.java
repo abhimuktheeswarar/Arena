@@ -11,6 +11,7 @@ import com.msa.domain.entities.User;
 
 import org.reactivestreams.Publisher;
 
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -30,6 +31,7 @@ import msa.arena.data.entities.remote.MovieSearchResult;
 import msa.arena.data.entities.remote.list.MovieListPojo;
 import msa.arena.data.entities.remote.list.MovieListResult;
 import msa.arena.data.repository.BaseDataSource;
+import retrofit2.HttpException;
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.
@@ -118,7 +120,59 @@ public class RemoteDataSource<T> implements BaseDataSource {
     @Override
     public Flowable<Lce<Movie>> getMoviesTypeTwoLce(int page) {
 
-        return ReactiveNetwork.observeNetworkConnectivity(context).map(new Function<Connectivity, Boolean>() {
+        return arenaApi.getMoviesTypeTwo().flatMap(new Function<MovieListPojo, Publisher<Lce<Movie>>>() {
+            @Override
+            public Publisher<Lce<Movie>> apply(@NonNull MovieListPojo movieListPojo) throws Exception {
+                Log.d(TAG, "Loading movies...,,,");
+                List<Lce<Movie>> movies = new ArrayList<>();
+                int i = 0;
+                Log.d(TAG, "Loading movie size = " + movieListPojo.getResults().size());
+                for (MovieListResult movieSearchResult : movieListPojo.getResults()) {
+                    Log.d(TAG, "Loading movie = " + i);
+                    i++;
+                    movies.add(Lce.data(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false)));
+                }
+                return Flowable.fromIterable(movies);
+            }
+        }).onErrorReturn(new Function<Throwable, Lce<Movie>>() {
+            @Override
+            public Lce<Movie> apply(@NonNull Throwable throwable) throws Exception {
+                if (throwable instanceof UnknownHostException || throwable instanceof HttpException)
+                    return Lce.error(new Throwable("No network dude"));
+                else return Lce.error(new Throwable("No network dude 2"));
+            }
+        }).startWith(Lce.loading());
+
+        /*return ReactiveNetwork.observeNetworkConnectivity(context).toFlowable(BackpressureStrategy.BUFFER).map(new Function<Connectivity, Boolean>() {
+            @Override
+            public Boolean apply(@NonNull Connectivity connectivity) throws Exception {
+                return connectivity.isAvailable();
+            }
+        }).switchMap(new Function<Boolean, Publisher<? extends Lce<Movie>>>() {
+            @Override
+            public Publisher<? extends Lce<Movie>> apply(@NonNull Boolean aBoolean) throws Exception {
+                if (aBoolean)
+                    return arenaApi.getMoviesTypeTwo().flatMap(new Function<MovieListPojo, Publisher<Lce<Movie>>>() {
+                        @Override
+                        public Publisher<Lce<Movie>> apply(@NonNull MovieListPojo movieListPojo) throws Exception {
+                            Log.d(TAG, "Loading movies...,,,");
+                            List<Lce<Movie>> movies = new ArrayList<>();
+                            int i = 0;
+                            Log.d(TAG, "Loading movie size = " + movieListPojo.getResults().size());
+                            for (MovieListResult movieSearchResult : movieListPojo.getResults()) {
+                                Log.d(TAG, "Loading movie = " + i);
+                                i++;
+                                movies.add(Lce.data(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false)));
+                            }
+                            return Flowable.fromIterable(movies);
+                        }
+                    });
+                else return Flowable.just(Lce.error(new Throwable("No network")));
+            }
+        }).startWith(Lce.loading());*/
+
+
+        /*return ReactiveNetwork.observeNetworkConnectivity(context).map(new Function<Connectivity, Boolean>() {
             @Override
             public Boolean apply(@NonNull Connectivity connectivity) throws Exception {
                 return connectivity.isAvailable();
@@ -144,7 +198,7 @@ public class RemoteDataSource<T> implements BaseDataSource {
                     });
                 else return Observable.just(Lce.error(new Throwable("No network")));
             }
-        }).startWith(Lce.loading()).toFlowable(BackpressureStrategy.BUFFER);
+        }).startWith(Lce.loading()).toFlowable(BackpressureStrategy.BUFFER);*/
 
         /*return arenaApi.getMoviesTypeTwo().flatMap(new Function<MovieListPojo, Publisher<Lce<Movie>>>() {
             @Override

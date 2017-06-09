@@ -154,11 +154,13 @@ class MoviesPresenter implements BasePresenterInterface {
 
             @Override
             public void onError(Throwable t) {
+                Log.e(TAG, t.getMessage());
 
             }
 
             @Override
             public void onComplete() {
+                Log.d(TAG, "onComplete");
 
             }
         };
@@ -217,6 +219,7 @@ class MoviesPresenter implements BasePresenterInterface {
     }
 
     void onLoadMore(int page) {
+        Log.d(TAG, "onLoadMore = " + page);
         paginator.onNext(page);
     }
 
