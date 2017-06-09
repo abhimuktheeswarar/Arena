@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.msa.domain.entities.Lce;
 import com.msa.domain.entities.Movie;
 import com.msa.domain.entities.User;
 
@@ -96,6 +97,11 @@ public class SharedPreferenceDataSource implements BaseDataSource {
 
     @Override
     public Flowable<Movie> getMoviesTypeTwo(int page) {
+        return null;
+    }
+
+    @Override
+    public Flowable<Lce<Movie>> getMoviesTypeTwoLce(int page) {
         return null;
     }
 

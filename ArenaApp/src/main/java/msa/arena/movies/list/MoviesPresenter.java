@@ -2,9 +2,11 @@ package msa.arena.movies.list;
 
 import android.util.Log;
 
+import com.msa.domain.entities.Lce;
 import com.msa.domain.entities.Movie;
 import com.msa.domain.usecases.GetMoviesTypeOne;
 import com.msa.domain.usecases.GetMoviesTypeTwo;
+import com.msa.domain.usecases.GetMoviesTypeTwoLce;
 
 import org.reactivestreams.Publisher;
 
@@ -31,20 +33,24 @@ class MoviesPresenter implements BasePresenterInterface {
 
     private final GetMoviesTypeOne getMoviesTypeOne;
     private final GetMoviesTypeTwo getMoviesTypeTwo;
+    private final GetMoviesTypeTwoLce getMoviesTypeTwoLce;
     private MoviesView moviesView;
     private PublishProcessor<Integer> paginator;
     private DisposableSubscriber<Movie> disMovSubs;
+    private DisposableSubscriber<Lce<Movie>> disposableSubscriber;
 
     @Inject
-    MoviesPresenter(GetMoviesTypeOne getMoviesTypeOne, GetMoviesTypeTwo getMoviesTypeTwo) {
+    MoviesPresenter(GetMoviesTypeOne getMoviesTypeOne, GetMoviesTypeTwo getMoviesTypeTwo, GetMoviesTypeTwoLce getMoviesTypeTwoLce) {
         this.getMoviesTypeOne = getMoviesTypeOne;
         this.getMoviesTypeTwo = getMoviesTypeTwo;
+        this.getMoviesTypeTwoLce = getMoviesTypeTwoLce;
     }
 
     @Override
     public void initializePresenter() {
         paginator = PublishProcessor.create();
-        setupSubscriberTypeTwo();
+        //setupSubscriberTypeTwo();
+        setupSubscriberTypeTwoLce();
         onLoadMore(0);
     }
 
@@ -70,7 +76,8 @@ class MoviesPresenter implements BasePresenterInterface {
 
     @Override
     public void onStop() {
-        disMovSubs.dispose();
+        //disMovSubs.dispose();
+        disposableSubscriber.dispose();
     }
 
     @Override
@@ -118,6 +125,43 @@ class MoviesPresenter implements BasePresenterInterface {
                             }
                         })
                 .subscribe(disMovSubs);
+    }
+
+    private void setupSubscriberTypeTwoLce() {
+
+        disposableSubscriber = new DisposableSubscriber<Lce<Movie>>() {
+            @Override
+            public void onNext(Lce<Movie> movieLce) {
+                movieLce.getData();
+                if (movieLce.getData().getMovieId() != null) {
+                    moviesView.loadMovieItem(
+                            new MoviesItem_().movieId(movieLce.getData().getMovieId()).movieName(movieLce.getData().getMovieName()));
+                } else {
+                    Log.d(TAG, "Movie is empty");
+                    paginator.onComplete();
+                }
+            }
+
+            @Override
+            public void onError(Throwable t) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        };
+
+        paginator
+                .concatMap(
+                        new Function<Integer, Publisher<Lce<Movie>>>() {
+                            @Override
+                            public Publisher<Lce<Movie>> apply(@NonNull Integer integer) throws Exception {
+                                return getMoviesTypeTwoLce.execute(integer);
+                            }
+                        })
+                .subscribe(disposableSubscriber);
     }
 
     @Deprecated

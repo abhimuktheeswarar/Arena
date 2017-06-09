@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity;
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
+import com.msa.domain.entities.Lce;
 import com.msa.domain.entities.Movie;
 import com.msa.domain.entities.User;
 
@@ -120,6 +121,11 @@ public class DummyDataSource implements BaseDataSource {
         //if (page < 5) return Flowable.fromIterable(movieList);
         //else return Flowable.empty();
 
+    }
+
+    @Override
+    public Flowable<Lce<Movie>> getMoviesTypeTwoLce(int page) {
+        return null;
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity;
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
+import com.msa.domain.entities.Lce;
 import com.msa.domain.entities.Movie;
 import com.msa.domain.entities.User;
 
@@ -13,6 +14,7 @@ import org.reactivestreams.Publisher;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Completable;
@@ -23,6 +25,7 @@ import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 import msa.arena.data.entities.remote.MovieSearchResult;
 import msa.arena.data.entities.remote.list.MovieListPojo;
 import msa.arena.data.entities.remote.list.MovieListResult;
@@ -98,6 +101,51 @@ public class RemoteDataSource<T> implements BaseDataSource {
     }
 
 
+    private <V> Flowable<V> getFlow2(Flowable<V> flowable) {
+        return ReactiveNetwork.observeNetworkConnectivity(context).repeatWhen(new Function<Observable<Object>, ObservableSource<?>>() {
+            @Override
+            public ObservableSource<?> apply(@NonNull Observable<Object> objectObservable) throws Exception {
+                Log.v(TAG, "repeatWhen, call");
+                /**
+                 * This is called only once.
+                 * 5 means each repeated call will be delayed by 5 seconds
+                 */
+                return objectObservable.delay(5, TimeUnit.SECONDS);
+            }
+        }).takeUntil(new Predicate<Connectivity>() {
+            @Override
+            public boolean test(@NonNull Connectivity connectivity) throws Exception {
+                return connectivity.isAvailable();
+            }
+        }).filter(new Predicate<Connectivity>() {
+            @Override
+            public boolean test(@NonNull Connectivity connectivity) throws Exception {
+                return connectivity.isAvailable();
+            }
+        }).toFlowable(BackpressureStrategy.BUFFER).flatMap(new Function<Connectivity, Publisher<V>>() {
+            @Override
+            public Publisher<V> apply(@NonNull Connectivity connectivity) throws Exception {
+                return flowable;
+            }
+        });
+    }
+
+    private <V> Flowable<V> getFlow3(Flowable<V> flowable) {
+        return ReactiveNetwork.observeNetworkConnectivity(context).toFlowable(BackpressureStrategy.BUFFER).filter(new Predicate<Connectivity>() {
+            @Override
+            public boolean test(@NonNull Connectivity connectivity) throws Exception {
+                return connectivity.isAvailable();
+            }
+        }).flatMap(new Function<Connectivity, Publisher<V>>() {
+            @Override
+            public Publisher<V> apply(@NonNull Connectivity connectivity) throws Exception {
+                return flowable;
+            }
+        });
+
+    }
+
+
     @Override
     public Observable<List<Movie>> getMovieList(int page) {
         return null;
@@ -120,12 +168,25 @@ public class RemoteDataSource<T> implements BaseDataSource {
 
     @Override
     public Flowable<Movie> getMoviesTypeTwo(int page) {
-        return getFlow(arenaApi.getMoviesTypeTwo()).flatMap(new Function<MovieListPojo, Publisher<Movie>>() {
+        return getFlow3(arenaApi.getMoviesTypeTwo()).flatMap(new Function<MovieListPojo, Publisher<Movie>>() {
             @Override
             public Publisher<Movie> apply(@NonNull MovieListPojo movieListPojo) throws Exception {
                 List<Movie> movies = new ArrayList<Movie>();
                 for (MovieListResult movieSearchResult : movieListPojo.getResults())
                     movies.add(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false));
+                return Flowable.fromIterable(movies);
+            }
+        });
+    }
+
+    @Override
+    public Flowable<Lce<Movie>> getMoviesTypeTwoLce(int page) {
+        return arenaApi.getMoviesTypeTwo().flatMap(new Function<MovieListPojo, Publisher<Lce<Movie>>>() {
+            @Override
+            public Publisher<Lce<Movie>> apply(@NonNull MovieListPojo movieListPojo) throws Exception {
+                List<Lce<Movie>> movies = new ArrayList<>();
+                for (MovieListResult movieSearchResult : movieListPojo.getResults())
+                    movies.add(Lce.data(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false)));
                 return Flowable.fromIterable(movies);
             }
         });

@@ -1,6 +1,7 @@
 package msa.arena.data.repository;
 
 import com.msa.domain.Repository;
+import com.msa.domain.entities.Lce;
 import com.msa.domain.entities.Movie;
 import com.msa.domain.entities.User;
 
@@ -71,6 +72,11 @@ public class ArenaRepository implements Repository {
     @Override
     public Flowable<Movie> getMoviesTypeTwo(int page) {
         return dataStoreFactory.createRemoteDataSource().getMoviesTypeTwo(page);
+    }
+
+    @Override
+    public Flowable<Lce<Movie>> getMoviesTypeTwoLce(int page) {
+        return dataStoreFactory.createRemoteDataSource().getMoviesTypeTwoLce(page);
     }
 
     @Override

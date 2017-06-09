@@ -1,5 +1,6 @@
 package com.msa.domain;
 
+import com.msa.domain.entities.Lce;
 import com.msa.domain.entities.Movie;
 import com.msa.domain.entities.User;
 
@@ -33,6 +34,8 @@ public interface Repository {
     Flowable<List<Movie>> getMovieFlow(int page);
 
     Flowable<Movie> getMoviesTypeTwo(int page);
+
+    Flowable<Lce<Movie>> getMoviesTypeTwoLce(int page);
 
     Observable<List<Movie>> searchMovie(String query);
 
