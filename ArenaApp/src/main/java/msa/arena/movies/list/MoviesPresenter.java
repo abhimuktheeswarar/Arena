@@ -132,14 +132,23 @@ class MoviesPresenter implements BasePresenterInterface {
         disposableSubscriber = new DisposableSubscriber<Lce<Movie>>() {
             @Override
             public void onNext(Lce<Movie> movieLce) {
-                movieLce.getData();
-                if (movieLce.getData().getMovieId() != null) {
-                    moviesView.loadMovieItem(
-                            new MoviesItem_().movieId(movieLce.getData().getMovieId()).movieName(movieLce.getData().getMovieName()));
+                if (movieLce.isLoading()) {
+                    Log.d(TAG, "Loading...");
+
+                } else if (movieLce.hasError()) {
+                    Log.d(TAG, "Error found -> " + movieLce.getError().getMessage());
+                    movieLce.getError();
                 } else {
-                    Log.d(TAG, "Movie is empty");
-                    paginator.onComplete();
+                    movieLce.getData();
+                    if (movieLce.getData().getMovieId() != null) {
+                        moviesView.loadMovieItem(
+                                new MoviesItem_().movieId(movieLce.getData().getMovieId()).movieName(movieLce.getData().getMovieName()));
+                    } else {
+                        Log.d(TAG, "Movie is empty");
+                        paginator.onComplete();
+                    }
                 }
+
             }
 
             @Override

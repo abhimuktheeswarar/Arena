@@ -187,7 +187,8 @@ public class RemoteDataSource<T> implements BaseDataSource {
                 List<Lce<Movie>> movies = new ArrayList<>();
                 for (MovieListResult movieSearchResult : movieListPojo.getResults())
                     movies.add(Lce.data(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false)));
-                return Flowable.fromIterable(movies);
+                if (page < 3) return Flowable.fromIterable(movies);
+                else return Flowable.just(Lce.error(new Throwable("Test error for Lce")));
             }
         });
     }
