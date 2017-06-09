@@ -10,9 +10,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.msa.domain.entities.User;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import msa.arc.R;
 import msa.arc.base.BaseFragment;
 
@@ -56,6 +60,14 @@ public class MoviesFragment extends BaseFragment {
         moviesViewModel.add();
         if (movieChildFragment == null) movieChildFragment = MovieChildFragment.newInstance();
         getChildFragmentManager().beginTransaction().replace(R.id.fragment_container, movieChildFragment, MovieChildFragment.class.getSimpleName()).commit();
+
+        moviesViewModel.getUser().subscribe(new Consumer<User>() {
+            @Override
+            public void accept(@NonNull User user) throws Exception {
+                textView.setText(user.getDisplayName());
+
+            }
+        });
     }
 
     @OnClick(R.id.button_remove)

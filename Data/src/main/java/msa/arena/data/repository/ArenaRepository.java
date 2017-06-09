@@ -2,6 +2,7 @@ package msa.arena.data.repository;
 
 import com.msa.domain.Repository;
 import com.msa.domain.entities.Movie;
+import com.msa.domain.entities.User;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -27,6 +28,11 @@ public class ArenaRepository implements Repository {
         this.dataStoreFactory = dataStoreFactory;
     }
 
+
+    @Override
+    public Observable<User> getUser() {
+        return dataStoreFactory.createDummyDataSource().getUser();
+    }
 
     @Override
     public Observable<Movie> getMovies(int page) {

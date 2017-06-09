@@ -1,6 +1,7 @@
 package msa.arena.data.repository;
 
 import com.msa.domain.entities.Movie;
+import com.msa.domain.entities.User;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -14,6 +15,8 @@ import io.reactivex.Single;
  */
 
 public interface BaseDataSource {
+
+    Observable<User> getUser();
 
     Observable<Movie> getMovies(int page);
 

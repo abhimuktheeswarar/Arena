@@ -1,6 +1,7 @@
 package com.msa.domain;
 
 import com.msa.domain.entities.Movie;
+import com.msa.domain.entities.User;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,6 +16,8 @@ import io.reactivex.Single;
 
 public interface Repository {
 
+
+    Observable<User> getUser();
 
     Observable<Movie> getMovies(int page);
 

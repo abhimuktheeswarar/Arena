@@ -4,6 +4,7 @@ import android.accounts.NetworkErrorException;
 import android.util.Log;
 
 import com.msa.domain.entities.Movie;
+import com.msa.domain.entities.User;
 
 import org.reactivestreams.Publisher;
 
@@ -31,6 +32,11 @@ public class DummyDataSource implements BaseDataSource {
 
     Observable<Movie> movieObservable;
     Flowable<Movie> movieFlowable;
+
+    @Override
+    public Observable<User> getUser() {
+        return Observable.just(new User("id1234", "Iron Man"));
+    }
 
     @Override
     public Observable<Movie> getMovies(int page) {

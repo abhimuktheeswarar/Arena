@@ -3,6 +3,7 @@ package msa.arena.data.repository.datasources.remote;
 import android.util.Log;
 
 import com.msa.domain.entities.Movie;
+import com.msa.domain.entities.User;
 
 import org.reactivestreams.Publisher;
 
@@ -33,6 +34,11 @@ public class RemoteDataSource implements BaseDataSource {
 
     public RemoteDataSource(ArenaApi arenaApi) {
         this.arenaApi = arenaApi;
+    }
+
+    @Override
+    public Observable<User> getUser() {
+        return null;
     }
 
     @Override

@@ -15,8 +15,6 @@
  */
 package com.msa.domain.interactor;
 
-import com.fernandocejas.arrow.checks.Preconditions;
-
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 import io.reactivex.observers.DisposableObserver;
@@ -51,7 +49,6 @@ public abstract class UseCaseTypeThree<T, Params> {
      * @param params Parameters (Optional) used to build/execute this use case.
      */
     public Observable<T> execute(Params params) {
-        Preconditions.checkNotNull(params);
         return this.buildUseCaseObservable(params)
                 .subscribeOn(mExecutorThread)
                 .observeOn(mUiThread);

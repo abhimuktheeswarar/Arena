@@ -67,6 +67,8 @@ dependencies {
     //compile dataDependencies.retrofitAdapaterGson
     compile dataDependencies.rxCallAdapter
 
+    compile dataDependencies.rxPreferences
+
 
     androidTestCompile testDependencies.junit
     androidTestCompile testDependencies.assertj
