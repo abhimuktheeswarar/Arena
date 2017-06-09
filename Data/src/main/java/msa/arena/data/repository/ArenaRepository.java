@@ -10,6 +10,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -32,6 +33,11 @@ public class ArenaRepository implements Repository {
     @Override
     public Observable<User> getUser() {
         return dataStoreFactory.createSharedPreferenceDataSource().getUser();
+    }
+
+    @Override
+    public Completable updateUser(User user) {
+        return dataStoreFactory.createSharedPreferenceDataSource().updateUser(user);
     }
 
     @Override

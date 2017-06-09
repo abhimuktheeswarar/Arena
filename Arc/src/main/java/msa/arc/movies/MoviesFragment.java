@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import msa.arc.R;
 import msa.arc.base.BaseFragment;
@@ -30,9 +32,17 @@ public class MoviesFragment extends BaseFragment {
     @BindView(R.id.text_identifier)
     TextView textView;
 
+    @BindView(R.id.text_name)
+    TextView textView_Name;
+
+    @BindView(R.id.edit_name)
+    EditText editText_Name;
+
     MoviesViewModel moviesViewModel;
 
     MovieChildFragment movieChildFragment;
+
+    CompositeDisposable compositeDisposable;
 
     public static MoviesFragment newInstance() {
         MoviesFragment fragment = new MoviesFragment();
@@ -77,5 +87,36 @@ public class MoviesFragment extends BaseFragment {
             Toast.makeText(getContext(), "removed", Toast.LENGTH_SHORT).show();
         } else Toast.makeText(getContext(), "not removed", Toast.LENGTH_SHORT).show();
 
+    }
+
+    @OnClick(R.id.button_update)
+    void onClickUpdate() {
+        if (editText_Name.getText().toString() != null && editText_Name.getText().toString().length() > 0)
+            compositeDisposable.add(moviesViewModel.updateUser(editText_Name.getText().toString()).subscribe());
+        else Toast.makeText(getContext(), "Invalid user name", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        compositeDisposable = new CompositeDisposable();
+        bind();
+    }
+
+    private void bind() {
+        compositeDisposable.add(moviesViewModel.getUser().subscribe(new Consumer<User>() {
+            @Override
+            public void accept(@NonNull User user) throws Exception {
+                textView_Name.setText(user.getDisplayName());
+
+            }
+        }));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.dispose();
     }
 }

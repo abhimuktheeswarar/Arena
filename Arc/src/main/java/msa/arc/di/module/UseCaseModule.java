@@ -6,6 +6,7 @@ import com.msa.domain.usecases.GetMoviesTypeOne;
 import com.msa.domain.usecases.GetMoviesTypeThree;
 import com.msa.domain.usecases.GetMoviesTypeTwo;
 import com.msa.domain.usecases.GetUserTypeOne;
+import com.msa.domain.usecases.UpdateUserTypeOne;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -25,6 +26,11 @@ public class UseCaseModule {
     @Singleton
     GetUserTypeOne provideGetUserTypeOneUseCase(Repository repository, @Named("executor_thread") Scheduler mUiThread, @Named("ui_thread") Scheduler mExecutorThread) {
         return new GetUserTypeOne(repository, mUiThread, mExecutorThread);
+    }
+
+    @Provides
+    UpdateUserTypeOne provideUpdateUserTypeOneUseCase(Repository repository, @Named("executor_thread") Scheduler mUiThread, @Named("ui_thread") Scheduler mExecutorThread) {
+        return new UpdateUserTypeOne(repository, mUiThread, mExecutorThread);
     }
 
     @Provides

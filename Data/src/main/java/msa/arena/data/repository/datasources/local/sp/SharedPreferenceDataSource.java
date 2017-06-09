@@ -8,6 +8,8 @@ import com.f2prateek.rx.preferences2.RxSharedPreferences;
 import com.msa.domain.entities.Movie;
 import com.msa.domain.entities.User;
 
+import org.reactivestreams.Subscription;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -18,7 +20,9 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Consumer;
+import io.reactivex.processors.PublishProcessor;
+import io.reactivex.processors.ReplayProcessor;
 import msa.arena.data.repository.BaseDataSource;
 
 /**
@@ -28,10 +32,16 @@ import msa.arena.data.repository.BaseDataSource;
 public class SharedPreferenceDataSource implements BaseDataSource {
 
 
+    private final String TAG = SharedPreferenceDataSource.class.getSimpleName();
     private final Context context;
     private final SharedPreferences sharedPreferences;
     private final RxSharedPreferences rxSharedPreferences;
     private final Observable<User> userObservable;
+    private final PublishProcessor<User> publishProcessor;
+    private final ReplayProcessor<User> userReplayProcessor;
+
+    private final String USER_ID = "userId";
+    private final String DISPLAY_NAME = "displayName";
 
     public SharedPreferenceDataSource(Context context) {
         this.context = context;
@@ -44,23 +54,47 @@ public class SharedPreferenceDataSource implements BaseDataSource {
 
             }
         });
+
+        publishProcessor = PublishProcessor.create();
+        publishProcessor.doOnSubscribe(new Consumer<Subscription>() {
+            @Override
+            public void accept(@NonNull Subscription subscription) throws Exception {
+                //Log.d(TAG, "doOnSubscribe called");
+                publishProcessor.onNext(getUserData());
+            }
+        });
+
+        userReplayProcessor = ReplayProcessor.create();
+        userReplayProcessor.onNext(getUserData());
+
+
+        sharedPreferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                if (key.equals(USER_ID) || key.equals(DISPLAY_NAME)) {
+                    userReplayProcessor.onNext(getUserData());
+                }
+            }
+        });
+    }
+
+    private User getUserData() {
+        return new User(sharedPreferences.getString(USER_ID, "id_"), sharedPreferences.getString(DISPLAY_NAME, "NA"));
     }
 
 
     @Override
     public Observable<User> getUser() {
-        return Observable.zip(rxSharedPreferences.getString("userId", "empty").asObservable(), rxSharedPreferences.getString("displayName", "notSet").asObservable(), new BiFunction<String, String, User>() {
-            @Override
-            public User apply(@NonNull String userId, @NonNull String displayName) throws Exception {
-                return new User(userId, displayName);
-            }
-        });
+        return userReplayProcessor.toObservable();
     }
 
     @Override
     public Completable updateUser(User user) {
-        //rxSharedPreferences.getString("").asConsumer(user.getDisplayName());
-        return null;
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(USER_ID, user.getUserId()).apply();
+        editor.putString(DISPLAY_NAME, user.getDisplayName());
+        if (editor.commit()) return Completable.complete();
+        else return Completable.error(new Throwable("Error updating user"));
     }
 
     @Override
