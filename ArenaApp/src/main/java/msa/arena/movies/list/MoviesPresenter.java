@@ -100,7 +100,7 @@ class MoviesPresenter implements BasePresenterInterface {
                     @Override
                     public void onError(Throwable throwable) {
                         moviesView.onError(throwable.getMessage());
-                        Log.e(TAG, throwable.getMessage());
+                        Log.e(TAG, throwable.getMessage() != null ? throwable.getMessage() : "Some error");
                     }
 
                     @Override
@@ -114,7 +114,7 @@ class MoviesPresenter implements BasePresenterInterface {
                         new Function<Integer, Publisher<Movie>>() {
                             @Override
                             public Publisher<Movie> apply(@NonNull Integer integer) throws Exception {
-                return getMoviesTypeTwo.execute(integer);
+                                return getMoviesTypeTwo.execute(integer);
                             }
                         })
                 .subscribe(disMovSubs);
@@ -129,35 +129,35 @@ class MoviesPresenter implements BasePresenterInterface {
                         new Function<Integer, Publisher<Movie>>() {
                             @Override
                             public Publisher<Movie> apply(@NonNull Integer integer) throws Exception {
-                return getMoviesTypeTwo.execute(integer);
+                                return getMoviesTypeTwo.execute(integer);
                             }
                         })
                 .subscribe(
                         new Consumer<Movie>() {
                             @Override
                             public void accept(@NonNull Movie movie) throws Exception {
-                if (movie != null) {
-                    moviesView.loadMovieItem(
-                            new MoviesItem_()
-                                    .movieId(movie.getMovieId())
-                                    .movieName(movie.getMovieName()));
-                } else {
-                    Log.d(TAG, "Movie is empty");
-                    paginator.onComplete();
-                }
+                                if (movie != null) {
+                                    moviesView.loadMovieItem(
+                                            new MoviesItem_()
+                                                    .movieId(movie.getMovieId())
+                                                    .movieName(movie.getMovieName()));
+                                } else {
+                                    Log.d(TAG, "Movie is empty");
+                                    paginator.onComplete();
+                                }
                             }
                         },
                         new Consumer<Throwable>() {
                             @Override
                             public void accept(@NonNull Throwable throwable) throws Exception {
-                moviesView.onError(throwable.getMessage());
-                Log.e(TAG, throwable.getMessage());
+                                moviesView.onError(throwable.getMessage());
+                                Log.e(TAG, throwable.getMessage());
                             }
                         },
                         new Action() {
                             @Override
                             public void run() throws Exception {
-                Log.d(TAG, "onComplete");
+                                Log.d(TAG, "onComplete");
                             }
                         });
     }
@@ -168,5 +168,5 @@ class MoviesPresenter implements BasePresenterInterface {
 
     void callComplete() {
         paginator.onComplete();
-  }
+    }
 }

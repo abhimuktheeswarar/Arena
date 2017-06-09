@@ -21,6 +21,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import msa.arena.data.entities.remote.MovieSearchResult;
 import msa.arena.data.entities.remote.list.MovieListPojo;
@@ -41,6 +42,12 @@ public class RemoteDataSource<T> implements BaseDataSource {
     public RemoteDataSource(ArenaApi arenaApi, Context context) {
         this.arenaApi = arenaApi;
         this.context = context;
+        ReactiveNetwork.observeNetworkConnectivity(context).subscribe(new Consumer<Connectivity>() {
+            @Override
+            public void accept(@NonNull Connectivity connectivity) throws Exception {
+                Log.d(TAG, "Is network available 0 = " + connectivity.isAvailable());
+            }
+        });
     }
 
     @Override
@@ -79,12 +86,13 @@ public class RemoteDataSource<T> implements BaseDataSource {
         });
     }
 
-    private <V> Flowable<V> getFlow(Flowable<V> observable) {
+    private <V> Flowable<V> getFlow(Flowable<V> flowable) {
         return ReactiveNetwork.observeNetworkConnectivity(context).toFlowable(BackpressureStrategy.BUFFER).switchMap(new Function<Connectivity, Publisher<? extends V>>() {
             @Override
             public Publisher<? extends V> apply(@NonNull Connectivity connectivity) throws Exception {
-                if (connectivity.isAvailable()) return observable;
-                else return Flowable.error(new Throwable("No internet"));
+                Log.d(TAG, "Is network available 1 = " + connectivity.isAvailable());
+                if (connectivity.isAvailable()) return flowable;
+                else return Flowable.empty();
             }
         });
     }
