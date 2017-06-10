@@ -43,6 +43,7 @@ ext {
     glideVersion = '3.7.0'
     glideOkhttp3Version = '1.4.0@aar'
     epoxyVersion = '2.0.0'
+    alerterVersion = '1.0.8'
 
     //RxLibraries
     rxBindingVersion = '2.0.0'
@@ -94,6 +95,8 @@ ext {
             lifeCycleRuntime      : "android.arch.lifecycle:runtime:${archCompVersion}",
             lifeCycleExtensions   : "android.arch.lifecycle:extensions:${archCompVersion}",
             lifeCycleCompiler     : "android.arch.lifecycle:compiler:${archCompVersion}",
+
+            alerter               : "com.tapadoo.android:alerter:${alerterVersion}",
 
             androidAnnotations    : "com.android.support:support-annotations:${supportLibraryVersion}",
             leakCanary            : "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}",

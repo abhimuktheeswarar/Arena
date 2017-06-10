@@ -98,6 +98,8 @@ dependencies {
     annotationProcessor presentationDependencies.epoxyProcessor
     compile presentationDependencies.epoxy
 
+    compile presentationDependencies.alerter
+
     compile presentationDependencies.androidAnnotations
     compile presentationDependencies.leakCanary
 

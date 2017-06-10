@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.msa.domain.entities.User;
+import com.tapadoo.alerter.Alerter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +45,8 @@ public class MoviesFragment extends BaseFragment {
 
     CompositeDisposable compositeDisposable;
 
+    Alerter alerter;
+
     public static MoviesFragment newInstance() {
         MoviesFragment fragment = new MoviesFragment();
         Bundle args = new Bundle();
@@ -55,6 +58,16 @@ public class MoviesFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_movies, container, false);
         ButterKnife.bind(this, rootView);
+        alerter = Alerter.create(getActivity())
+                .setTitle("No internet connectivity")
+                .setBackgroundColor(R.color.colorAccent)
+                .enableInfiniteDuration(true)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(getContext(), "OnClick Called", Toast.LENGTH_LONG).show();
+                    }
+                });
         return rootView;
     }
 
@@ -78,6 +91,18 @@ public class MoviesFragment extends BaseFragment {
 
             }
         });
+
+        alerter = Alerter.create(getActivity())
+                .setTitle("No internet connectivity")
+                .setBackgroundColor(R.color.colorAccent)
+                .enableInfiniteDuration(true)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(getContext(), "OnClick Called", Toast.LENGTH_LONG).show();
+                    }
+                });
+        alerter.show();
     }
 
     @OnClick(R.id.button_remove)
@@ -86,6 +111,7 @@ public class MoviesFragment extends BaseFragment {
             getChildFragmentManager().beginTransaction().remove(getChildFragmentManager().findFragmentByTag(MovieChildFragment.class.getSimpleName())).commit();
             Toast.makeText(getContext(), "removed", Toast.LENGTH_SHORT).show();
         } else Toast.makeText(getContext(), "not removed", Toast.LENGTH_SHORT).show();
+        alerter.hide();
 
     }
 
