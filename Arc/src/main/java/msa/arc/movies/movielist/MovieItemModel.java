@@ -1,4 +1,4 @@
-package msa.rehearsal.round2.subround2_1;
+package msa.arc.movies.movielist;
 
 import android.view.View;
 import android.widget.CheckBox;
@@ -13,8 +13,8 @@ import com.airbnb.epoxy.EpoxyModelWithHolder;
 import java.util.List;
 
 import butterknife.BindView;
-import msa.rehearsal.R;
-import msa.rehearsal.base.BaseEpoxyHolder;
+import msa.arc.R;
+import msa.arc.base.BaseEpoxyHolder;
 
 /**
  * Created by Abhimuktheeswarar on 01-06-2017.
@@ -66,10 +66,10 @@ abstract class MovieItemModel extends EpoxyModelWithHolder<MovieItemModel.MovieI
     @Override
     public void bind(MovieItemHolder holder) {
         super.bind(holder);
-        holder.tV_MovieName.setText(movieName);
+        holder.tV_MovieName.setText(String.valueOf(clickCount));
         holder.checkBox.setChecked(isFavorite);
-        //holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
-        //holder.itemView.setOnClickListener(onClickListener2);
+        holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
+        holder.itemView.setOnClickListener(onClickListener2);
     }
 
     @Override

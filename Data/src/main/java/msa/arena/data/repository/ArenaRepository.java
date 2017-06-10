@@ -65,6 +65,11 @@ public class ArenaRepository implements Repository {
     }
 
     @Override
+    public Flowable<Lce<LinkedHashMap<String, Movie>>> getMoviesLce(int page) {
+        return dataStoreFactory.createRemoteDataSource().getMoviesLce(page);
+    }
+
+    @Override
     public Flowable<List<Movie>> getMovieFlow(int page) {
         return dataStoreFactory.createDummyDataSource().getMovieFlow(page);
     }

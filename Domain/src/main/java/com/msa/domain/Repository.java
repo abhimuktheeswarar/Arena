@@ -31,6 +31,8 @@ public interface Repository {
 
     Observable<LinkedHashMap<String, Movie>> getMovieHashes(int page);
 
+    Flowable<Lce<LinkedHashMap<String, Movie>>> getMoviesLce(int page);
+
     Flowable<List<Movie>> getMovieFlow(int page);
 
     Flowable<Movie> getMoviesTypeTwo(int page);

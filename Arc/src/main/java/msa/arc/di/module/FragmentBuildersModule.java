@@ -4,6 +4,7 @@ import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 import msa.arc.movies.MovieChildFragment;
 import msa.arc.movies.MoviesFragment;
+import msa.arc.movies.movielist.MovieListFragment;
 
 /**
  * Created by Abhimuktheeswarar on 08-06-2017.
@@ -17,4 +18,7 @@ public abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract MovieChildFragment contributeMovieChildFragment();
+
+    @ContributesAndroidInjector
+    abstract MovieListFragment contributeMovieListFragment();
 }

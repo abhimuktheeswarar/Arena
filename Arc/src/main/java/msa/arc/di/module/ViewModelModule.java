@@ -10,6 +10,7 @@ import msa.arc.base.ArcViewModelFactory;
 import msa.arc.di.ViewModelKey;
 import msa.arc.movies.MovieChildViewModel;
 import msa.arc.movies.MoviesViewModel;
+import msa.arc.movies.movielist.MovieListViewModel;
 
 /**
  * Created by Abhimuktheeswarar on 08-06-2017.
@@ -26,6 +27,11 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(MovieChildViewModel.class)
     abstract ViewModel bindMovieChildViewModel(MovieChildViewModel movieChildViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MovieListViewModel.class)
+    abstract ViewModel bindMovieListViewModel(MovieListViewModel movieListViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(ArcViewModelFactory factory);

@@ -4,6 +4,7 @@ package msa.arc.movies;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +77,14 @@ public class MoviesFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
         moviesViewModel = getViewModel(MoviesViewModel.class);
         textView.setText(String.valueOf(moviesViewModel.a));
+
+        listenForInternetConnectivity().subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(@NonNull Boolean aBoolean) throws Exception {
+                Log.d(MoviesFragment.class.getSimpleName(), "network change detected");
+
+            }
+        });
     }
 
     @OnClick(R.id.button_add)

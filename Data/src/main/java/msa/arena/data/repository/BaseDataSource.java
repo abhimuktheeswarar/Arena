@@ -36,6 +36,8 @@ public interface BaseDataSource {
 
     Flowable<Lce<Movie>> getMoviesTypeTwoLce(int page);
 
+    Flowable<Lce<LinkedHashMap<String, Movie>>> getMoviesLce(int page);
+
     Observable<List<Movie>> searchMovie(String query);
 
     Single<List<Movie>> searchForMovie(String query);

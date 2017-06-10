@@ -2,6 +2,7 @@ package msa.arc.di.module;
 
 import com.msa.domain.Repository;
 import com.msa.domain.usecases.GetMovieHashes;
+import com.msa.domain.usecases.GetMoviesLce;
 import com.msa.domain.usecases.GetMoviesTypeOne;
 import com.msa.domain.usecases.GetMoviesTypeThree;
 import com.msa.domain.usecases.GetMoviesTypeTwo;
@@ -51,6 +52,11 @@ public class UseCaseModule {
     @Provides
     GetMoviesTypeThree provideGetMoviesTypeThreeUseCase(Repository repository, @Named("executor_thread") Scheduler mUiThread, @Named("ui_thread") Scheduler mExecutorThread) {
         return new GetMoviesTypeThree(repository, mUiThread, mExecutorThread);
+    }
+
+    @Provides
+    GetMoviesLce provideGetMoviesLceUseCase(Repository repository, @Named("executor_thread") Scheduler mUiThread, @Named("ui_thread") Scheduler mExecutorThread) {
+        return new GetMoviesLce(repository, mUiThread, mExecutorThread);
     }
 
     @Provides

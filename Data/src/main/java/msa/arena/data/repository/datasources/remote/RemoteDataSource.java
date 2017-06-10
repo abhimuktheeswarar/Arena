@@ -257,6 +257,11 @@ public class RemoteDataSource<T> implements BaseDataSource {
     }
 
     @Override
+    public Flowable<Lce<LinkedHashMap<String, Movie>>> getMoviesLce(int page) {
+        return null;
+    }
+
+    @Override
     public Observable<List<Movie>> searchMovie(String query) {
         Log.d(TAG, "searchMovie = " + query);
         return arenaApi.searchMovie(query).map(movieSearchPojo -> {
