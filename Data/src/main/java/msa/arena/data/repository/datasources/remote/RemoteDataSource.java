@@ -37,7 +37,7 @@ import retrofit2.HttpException;
  * Created by Abhimuktheeswarar on 01-05-2017.
  */
 
-public class RemoteDataSource<T> implements BaseDataSource {
+public class RemoteDataSource implements BaseDataSource {
 
     private static final String TAG = RemoteDataSource.class.getSimpleName();
 
@@ -106,7 +106,7 @@ public class RemoteDataSource<T> implements BaseDataSource {
 
     @Override
     public Flowable<Movie> getMoviesTypeTwo(int page) {
-        return getFlow3(arenaApi.getMoviesTypeTwo()).flatMap(new Function<MovieListPojo, Publisher<Movie>>() {
+        return getFlow3(arenaApi.getMoviesTypeTwo(page)).flatMap(new Function<MovieListPojo, Publisher<Movie>>() {
             @Override
             public Publisher<Movie> apply(@NonNull MovieListPojo movieListPojo) throws Exception {
                 List<Movie> movies = new ArrayList<Movie>();
@@ -120,7 +120,7 @@ public class RemoteDataSource<T> implements BaseDataSource {
     @Override
     public Flowable<Lce<Movie>> getMoviesTypeTwoLce(int page) {
 
-        return arenaApi.getMoviesTypeTwo().flatMap(new Function<MovieListPojo, Publisher<Lce<Movie>>>() {
+        return arenaApi.getMoviesTypeTwo(page).flatMap(new Function<MovieListPojo, Publisher<Lce<Movie>>>() {
             @Override
             public Publisher<Lce<Movie>> apply(@NonNull MovieListPojo movieListPojo) throws Exception {
                 Log.d(TAG, "Loading movies...,,,");
@@ -258,7 +258,13 @@ public class RemoteDataSource<T> implements BaseDataSource {
 
     @Override
     public Flowable<Lce<LinkedHashMap<String, Movie>>> getMoviesLce(int page) {
-        return null;
+        return arenaApi.getMoviesTypeTwo(page).map(movieListPojo -> {
+            LinkedHashMap<String, Movie> movieLinkedHashMap = new LinkedHashMap<String, Movie>();
+            for (MovieListResult movieSearchResult : movieListPojo.getResults()) {
+                movieLinkedHashMap.put(String.valueOf(movieSearchResult.getId()), new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false));
+            }
+            return Lce.data(movieLinkedHashMap);
+        });
     }
 
     @Override

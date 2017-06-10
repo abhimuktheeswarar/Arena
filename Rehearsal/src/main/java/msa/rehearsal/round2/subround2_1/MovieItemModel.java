@@ -68,7 +68,7 @@ abstract class MovieItemModel extends EpoxyModelWithHolder<MovieItemModel.MovieI
         super.bind(holder);
         holder.tV_MovieName.setText(movieName);
         holder.checkBox.setChecked(isFavorite);
-        //holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
+        holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
         //holder.itemView.setOnClickListener(onClickListener2);
     }
 

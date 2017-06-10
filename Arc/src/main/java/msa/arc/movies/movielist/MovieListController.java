@@ -1,6 +1,7 @@
 package msa.arc.movies.movielist;
 
 import com.airbnb.epoxy.Typed2EpoxyController;
+import com.github.davidmoten.rx2.util.Pair;
 import com.msa.domain.entities.Lce;
 import com.msa.domain.entities.Movie;
 
@@ -8,15 +9,17 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import io.reactivex.Flowable;
 import io.reactivex.processors.BehaviorProcessor;
 
 /**
  * Created by Abhimuktheeswarar on 11-06-2017.
  */
 
-public class MovieListController extends Typed2EpoxyController<List<Movie>, Boolean> {
+public class MovieListController extends Typed2EpoxyController<List<Movie>, Boolean> implements MovieItemModel.MovieItemClickListener {
 
-    private final BehaviorProcessor<Movie> movieBehaviorProcessor = BehaviorProcessor.create();
+    private final BehaviorProcessor<Pair<String, Boolean>> movieBehaviorProcessor = BehaviorProcessor.create();
+
     private final BehaviorProcessor<Integer> integerBehaviorProcessor = BehaviorProcessor.create();
 
 
@@ -32,9 +35,18 @@ public class MovieListController extends Typed2EpoxyController<List<Movie>, Bool
         for (Movie movie : movies) {
             {
                 //Log.d(MovieEpoxyController.class.getSimpleName(), movie.getMovieName());
-                new MovieItemModel_().id(movie.getMovieId()).movieId(movie.getMovieId()).movieName(movie.getMovieName()).isFavorite(movie.isFavorite()).addTo(this);
+                new MovieItemModel_().id(movie.getMovieId()).movieId(movie.getMovieId()).movieName(movie.getMovieName()).isFavorite(movie.isFavorite()).movieItemClickListener(this).addTo(this);
             }
         }
 
+    }
+
+    @Override
+    public void onClickFavorite(String movieId, boolean isFavorite) {
+        movieBehaviorProcessor.onNext(Pair.create(movieId, isFavorite));
+    }
+
+    Flowable<Pair<String, Boolean>> listenForFavorite() {
+        return movieBehaviorProcessor;
     }
 }

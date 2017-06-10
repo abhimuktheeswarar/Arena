@@ -40,9 +40,7 @@ abstract class MovieItemModel extends EpoxyModelWithHolder<MovieItemModel.MovieI
     private CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if (movieItemClickListener != null)
-                movieItemClickListener.onClickFavorite(movieId, isChecked);
-
+            movieItemClickListener.onClickFavorite(movieId, isChecked);
         }
     };
 
@@ -66,7 +64,7 @@ abstract class MovieItemModel extends EpoxyModelWithHolder<MovieItemModel.MovieI
     @Override
     public void bind(MovieItemHolder holder) {
         super.bind(holder);
-        holder.tV_MovieName.setText(String.valueOf(clickCount));
+        holder.tV_MovieName.setText(movieName);
         holder.checkBox.setChecked(isFavorite);
         holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
         holder.itemView.setOnClickListener(onClickListener2);

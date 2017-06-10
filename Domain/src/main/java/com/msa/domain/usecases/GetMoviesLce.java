@@ -11,8 +11,6 @@ import javax.inject.Inject;
 
 import io.reactivex.Flowable;
 import io.reactivex.Scheduler;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.BiFunction;
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.
@@ -30,14 +28,22 @@ public class GetMoviesLce extends UseCaseTypeTwo<Lce<LinkedHashMap<String, Movie
 
     @Override
     protected Flowable<Lce<LinkedHashMap<String, Movie>>> buildUseCaseObservable(Params params) {
-        return repository.getMoviesLce(params.page).scan(new BiFunction<Lce<LinkedHashMap<String, Movie>>, Lce<LinkedHashMap<String, Movie>>, Lce<LinkedHashMap<String, Movie>>>() {
+        return repository.getMoviesLce(params.page)/*.scan(Lce.<LinkedHashMap<String, Movie>>loading(), new BiFunction<Lce<LinkedHashMap<String, Movie>>, Lce<LinkedHashMap<String, Movie>>, Lce<LinkedHashMap<String, Movie>>>() {
             @Override
             public Lce<LinkedHashMap<String, Movie>> apply(@NonNull Lce<LinkedHashMap<String, Movie>> linkedHashMapLce1, @NonNull Lce<LinkedHashMap<String, Movie>> linkedHashMapLce2) throws Exception {
-                LinkedHashMap<String, Movie> previousMovies = linkedHashMapLce1.getData();
-                previousMovies.putAll(linkedHashMapLce2.getData());
-                return Lce.data(previousMovies);
+                if (linkedHashMapLce1.getData() != null) {
+                    LinkedHashMap<String, Movie> previous = linkedHashMapLce1.getData();
+                    previous.putAll(linkedHashMapLce2.getData());
+                    Lce<LinkedHashMap<String, Movie>> total = Lce.data(previous);
+                    return total;
+                } else return linkedHashMapLce1;
             }
-        });
+        }).filter(new Predicate<Lce<LinkedHashMap<String, Movie>>>() {
+            @Override
+            public boolean test(@NonNull Lce<LinkedHashMap<String, Movie>> linkedHashMapLce) throws Exception {
+                return linkedHashMapLce.getData() != null;
+            }
+        })*/;
     }
 
     public static final class Params {

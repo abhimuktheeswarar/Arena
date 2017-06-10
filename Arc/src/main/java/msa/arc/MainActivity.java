@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import msa.arc.movies.MoviesActivity;
+import msa.arc.movies.movielist.MovieListActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                startActivity(new Intent(MainActivity.this, MoviesActivity.class));
+                startActivity(new Intent(MainActivity.this, MovieListActivity.class));
             }
         });
     }
@@ -46,6 +47,13 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        } else if (id == R.id.action_movie) {
+            startActivity(new Intent(this, MoviesActivity.class));
+            return true;
+
+        } else if (id == R.id.action_movie_list) {
+            startActivity(new Intent(this, MovieListActivity.class));
             return true;
         }
 

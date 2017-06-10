@@ -2,9 +2,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="msa.arc.MainActivity">
+
+    <item
+        android:id="@+id/action_movie"
+        android:orderInCategory="1"
+        android:title="Movie"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_movie_list"
+        android:orderInCategory="2"
+        android:title="Movie list"
+        app:showAsAction="never" />
+
+
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+
+
 </menu>

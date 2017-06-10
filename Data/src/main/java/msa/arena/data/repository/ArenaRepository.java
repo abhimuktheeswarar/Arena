@@ -15,6 +15,7 @@ import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import msa.arena.data.repository.datasources.remote.RemoteDataSource;
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.
@@ -66,7 +67,8 @@ public class ArenaRepository implements Repository {
 
     @Override
     public Flowable<Lce<LinkedHashMap<String, Movie>>> getMoviesLce(int page) {
-        return dataStoreFactory.createRemoteDataSource().getMoviesLce(page);
+        RemoteDataSource remoteDataSource = dataStoreFactory.createRemoteDataSource();
+        return remoteDataSource.getMoviesLce(page);
     }
 
     @Override
