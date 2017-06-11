@@ -14,7 +14,6 @@ import javax.inject.Inject;
 
 import io.reactivex.Flowable;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
 import io.reactivex.processors.PublishProcessor;
 import io.reactivex.processors.ReplayProcessor;
@@ -53,8 +52,10 @@ public class MovieListViewModel extends BaseViewModel {
 
         lceReplayProcessor = ReplayProcessor.create();
 
+        page = 1;
 
-        paginator.startWith(1).concatMap(new Function<Integer, Publisher<? extends Lce<LinkedHashMap<String, Movie>>>>() {
+
+       /* paginator.startWith(1).concatMap(new Function<Integer, Publisher<? extends Lce<LinkedHashMap<String, Movie>>>>() {
             @Override
             public Publisher<? extends Lce<LinkedHashMap<String, Movie>>> apply(@NonNull Integer page) throws Exception {
                 return getMoviesLce.execute(GetMoviesLce.Params.setPage(page));
@@ -66,9 +67,28 @@ public class MovieListViewModel extends BaseViewModel {
                 MovieListViewModel.this.linkedHashMapLce.getData().putAll(linkedHashMapLce2.getData());
                 return MovieListViewModel.this.linkedHashMapLce;
             }
-        }).subscribe(lceReplayProcessor);
+        }).filter(new Predicate<Lce<LinkedHashMap<String, Movie>>>() {
+            @Override
+            public boolean test(@NonNull Lce<LinkedHashMap<String, Movie>> linkedHashMapLce) throws Exception {
+                return linkedHashMapLce.getData()!=null;
+            }
+        }).subscribe(lceReplayProcessor);*/
 
-        page = 0;
+        paginator.startWith(1).concatMap(new Function<Integer, Publisher<? extends Lce<LinkedHashMap<String, Movie>>>>() {
+            @Override
+            public Publisher<? extends Lce<LinkedHashMap<String, Movie>>> apply(@NonNull Integer page) throws Exception {
+                return getMoviesLce.execute(GetMoviesLce.Params.setPage(page));
+            }
+        }).map(new Function<Lce<LinkedHashMap<String, Movie>>, Lce<LinkedHashMap<String, Movie>>>() {
+            @Override
+            public Lce<LinkedHashMap<String, Movie>> apply(@NonNull Lce<LinkedHashMap<String, Movie>> linkedHashMapLce) throws Exception {
+                if (MovieListViewModel.this.linkedHashMapLce.getData() == null)
+                    MovieListViewModel.this.linkedHashMapLce = linkedHashMapLce;
+                else
+                    MovieListViewModel.this.linkedHashMapLce.getData().putAll(linkedHashMapLce.getData());
+                return MovieListViewModel.this.linkedHashMapLce;
+            }
+        }).subscribe(lceReplayProcessor);
 
 
     }
@@ -175,7 +195,7 @@ public class MovieListViewModel extends BaseViewModel {
 
     void setFavorite(String movieId, boolean isFavorite) {
         Log.d(TAG, "setFavorite = " + movieId + " : " + isFavorite);
-        linkedHashMapLce.getData().get(movieId).setFavorite(isFavorite);
+        this.linkedHashMapLce.getData().get(movieId).setFavorite(isFavorite);
         lceReplayProcessor.onNext(this.linkedHashMapLce);
     }
 
@@ -187,5 +207,9 @@ public class MovieListViewModel extends BaseViewModel {
     void loadMore() {
         page++;
         paginator.onNext(page);
+    }
+
+    public int getPage() {
+        return page;
     }
 }

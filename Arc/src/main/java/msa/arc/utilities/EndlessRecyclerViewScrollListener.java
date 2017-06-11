@@ -10,6 +10,9 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
  */
 
 public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollListener {
+
+    private static final String TAG = EndlessRecyclerViewScrollListener.class.getSimpleName();
+
     RecyclerView.LayoutManager mLayoutManager;
     // The minimum amount of items to have below your current scroll position
     // before loading more.
@@ -23,6 +26,12 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
     // Sets the starting page index
     private int startingPageIndex = 1;
     private boolean firstTime;
+
+    public EndlessRecyclerViewScrollListener(LinearLayoutManager layoutManager, int currentPage) {
+        this.mLayoutManager = layoutManager;
+        firstTime = true;
+        this.currentPage = currentPage;
+    }
 
     public EndlessRecyclerViewScrollListener(LinearLayoutManager layoutManager) {
         this.mLayoutManager = layoutManager;
@@ -92,13 +101,9 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
         // threshold should reflect how many total columns there are too
         if (!loading && (lastVisibleItemPosition + visibleThreshold) > totalItemCount) {
             currentPage++;
+
             onLoadMore(currentPage, totalItemCount, view);
             loading = true;
-        }
-
-        if (firstTime) {
-            onLoadMore(currentPage, totalItemCount, view);
-            firstTime = false;
         }
     }
 

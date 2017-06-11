@@ -32,6 +32,8 @@ public class MovieListFragment extends BaseFragment {
     @BindView(R.id.rV_movies)
     RecyclerView recyclerView;
 
+    private LinearLayoutManager linearLayoutManager;
+
 
     private EndlessRecyclerViewScrollListener scrollListener;
 
@@ -50,15 +52,8 @@ public class MovieListFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager = new LinearLayoutManager(getContext());
         movieListController = new MovieListController();
-        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                movieListViewModel.loadMore();
-            }
-        };
-
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(movieListController.getAdapter());
 
@@ -69,6 +64,13 @@ public class MovieListFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         movieListViewModel = getViewModel(MovieListViewModel.class);
+
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager, movieListViewModel.getPage()) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                movieListViewModel.loadMore();
+            }
+        };
     }
 
     @Override

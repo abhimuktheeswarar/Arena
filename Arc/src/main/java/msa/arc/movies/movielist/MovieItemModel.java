@@ -47,7 +47,7 @@ abstract class MovieItemModel extends EpoxyModelWithHolder<MovieItemModel.MovieI
     private View.OnClickListener onClickListener2 = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            clickCount++;
+            //clickCount++;
         }
     };
 
