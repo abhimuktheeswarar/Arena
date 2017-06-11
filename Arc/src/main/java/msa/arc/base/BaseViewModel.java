@@ -22,4 +22,5 @@ public abstract class BaseViewModel extends ViewModel {
     public Observable<User> getUser() {
         return getUserTypeOneLazy.get().execute(null);
     }
+
 }

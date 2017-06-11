@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +14,13 @@ import com.msa.domain.entities.Lce;
 import com.msa.domain.entities.Movie;
 
 import java.util.LinkedHashMap;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import io.reactivex.subscribers.DisposableSubscriber;
 import msa.arc.R;
 import msa.arc.base.BaseFragment;
 import msa.arc.utilities.EndlessRecyclerViewScrollListener;
@@ -33,7 +36,6 @@ public class MovieListFragment extends BaseFragment {
     RecyclerView recyclerView;
 
     private LinearLayoutManager linearLayoutManager;
-
 
     private EndlessRecyclerViewScrollListener scrollListener;
 
@@ -56,7 +58,6 @@ public class MovieListFragment extends BaseFragment {
         movieListController = new MovieListController();
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(movieListController.getAdapter());
-
 
     }
 
@@ -84,35 +85,39 @@ public class MovieListFragment extends BaseFragment {
 
         recyclerView.addOnScrollListener(scrollListener);
 
-       /* compositeDisposable.add(movieListViewModel.getMovieList().subscribe(linkedHashMapLce -> {
-            Log.d(MovieListFragment.class.getSimpleName(), "Page = " + linkedHashMapLce.getData().size());
-            movieListViewModel.setLinkedHashMapLce(linkedHashMapLce);
 
-        }));*/
-
-        compositeDisposable.add(movieListViewModel.getMovieList2().subscribe(new Consumer<Lce<LinkedHashMap<String, Movie>>>() {
+        compositeDisposable.add(listenForInternetConnectivity().delay(1, TimeUnit.SECONDS).subscribe(new Consumer<Boolean>() {
             @Override
-            public void accept(@NonNull Lce<LinkedHashMap<String, Movie>> linkedHashMapLce) throws Exception {
-                movieListController.setMovies(linkedHashMapLce);
+            public void accept(@NonNull Boolean aBoolean) throws Exception {
+                if (aBoolean && !movieListViewModel.isInitialized()) {
+                    Log.d(TAG, "retrying");
+                    movieListViewModel.loadMore();
+                } else Log.d(TAG, "Not retrying");
             }
         }));
 
 
-
-       /*compositeDisposable.add(movieListViewModel.getMovieList().subscribe(new Consumer<Lce<LinkedHashMap<String, Movie>>>() {
-           @Override
-           public void accept(@NonNull Lce<LinkedHashMap<String, Movie>> linkedHashMapLce) throws Exception {
-               movieListViewModel.setLinkedHashMapLce(linkedHashMapLce);
-           }
-       }));
-
-        compositeDisposable.add(movieListViewModel.listenForChangesInMovieList().subscribe(new Consumer<Lce<LinkedHashMap<String, Movie>>>() {
+        DisposableSubscriber<Lce<LinkedHashMap<String, Movie>>> disposableSubscriber = new DisposableSubscriber<Lce<LinkedHashMap<String, Movie>>>() {
             @Override
-            public void accept(@NonNull Lce<LinkedHashMap<String, Movie>> linkedHashMapLce) throws Exception {
-                Log.d(TAG, "movie list updated");
-                movieListController.setMovies(linkedHashMapLce);
+            public void onNext(Lce<LinkedHashMap<String, Movie>> linkedHashMapLce) {
+                if (!linkedHashMapLce.hasError()) movieListController.setMovies(linkedHashMapLce);
             }
-        }));*/
+
+            @Override
+            public void onError(Throwable t) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        };
+
+        compositeDisposable.add(disposableSubscriber);
+
+        movieListViewModel.getMovieList().subscribe(disposableSubscriber);
+
 
         compositeDisposable.add(movieListController.listenForFavorite().subscribe(new Consumer<Pair<String, Boolean>>() {
             @Override
@@ -120,6 +125,7 @@ public class MovieListFragment extends BaseFragment {
                 movieListViewModel.setFavorite(stringBooleanPair.left(), stringBooleanPair.right());
             }
         }));
+
 
     }
 

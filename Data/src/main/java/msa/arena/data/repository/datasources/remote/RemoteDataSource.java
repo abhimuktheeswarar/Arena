@@ -264,6 +264,11 @@ public class RemoteDataSource implements BaseDataSource {
                 movieLinkedHashMap.put(String.valueOf(movieSearchResult.getId()), new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false));
             }
             return Lce.data(movieLinkedHashMap);
+        }).onErrorResumeNext(new Function<Throwable, Publisher<? extends Lce<LinkedHashMap<String, Movie>>>>() {
+            @Override
+            public Publisher<? extends Lce<LinkedHashMap<String, Movie>>> apply(@NonNull Throwable throwable) throws Exception {
+                return Flowable.just(Lce.error(throwable));
+            }
         });
     }
 
