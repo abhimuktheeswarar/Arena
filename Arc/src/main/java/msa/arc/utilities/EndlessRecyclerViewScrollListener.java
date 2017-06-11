@@ -5,21 +5,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
-import org.reactivestreams.Subscription;
-
-import io.reactivex.Observable;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
-import io.reactivex.processors.BehaviorProcessor;
-import io.reactivex.processors.PublishProcessor;
-
 /**
  * Created by Abhimuktheeswarar on 01-06-2017.
  */
 
-public class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollListener {
-    private final BehaviorProcessor<ScrollState> scrollStateBehaviorProcessor = BehaviorProcessor.create();
-    private final PublishProcessor<ScrollState> paginator = PublishProcessor.create();
+public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollListener {
     RecyclerView.LayoutManager mLayoutManager;
     // The minimum amount of items to have below your current scroll position
     // before loading more.
@@ -32,17 +22,11 @@ public class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollList
     private boolean loading = true;
     // Sets the starting page index
     private int startingPageIndex = 1;
+    private boolean firstTime;
 
     public EndlessRecyclerViewScrollListener(LinearLayoutManager layoutManager) {
         this.mLayoutManager = layoutManager;
-        scrollStateBehaviorProcessor.onNext(new ScrollState(1, 0));
-
-        paginator.doOnSubscribe(new Consumer<Subscription>() {
-            @Override
-            public void accept(@NonNull Subscription subscription) throws Exception {
-                paginator.onNext(new ScrollState(1, 0));
-            }
-        });
+        firstTime = true;
     }
 
     public EndlessRecyclerViewScrollListener(GridLayoutManager layoutManager) {
@@ -66,12 +50,6 @@ public class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollList
         }
         return maxSize;
     }
-
-
-    public void initialize() {
-        paginator.onNext(new ScrollState(0, 0));
-    }
-
 
     // This happens many times a second during a scroll, so be wary of the code you place here.
     // We are given a few useful parameters to help us work out if we need to load some more data,
@@ -114,9 +92,13 @@ public class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollList
         // threshold should reflect how many total columns there are too
         if (!loading && (lastVisibleItemPosition + visibleThreshold) > totalItemCount) {
             currentPage++;
-            scrollStateBehaviorProcessor.onNext(new ScrollState(currentPage, totalItemCount));
-            paginator.onNext(new ScrollState(currentPage, totalItemCount));
+            onLoadMore(currentPage, totalItemCount, view);
             loading = true;
+        }
+
+        if (firstTime) {
+            onLoadMore(currentPage, totalItemCount, view);
+            firstTime = false;
         }
     }
 
@@ -127,30 +109,7 @@ public class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollList
         this.loading = true;
     }
 
-    public Observable<ScrollState> getScrollState() {
-        return scrollStateBehaviorProcessor.toObservable();
-    }
-
-    public PublishProcessor<ScrollState> getPaginator() {
-        return paginator;
-    }
-
-    public class ScrollState {
-
-        private final int page, totalItemsCount;
-
-        ScrollState(int page, int totalItemsCount) {
-            this.page = page;
-            this.totalItemsCount = totalItemsCount;
-        }
-
-        public int getPage() {
-            return page;
-        }
-
-        public int getTotalItemsCount() {
-            return totalItemsCount;
-        }
-    }
+    // Defines the process for actually loading more data based on page
+    public abstract void onLoadMore(int page, int totalItemsCount, RecyclerView view);
 
 }
