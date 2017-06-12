@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'realm-android'
 
 android {
     defaultPublishConfig "debug"
@@ -68,6 +69,7 @@ dependencies {
     compile dataDependencies.rxCallAdapter
 
     compile dataDependencies.reactiveNetwork
+    compile dataDependencies.rxJava2Interop
 
 
     androidTestCompile testDependencies.junit

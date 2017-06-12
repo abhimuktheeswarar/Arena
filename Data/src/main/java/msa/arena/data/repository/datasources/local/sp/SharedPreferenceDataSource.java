@@ -111,12 +111,22 @@ public class SharedPreferenceDataSource implements BaseDataSource {
     }
 
     @Override
+    public Flowable<Lce<LinkedHashMap<String, Movie>>> getMoviesLceR(int page) {
+        return null;
+    }
+
+    @Override
     public Observable<List<Movie>> searchMovie(String query) {
         return null;
     }
 
     @Override
     public Single<List<Movie>> searchForMovie(String query) {
+        return null;
+    }
+
+    @Override
+    public Completable setFavoriteMovie(String movieId, boolean isFavorite) {
         return null;
     }
 }

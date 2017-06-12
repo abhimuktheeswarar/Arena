@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.frogermcs.androiddevmetrics'
+apply plugin: 'realm-android'
 
 android {
 
@@ -119,7 +120,7 @@ dependencies {
     androidTestCompile presentationTestDependencies.uiautomator
     androidTestCompile presentationTestDependencies.findBugs
 
-    testCompile presentationDependencies.leakCanary
+    //testCompile presentationDependencies.leakCanary
     testCompile presentationTestDependencies.testing
 
     //Development

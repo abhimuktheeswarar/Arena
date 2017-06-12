@@ -21,7 +21,9 @@ import android.support.annotation.NonNull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import io.realm.Realm;
 import msa.arena.data.repository.datasources.dummy.DummyDataSource;
+import msa.arena.data.repository.datasources.local.realm.RealmDataSource;
 import msa.arena.data.repository.datasources.local.sp.SharedPreferenceDataSource;
 import msa.arena.data.repository.datasources.remote.ArenaApi;
 import msa.arena.data.repository.datasources.remote.RemoteConnection;
@@ -38,6 +40,7 @@ public class DataStoreFactory {
     @Inject
     public DataStoreFactory(@NonNull Context context) {
         this.context = context.getApplicationContext();
+        Realm.init(context);
     }
 
     /**
@@ -55,4 +58,10 @@ public class DataStoreFactory {
     SharedPreferenceDataSource createSharedPreferenceDataSource() {
         return new SharedPreferenceDataSource(context);
     }
+
+    RealmDataSource createRealmDataStore() {
+        return new RealmDataSource(Realm.getDefaultInstance());
+    }
+
+
 }

@@ -15,6 +15,12 @@
         android:title="Movie list"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_movie_realm"
+        android:orderInCategory="3"
+        android:title="Movie realm"
+        app:showAsAction="never" />
+
 
     <item
         android:id="@+id/action_settings"

@@ -1,12 +1,9 @@
 package msa.arc.di.module;
 
-import dagger.Module;
-import dagger.Provides;
-
 /**
  * Created by Abhimuktheeswarar on 08-06-2017.
  */
-@Module
+//@Module
 public class MovieModule {
 
     /*@Provides
@@ -14,7 +11,7 @@ public class MovieModule {
         return new GetMovieHashes(repository, mUiThread, mExecutorThread);
     }*/
 
-    @Provides
+    //@Provides
     String provideName() {
         return "Abhi Muktheeswarar";
     }

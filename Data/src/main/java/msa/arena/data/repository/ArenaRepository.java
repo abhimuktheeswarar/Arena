@@ -1,5 +1,7 @@
 package msa.arena.data.repository;
 
+import android.util.Log;
+
 import com.msa.domain.Repository;
 import com.msa.domain.entities.Lce;
 import com.msa.domain.entities.Movie;
@@ -15,6 +17,7 @@ import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import msa.arena.data.repository.datasources.local.realm.RealmDataSource;
 import msa.arena.data.repository.datasources.remote.RemoteDataSource;
 
 /**
@@ -23,6 +26,9 @@ import msa.arena.data.repository.datasources.remote.RemoteDataSource;
 
 @Singleton
 public class ArenaRepository implements Repository {
+
+
+    private final static String TAG = ArenaRepository.class.getSimpleName();
 
     private final DataStoreFactory dataStoreFactory;
 
@@ -72,6 +78,14 @@ public class ArenaRepository implements Repository {
     }
 
     @Override
+    public Flowable<Lce<LinkedHashMap<String, Movie>>> getMoviesLceR(int page) {
+        Log.d(TAG, "getMoviesLceR page = " + page);
+        RealmDataSource realmDataSource = dataStoreFactory.createRealmDataStore();
+        return realmDataSource.getMoviesLceR(page);
+        //return dataStoreFactory.createRealmDataStore().getMoviesLceR(page);
+    }
+
+    @Override
     public Flowable<List<Movie>> getMovieFlow(int page) {
         return dataStoreFactory.createDummyDataSource().getMovieFlow(page);
     }
@@ -94,5 +108,10 @@ public class ArenaRepository implements Repository {
     @Override
     public Single<List<Movie>> searchForMovie(String query) {
         return dataStoreFactory.createRemoteDataSource().searchForMovie(query);
+    }
+
+    @Override
+    public Completable setFavoriteMovie(String movieId, boolean isFavorite) {
+        return dataStoreFactory.createRealmDataStore().setFavoriteMovie(movieId, isFavorite);
     }
 }

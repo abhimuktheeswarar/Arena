@@ -16,6 +16,8 @@ import rx.subscriptions.CompositeSubscription;
 
 public class BaseFragment extends Fragment implements Injectable {
 
+    protected final String TAG = this.getClass().getSimpleName();
+
     @Inject
     protected ViewModelProvider.Factory viewModelFactory;
 

@@ -38,7 +38,11 @@ public interface BaseDataSource {
 
     Flowable<Lce<LinkedHashMap<String, Movie>>> getMoviesLce(int page);
 
+    Flowable<Lce<LinkedHashMap<String, Movie>>> getMoviesLceR(int page);
+
     Observable<List<Movie>> searchMovie(String query);
 
     Single<List<Movie>> searchForMovie(String query);
+
+    Completable setFavoriteMovie(String movieId, boolean isFavorite);
 }

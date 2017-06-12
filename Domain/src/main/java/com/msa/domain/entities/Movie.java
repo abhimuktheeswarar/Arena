@@ -8,6 +8,8 @@ public class Movie {
 
     private String movieId, movieName;
 
+    private int releaseYear;
+
     private boolean isFavorite;
 
     public Movie() {
@@ -16,6 +18,13 @@ public class Movie {
     public Movie(String movieId, String movieName, boolean isFavorite) {
         this.movieId = movieId;
         this.movieName = movieName;
+        this.isFavorite = isFavorite;
+    }
+
+    public Movie(String movieId, String movieName, int releaseYear, boolean isFavorite) {
+        this.movieId = movieId;
+        this.movieName = movieName;
+        this.releaseYear = releaseYear;
         this.isFavorite = isFavorite;
     }
 
@@ -41,6 +50,14 @@ public class Movie {
 
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
+    }
+
+    public int getReleaseYear() {
+        return releaseYear;
+    }
+
+    public void setReleaseYear(int releaseYear) {
+        this.releaseYear = releaseYear;
     }
 
     @Override

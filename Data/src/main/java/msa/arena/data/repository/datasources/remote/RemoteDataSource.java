@@ -27,6 +27,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
+import msa.arena.data.entities.remote.MovieSearchPojo;
 import msa.arena.data.entities.remote.MovieSearchResult;
 import msa.arena.data.entities.remote.list.MovieListPojo;
 import msa.arena.data.entities.remote.list.MovieListResult;
@@ -273,6 +274,11 @@ public class RemoteDataSource implements BaseDataSource {
     }
 
     @Override
+    public Flowable<Lce<LinkedHashMap<String, Movie>>> getMoviesLceR(int page) {
+        return null;
+    }
+
+    @Override
     public Observable<List<Movie>> searchMovie(String query) {
         Log.d(TAG, "searchMovie = " + query);
         return arenaApi.searchMovie(query).map(movieSearchPojo -> {
@@ -286,11 +292,14 @@ public class RemoteDataSource implements BaseDataSource {
     @Override
     public Single<List<Movie>> searchForMovie(String query) {
         Log.d(TAG, "searchForMovie = " + query);
-        return arenaApi.searchForMovie(query).map(movieSearchPojo -> {
-            List<Movie> movies = new ArrayList<Movie>();
-            for (MovieSearchResult movieSearchResult : movieSearchPojo.getResults())
-                movies.add(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false));
-            return movies;
+        return arenaApi.searchForMovie(query).map(new Function<MovieSearchPojo, List<Movie>>() {
+            @Override
+            public List<Movie> apply(@NonNull MovieSearchPojo movieSearchPojo) throws Exception {
+                List<Movie> movies = new ArrayList<Movie>();
+                for (MovieSearchResult movieSearchResult : movieSearchPojo.getResults())
+                    movies.add(new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false));
+                return movies;
+            }
         });
         /*return arenaApi.getMedicineSuggestions(new SearchSubmit(query)).map(new Function<List<SearchMedResult>, List<Movie>>() {
             @Override
@@ -301,6 +310,11 @@ public class RemoteDataSource implements BaseDataSource {
                 return movies;
             }
         });*/
+    }
+
+    @Override
+    public Completable setFavoriteMovie(String movieId, boolean isFavorite) {
+        return null;
     }
 
     private <V> Observable<V> getObs(Observable<V> observable) {

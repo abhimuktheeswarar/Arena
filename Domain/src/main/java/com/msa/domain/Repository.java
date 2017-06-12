@@ -33,6 +33,8 @@ public interface Repository {
 
     Flowable<Lce<LinkedHashMap<String, Movie>>> getMoviesLce(int page);
 
+    Flowable<Lce<LinkedHashMap<String, Movie>>> getMoviesLceR(int page);
+
     Flowable<List<Movie>> getMovieFlow(int page);
 
     Flowable<Movie> getMoviesTypeTwo(int page);
@@ -42,5 +44,7 @@ public interface Repository {
     Observable<List<Movie>> searchMovie(String query);
 
     Single<List<Movie>> searchForMovie(String query);
+
+    Completable setFavoriteMovie(String movieId, boolean isFavorite);
 
 }

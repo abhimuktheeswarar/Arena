@@ -11,6 +11,7 @@ import android.view.View;
 
 import msa.arc.movies.MoviesActivity;
 import msa.arc.movies.movielist.MovieListActivity;
+import msa.arc.movies.movierealm.MovieRealmActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
 
         } else if (id == R.id.action_movie_list) {
             startActivity(new Intent(this, MovieListActivity.class));
+            return true;
+        } else if (id == R.id.action_movie_realm) {
+            startActivity(new Intent(this, MovieRealmActivity.class));
             return true;
         }
 
