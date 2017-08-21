@@ -32,7 +32,7 @@
         <activity
             android:name=".movies.movielist.MovieListActivity"
             android:label="@string/title_activity_movie_list"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".movies.movierealm.MovieRealmActivity" />
     </application>
 

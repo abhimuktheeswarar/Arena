@@ -46,8 +46,6 @@ public class MovieListViewModel extends BaseViewModel {
         lceReplayProcessor = ReplayProcessor.create();
         page = 1;
 
-        Log.d(MovieListViewModel.class.getSimpleName(), "ProductListViewModel created");
-
         paginator.startWith(page).concatMap(new Function<Integer, Publisher<? extends Lce<LinkedHashMap<String, Movie>>>>() {
             @Override
             public Publisher<? extends Lce<LinkedHashMap<String, Movie>>> apply(@NonNull Integer page) throws Exception {
