@@ -88,7 +88,8 @@ dependencies {
     compile presentationDependencies.rxJava2Extras
     provided presentationDependencies.javaxAnnotation
 
-    compile presentationDependencies.supportLibrary
+    compile presentationDependencies.supportLibraryV4
+    compile presentationDependencies.supportLibraryV7
     compile presentationDependencies.designSupport
     compile presentationDependencies.cardView
     compile presentationDependencies.constraintLayout

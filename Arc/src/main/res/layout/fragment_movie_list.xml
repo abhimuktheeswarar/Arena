@@ -6,10 +6,18 @@
     tools:context="msa.arc.movies.movielist.MovieListFragment"
     tools:showIn="@layout/activity_movie_list">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rV_movies"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rV_movies"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
 </FrameLayout>
