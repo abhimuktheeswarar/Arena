@@ -9,61 +9,50 @@ allprojects {
 
 ext {
     //Android
-    androidBuildToolsVersion = "26.0.0"
+    androidBuildToolsVersion = "25.0.2"
     androidMinSdkVersion = 19
-    androidTargetSdkVersion = 26
-    androidCompileSdkVersion = 26
+    androidTargetSdkVersion = 25
+    androidCompileSdkVersion = 25
 
     //Core-Libraries
     daggerVersion = '2.11-rc1'
     findBugsVersion = '3.0.2'
     butterKnifeVersion = '8.5.1'
-    rxJavaVersion = '2.1.1'
+    rxJavaVersion = '2.1.0'
     rxAndroidVersion = '2.0.1'
     rxJavaExtrasVersion = '0.8.0.7'
     rxJava2ExtrasVersion = '0.1.10'
     javaxAnnotationVersion = '1.0'
     javaxInjectVersion = '1'
     arrowVersion = '1.0.0'
-    multiDexVersion = '1.0.1'
 
     //Google-Libraries
-    supportLibraryVersion = '25.4.0'
+    supportLibraryVersion = '25.3.1'
     constraintLayoutVersion = '1.0.2'
-    playServicesVersion = '11.0.2'
-    googleCollectionsVersion = '1.0'
-    architectureComponentsVersion = '1.0.0-alpha4'
-    googleMapsUtilsVersion = '0.5'
 
     //Data-Libraries
-    okHttpVersion = '3.8.1'
+    okHttpVersion = '3.6.0'
+    okHttpInterceptorVersion = '3.6.0'
     loggingInterceptorVersion = '2.0.0'
-    retrofitVersion = '2.3.0'
-    rxLocationVersion = '1.0.3'
-
-    //JavaLibraries
-    javaTuplesVersion = '1.2'
-    commonsCollectionsVersion = '3.2.2'
+    retrofitVersion = '2.2.0'
+    retrofitAdapaterJacksonVersion = '2.2.0'
+    retrofitAdapaterGsonVersion = '2.2.0'
+    rxCallAdapterVersion = '2.2.0'
 
     //Libraries
-    epoxyVersion = '2.2.0'
-    glideVersion = '4.0.0'
-    parcelerVersion = '1.1.9'
-
-    //RxLibraries
-    rxActivityResultVersion = '0.4.5-2.x'
-    rxBindingVersion = '2.0.0'
-    rxPermissionsVersion = '0.9.4@aar'
-    traceurVersion = '1.0.1'
-    rxPaparazzoVersion = '0.5.4-2.x'
-
-    //Views
-    materialDialogsVersion = '0.9.4.5'
+    glideVersion = '3.7.0'
+    glideOkhttp3Version = '1.4.0@aar'
+    epoxyVersion = '2.0.0'
     alerterVersion = '1.0.8'
 
+    //RxLibraries
+    rxBindingVersion = '2.0.0'
     rxPreferencesVersion = '2.0.0-RC2'
     reactiveNetworkVersion = '0.9.1'
     rxJava2InteropVersion = '0.10.0'
+
+    //ArchitectureComponents
+    archCompVersion = '1.0.0-alpha1'
 
     //Testing
     robolectricVersion = '3.2.2'
@@ -78,9 +67,6 @@ ext {
 
     //Development
     leakCanaryVersion = '1.5.1'
-    taktVersion = '1.0.4'
-    debugDbVersion = '1.0.1'
-    loggerVersion = '2.1.1'
 
     presentationDependencies = [
             daggerCompiler        : "com.google.dagger:dagger-compiler:${daggerVersion}",
@@ -96,41 +82,24 @@ ext {
             rxJavaExtras          : "com.github.davidmoten:rxjava-extras:${rxJavaExtrasVersion}",
             rxJava2Extras         : "com.github.davidmoten:rxjava2-extras:${rxJava2ExtrasVersion}",
             javaxAnnotation       : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-            multiDex              : "com.android.support:multidex:${multiDexVersion}",
 
-            supportLibraryV4      : "com.android.support:support-v4:${supportLibraryVersion}",
-            supportLibraryV7      : "com.android.support:appcompat-v7:${supportLibraryVersion}",
+            supportLibrary        : "com.android.support:appcompat-v7:${supportLibraryVersion}",
             designSupport         : "com.android.support:design:${supportLibraryVersion}",
             cardView              : "com.android.support:cardview-v7:${supportLibraryVersion}",
-            vectorSupport         : "com.android.support:support-vector-drawable:${supportLibraryVersion}",
             constraintLayout      : "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
-            playServicesMaps      : "com.google.android.gms:play-services-maps:${playServicesVersion}",
-            googleMapsUtils       : "com.google.maps.android:android-maps-utils:${googleMapsUtilsVersion}",
-            places                : "com.google.android.gms:play-services-places:${playServicesVersion}",
-            lifeCycleRuntime      : "android.arch.lifecycle:runtime:${architectureComponentsVersion}",
-            lifeCycleExtensions   : "android.arch.lifecycle:extensions:${architectureComponentsVersion}",
-            lifeCycleCompiler     : "android.arch.lifecycle:compiler:${architectureComponentsVersion}",
-            androidAnnotations    : "com.android.support:support-annotations:${supportLibraryVersion}",
 
             epoxy                 : "com.airbnb.android:epoxy:${epoxyVersion}",
             epoxyProcessor        : "com.airbnb.android:epoxy-processor:${epoxyVersion}",
-            glide                 : "com.github.bumptech.glide:glide:${glideVersion}",
-            glideProcessor        : "com.github.bumptech.glide:compiler:${glideVersion}",
-            parceler              : "org.parceler:parceler-api:${parcelerVersion}",
-            parcelerProcessor     : "org.parceler:parceler:${parcelerVersion}",
 
-            rxActivityResult      : "com.github.VictorAlbertos:RxActivityResult:${rxActivityResultVersion}",
             rxBinding             : "com.jakewharton.rxbinding2:rxbinding:${rxBindingVersion}",
-            rxBindingV4Support    : "com.jakewharton.rxbinding2:rxbinding-support-v4:${rxBindingVersion}",
-            rxBindingV7Support    : "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:${rxBindingVersion}",
-            rxBindingDesign       : "com.jakewharton.rxbinding2:rxbinding-design:${rxBindingVersion}",
-            rxBindingRecyclerView : "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:${rxBindingVersion}",
-            rxPermissions         : "com.tbruyelle.rxpermissions2:rxpermissions:${rxPermissionsVersion}",
-            rxPaparazzo           : "com.github.miguelbcr:RxPaparazzo:${rxPaparazzoVersion}",
 
-            materialDialogs       : "com.afollestad.material-dialogs:core:${materialDialogsVersion}",
+            lifeCycleRuntime      : "android.arch.lifecycle:runtime:${archCompVersion}",
+            lifeCycleExtensions   : "android.arch.lifecycle:extensions:${archCompVersion}",
+            lifeCycleCompiler     : "android.arch.lifecycle:compiler:${archCompVersion}",
+
             alerter               : "com.tapadoo.android:alerter:${alerterVersion}",
 
+            androidAnnotations    : "com.android.support:support-annotations:${supportLibraryVersion}",
             leakCanary            : "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}",
     ]
 
@@ -149,13 +118,10 @@ ext {
     ]
 
     domainDependencies = [
-            javaxAnnotation   : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-            javaxInject       : "javax.inject:javax.inject:${javaxInjectVersion}",
-            rxJava            : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
-            arrow             : "com.fernandocejas:arrow:${arrowVersion}",
-            javaTuples        : "org.javatuples:javatuples:${javaTuplesVersion}",
-            commonsCollections: "commons-collections:commons-collections:${commonsCollectionsVersion}",
-            traceur           : "com.tspoon.traceur:traceur:${traceurVersion}",
+            javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject    : "javax.inject:javax.inject:${javaxInjectVersion}",
+            rxJava         : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            arrow          : "com.fernandocejas:arrow:${arrowVersion}"
     ]
 
     domainTestDependencies = [
@@ -165,6 +131,7 @@ ext {
     ]
 
     dataDependencies = [
+
             daggerCompiler         : "com.google.dagger:dagger-compiler:${daggerVersion}",
             dagger                 : "com.google.dagger:dagger:${daggerVersion}",
             rxJava                 : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
@@ -176,19 +143,15 @@ ext {
             androidAnnotations     : "com.android.support:support-annotations:${supportLibraryVersion}",
 
             okHttp                 : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
-            okHttpInterceptor      : "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
+            okHttpInterceptor      : "com.squareup.okhttp3:logging-interceptor:${okHttpInterceptorVersion}",
             loggingInterceptor     : "com.github.ihsanbal:LoggingInterceptor:${loggingInterceptorVersion}",
             retrofit               : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
-            RetrofitAdapaterJackson: "com.squareup.retrofit2:converter-jackson:${retrofitVersion}",
-            rxCallAdapter          : "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}",
+            retrofitAdapaterJackson: "com.squareup.retrofit2:converter-jackson:${retrofitAdapaterJacksonVersion}",
+            retrofitAdapaterGson   : "com.squareup.retrofit2:converter-gson:${retrofitAdapaterGsonVersion}",
+            rxCallAdapter          : "com.squareup.retrofit2:adapter-rxjava2:${rxCallAdapterVersion}",
 
             reactiveNetwork        : "com.github.pwittchen:reactivenetwork-rx2:${reactiveNetworkVersion}",
             rxJava2Interop         : "com.github.akarnokd:rxjava2-interop:${rxJava2InteropVersion}",
-
-            location               : "com.google.android.gms:play-services-location:${playServicesVersion}",
-            rxLocation             : "com.patloew.rxlocation:rxlocation:${rxLocationVersion}",
-
-
 
     ]
 
@@ -201,21 +164,7 @@ ext {
             testing    : "org.testng:testng:${testingVersion}"
     ]
 
-    infrastructureDependencies = [
-
-            coreUi           : "com.android.support:support-core-ui:${supportLibraryVersion}",
-            designSupport    : "com.android.support:design:${supportLibraryVersion}",
-            googleCollections: "com.google.collections:google-collections:${googleCollectionsVersion}",
-
-            firebaseCore     : "com.google.firebase:firebase-core:${playServicesVersion}",
-            googleAnalytics  : "com.google.android.gms:play-services-analytics:${playServicesVersion}",
-
-    ]
-
     developmentDependencies = [
             leakCanary: "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}",
-            takt      : "jp.wasabeef:takt:${taktVersion}",
-            debugDb   : "com.amitshekhar.android:debug-db:${debugDbVersion}",
-            logger    : "com.orhanobut:logger:${loggerVersion}",
     ]
 }

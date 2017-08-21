@@ -1,12 +1,13 @@
 package msa.arc.movies.movielist;
 
-import com.airbnb.epoxy.TypedEpoxyController;
+import com.airbnb.epoxy.Typed2EpoxyController;
 import com.github.davidmoten.rx2.util.Pair;
 import com.msa.domain.entities.Lce;
 import com.msa.domain.entities.Movie;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.processors.BehaviorProcessor;
@@ -15,7 +16,7 @@ import io.reactivex.processors.BehaviorProcessor;
  * Created by Abhimuktheeswarar on 11-06-2017.
  */
 
-public class MovieListController extends TypedEpoxyController<Lce<LinkedHashMap<String, Movie>>> implements MovieItemModel.MovieItemClickListener {
+public class MovieListController extends Typed2EpoxyController<List<Movie>, Boolean> implements MovieItemModel.MovieItemClickListener {
 
     private final BehaviorProcessor<Pair<String, Boolean>> movieBehaviorProcessor = BehaviorProcessor.create();
 
@@ -23,19 +24,21 @@ public class MovieListController extends TypedEpoxyController<Lce<LinkedHashMap<
 
 
     void setMovies(Lce<LinkedHashMap<String, Movie>> linkedHashMapLce) {
-        setData(linkedHashMapLce);
+        setData(new ArrayList<>(linkedHashMapLce.getData().values()), linkedHashMapLce.isLoading());
+
     }
 
 
     @Override
-    protected void buildModels(Lce<LinkedHashMap<String, Movie>> linkedHashMapLce) {
+    protected void buildModels(List<Movie> movies, Boolean data2) {
 
-        if (linkedHashMapLce.getData() != null) {
-            for (Map.Entry<String, Movie> entry : linkedHashMapLce.getData().entrySet()) {
-                Movie movie = entry.getValue();
+        for (Movie movie : movies) {
+            {
+                //Log.d(MovieEpoxyController.class.getSimpleName(), movie.getMovieName());
                 new MovieItemModel_().id(movie.getMovieId()).movieId(movie.getMovieId()).movieName(movie.getMovieName()).isFavorite(movie.isFavorite()).movieItemClickListener(this).addTo(this);
             }
         }
+
     }
 
     @Override
