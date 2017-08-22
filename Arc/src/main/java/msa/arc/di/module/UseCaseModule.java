@@ -7,15 +7,15 @@ import dagger.Module;
 import dagger.Provides;
 import io.reactivex.Scheduler;
 import msa.domain.Repository;
-import msa.domain.usecases.GetMovieHashes;
-import msa.domain.usecases.GetMoviesLce;
-import msa.domain.usecases.GetMoviesLceR;
-import msa.domain.usecases.GetMoviesTypeOne;
-import msa.domain.usecases.GetMoviesTypeThree;
-import msa.domain.usecases.GetMoviesTypeTwo;
-import msa.domain.usecases.GetUserTypeOne;
-import msa.domain.usecases.SetFavoriteMovie;
-import msa.domain.usecases.UpdateUserTypeOne;
+import msa.domain.usecases.old.GetMovieHashes;
+import msa.domain.usecases.old.GetMoviesLce;
+import msa.domain.usecases.old.GetMoviesLceR;
+import msa.domain.usecases.old.GetMoviesTypeOne;
+import msa.domain.usecases.old.GetMoviesTypeThree;
+import msa.domain.usecases.old.GetMoviesTypeTwo;
+import msa.domain.usecases.old.GetUserTypeOne;
+import msa.domain.usecases.old.SetFavoriteMovie;
+import msa.domain.usecases.old.UpdateUserTypeOne;
 
 /**
  * Created by Abhimuktheeswarar on 08-06-2017.

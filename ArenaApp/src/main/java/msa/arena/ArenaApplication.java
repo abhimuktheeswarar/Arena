@@ -35,8 +35,8 @@ public class ArenaApplication extends Application implements HasActivityInjector
     private ApplicationComponent applicationComponent;
 
     public static RefWatcher getRefWatcher(Context context) {
-        ArenaApplication offoApplication = (ArenaApplication) context.getApplicationContext();
-        return offoApplication.refWatcher;
+        ArenaApplication arenaApplication = (ArenaApplication) context.getApplicationContext();
+        return arenaApplication.refWatcher;
     }
 
     @Override

@@ -7,13 +7,13 @@ import dagger.Provides;
 import io.reactivex.Scheduler;
 import msa.arena.injector.PerActivity;
 import msa.domain.Repository;
-import msa.domain.usecases.GetMoviesTypeOne;
-import msa.domain.usecases.GetMoviesTypeThree;
-import msa.domain.usecases.GetMoviesTypeTwo;
-import msa.domain.usecases.GetMoviesTypeTwoLce;
-import msa.domain.usecases.SearchForMovie;
-import msa.domain.usecases.SearchMovie;
-import msa.domain.usecases.SearchMovieTypeTwo;
+import msa.domain.usecases.old.GetMoviesTypeOne;
+import msa.domain.usecases.old.GetMoviesTypeThree;
+import msa.domain.usecases.old.GetMoviesTypeTwo;
+import msa.domain.usecases.old.GetMoviesTypeTwoLce;
+import msa.domain.usecases.old.SearchForMovie;
+import msa.domain.usecases.old.SearchMovie;
+import msa.domain.usecases.old.SearchMovieTypeTwo;
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.

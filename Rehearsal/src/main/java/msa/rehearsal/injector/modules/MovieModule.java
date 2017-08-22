@@ -6,16 +6,16 @@ import dagger.Module;
 import dagger.Provides;
 import io.reactivex.Scheduler;
 import msa.domain.Repository;
-import msa.domain.usecases.GetMovieHashes;
-import msa.domain.usecases.GetMoviesTypeFive;
-import msa.domain.usecases.GetMoviesTypeFour;
-import msa.domain.usecases.GetMoviesTypeOne;
-import msa.domain.usecases.GetMoviesTypeSix;
-import msa.domain.usecases.GetMoviesTypeThree;
-import msa.domain.usecases.GetMoviesTypeTwo;
-import msa.domain.usecases.SearchForMovie;
-import msa.domain.usecases.SearchMovie;
-import msa.domain.usecases.SearchMovieTypeTwo;
+import msa.domain.usecases.old.GetMovieHashes;
+import msa.domain.usecases.old.GetMoviesTypeFive;
+import msa.domain.usecases.old.GetMoviesTypeFour;
+import msa.domain.usecases.old.GetMoviesTypeOne;
+import msa.domain.usecases.old.GetMoviesTypeSix;
+import msa.domain.usecases.old.GetMoviesTypeThree;
+import msa.domain.usecases.old.GetMoviesTypeTwo;
+import msa.domain.usecases.old.SearchForMovie;
+import msa.domain.usecases.old.SearchMovie;
+import msa.domain.usecases.old.SearchMovieTypeTwo;
 import msa.rehearsal.injector.PerActivity;
 
 /**

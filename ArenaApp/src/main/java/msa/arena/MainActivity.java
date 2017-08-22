@@ -9,7 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import msa.arena.movies.list.MoviesActivityOld;
+import msa.arena.movies.search.searchmenu.SearchMenuActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        startActivity(new Intent(MainActivity.this, MoviesActivityOld.class));
+                        startActivity(new Intent(MainActivity.this, SearchMenuActivity.class));
                     }
                 });
     }

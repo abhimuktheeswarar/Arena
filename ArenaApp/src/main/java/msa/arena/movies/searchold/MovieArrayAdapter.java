@@ -1,4 +1,4 @@
-package msa.arena.movies.search;
+package msa.arena.movies.searchold;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;

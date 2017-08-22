@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import dagger.Lazy;
 import io.reactivex.Observable;
 import msa.domain.entities.User;
-import msa.domain.usecases.GetUserTypeOne;
+import msa.domain.usecases.old.GetUserTypeOne;
 
 /**
  * Created by Abhimuktheeswarar on 08-06-2017.

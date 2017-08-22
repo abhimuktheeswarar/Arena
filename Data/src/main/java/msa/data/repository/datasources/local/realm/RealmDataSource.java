@@ -23,6 +23,7 @@ import msa.data.repository.datasources.local.realm.realmobjects.MovieR;
 import msa.domain.entities.Lce;
 import msa.domain.entities.Movie;
 import msa.domain.entities.User;
+import msa.domain.holder.carrier.ResourceCarrier;
 
 /**
  * Created by Abhimuktheeswarar on 12-06-2017.
@@ -153,5 +154,10 @@ public class RealmDataSource implements BaseDataSource {
         realm.copyToRealmOrUpdate(new MovieR(movieId, isFavorite));
         realm.commitTransaction();
         return Completable.complete();
+    }
+
+    @Override
+    public Single<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMovies(String query) {
+        return null;
     }
 }

@@ -16,7 +16,7 @@ import io.reactivex.processors.ReplayProcessor;
 import msa.arc.base.BaseViewModel;
 import msa.domain.entities.Lce;
 import msa.domain.entities.Movie;
-import msa.domain.usecases.GetMoviesLce;
+import msa.domain.usecases.old.GetMoviesLce;
 
 /**
  * Created by Abhimuktheeswarar on 11-06-2017.

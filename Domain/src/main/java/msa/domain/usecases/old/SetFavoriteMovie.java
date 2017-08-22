@@ -1,4 +1,4 @@
-package msa.domain.usecases;
+package msa.domain.usecases.old;
 
 import javax.inject.Inject;
 

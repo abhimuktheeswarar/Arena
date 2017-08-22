@@ -1,6 +1,4 @@
-package msa.domain.usecases;
-
-import java.util.List;
+package msa.domain.usecases.old;
 
 import javax.inject.Inject;
 
@@ -14,18 +12,18 @@ import msa.domain.interactor.old.UseCase;
  * Created by Abhimuktheeswarar on 01-05-2017.
  */
 
-public class SearchMovie extends UseCase<List<Movie>, String> {
+public class GetMoviesTypeOne extends UseCase<Movie, Integer> {
 
     private final Repository repository;
 
     @Inject
-    public SearchMovie(Repository repository, Scheduler mUiThread, Scheduler mExecutorThread) {
+    public GetMoviesTypeOne(Repository repository, Scheduler mUiThread, Scheduler mExecutorThread) {
         super(mUiThread, mExecutorThread);
         this.repository = repository;
     }
 
     @Override
-    protected Observable<List<Movie>> buildUseCaseObservable(String query) {
-        return repository.searchMovie(query);
+    protected Observable<Movie> buildUseCaseObservable(Integer page) {
+        return repository.getMovies(page);
     }
 }

@@ -18,6 +18,7 @@ import msa.domain.Repository;
 import msa.domain.entities.Lce;
 import msa.domain.entities.Movie;
 import msa.domain.entities.User;
+import msa.domain.holder.carrier.ResourceCarrier;
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.
@@ -112,5 +113,10 @@ public class ArenaRepository implements Repository {
     @Override
     public Completable setFavoriteMovie(String movieId, boolean isFavorite) {
         return dataStoreFactory.createRealmDataStore().setFavoriteMovie(movieId, isFavorite);
+    }
+
+    @Override
+    public Single<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMovies(String query) {
+        return dataStoreFactory.createRemoteDataSource().searchMovies(query);
     }
 }

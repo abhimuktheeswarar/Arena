@@ -41,8 +41,8 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    Repository provideRepository(ArenaRepository offoRepository) {
-        return offoRepository;
+    Repository provideRepository(ArenaRepository arenaRepository) {
+        return arenaRepository;
     }
 
 }

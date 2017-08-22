@@ -5,8 +5,8 @@ import javax.inject.Inject;
 import io.reactivex.Completable;
 import msa.arc.base.BaseViewModel;
 import msa.domain.entities.User;
-import msa.domain.usecases.GetMovieHashes;
-import msa.domain.usecases.UpdateUserTypeOne;
+import msa.domain.usecases.old.GetMovieHashes;
+import msa.domain.usecases.old.UpdateUserTypeOne;
 
 /**
  * Created by Abhimuktheeswarar on 08-06-2017.

@@ -12,10 +12,10 @@ import javax.inject.Inject;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import msa.domain.entities.Movie;
-import msa.domain.usecases.GetMovieHashes;
-import msa.domain.usecases.GetMoviesTypeFive;
-import msa.domain.usecases.GetMoviesTypeFour;
-import msa.domain.usecases.GetMoviesTypeSix;
+import msa.domain.usecases.old.GetMovieHashes;
+import msa.domain.usecases.old.GetMoviesTypeFive;
+import msa.domain.usecases.old.GetMoviesTypeFour;
+import msa.domain.usecases.old.GetMoviesTypeSix;
 import msa.rehearsal.injector.PerActivity;
 
 /**

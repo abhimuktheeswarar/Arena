@@ -5,7 +5,7 @@ import msa.arena.injector.PerActivity;
 import msa.arena.injector.modules.ActivityModule;
 import msa.arena.injector.modules.MovieModule;
 import msa.arena.movies.list.MoviesFragmentOld;
-import msa.arena.movies.search.MovieSearchFragmentOld;
+import msa.arena.movies.searchold.MovieSearchFragmentOld;
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.

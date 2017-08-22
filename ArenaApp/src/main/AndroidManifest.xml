@@ -30,7 +30,7 @@
             android:label="@string/title_activity_movies"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".movies.search.MovieSearchActivityOld"
+            android:name=".movies.searchold.MovieSearchActivityOld"
             android:label="@string/title_activity_movie_search"
             android:parentActivityName=".movies.list.MoviesActivityOld"
             android:theme="@style/AppTheme.NoActionBar">
@@ -38,10 +38,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="msa.arena.movies.list.MoviesActivityOld" />
         </activity>
-        <activity android:name=".constraint.ConstraintActivity" />
         <activity android:name=".tryout.di.DaggerActivity" />
+
         <activity
-            android:name=".epoxyplay.EpoxyPlayActivity"
+            android:name=".movies.search.searchmenu.SearchMenuActivity"
+            android:label="@string/title_activity_search_menu"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

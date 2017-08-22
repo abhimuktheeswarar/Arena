@@ -54,7 +54,7 @@ public class JobExecutor implements ThreadExecutor {
     }
 
     private static class JobThreadFactory implements ThreadFactory {
-        private static final String THREAD_NAME = "offo_";
+        private static final String THREAD_NAME = "arena_";
         private int counter = 0;
 
         @Override

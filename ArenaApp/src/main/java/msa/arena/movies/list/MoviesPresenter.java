@@ -18,9 +18,9 @@ import msa.arena.movies.MoviesItem_;
 import msa.arena.movies.MoviesView;
 import msa.domain.entities.Lce;
 import msa.domain.entities.Movie;
-import msa.domain.usecases.GetMoviesTypeOne;
-import msa.domain.usecases.GetMoviesTypeTwo;
-import msa.domain.usecases.GetMoviesTypeTwoLce;
+import msa.domain.usecases.old.GetMoviesTypeOne;
+import msa.domain.usecases.old.GetMoviesTypeTwo;
+import msa.domain.usecases.old.GetMoviesTypeTwoLce;
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.

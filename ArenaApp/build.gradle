@@ -140,4 +140,5 @@ dependencies {
     debugCompile developmentDependencies.leakCanary
     compile developmentDependencies.takt
     compile developmentDependencies.logger
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }

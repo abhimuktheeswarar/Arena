@@ -27,6 +27,7 @@ import msa.data.repository.BaseDataSource;
 import msa.domain.entities.Lce;
 import msa.domain.entities.Movie;
 import msa.domain.entities.User;
+import msa.domain.holder.carrier.ResourceCarrier;
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.
@@ -155,6 +156,11 @@ public class DummyDataSource implements BaseDataSource {
 
     @Override
     public Completable setFavoriteMovie(String movieId, boolean isFavorite) {
+        return null;
+    }
+
+    @Override
+    public Single<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMovies(String query) {
         return null;
     }
 

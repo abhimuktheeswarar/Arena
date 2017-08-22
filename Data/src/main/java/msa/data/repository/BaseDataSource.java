@@ -10,6 +10,7 @@ import io.reactivex.Single;
 import msa.domain.entities.Lce;
 import msa.domain.entities.Movie;
 import msa.domain.entities.User;
+import msa.domain.holder.carrier.ResourceCarrier;
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.
@@ -44,4 +45,6 @@ public interface BaseDataSource {
     Single<List<Movie>> searchForMovie(String query);
 
     Completable setFavoriteMovie(String movieId, boolean isFavorite);
+
+    Single<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMovies(String query);
 }

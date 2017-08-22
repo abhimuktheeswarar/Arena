@@ -1,6 +1,6 @@
-package msa.domain.usecases;
+package msa.domain.usecases.old;
 
-import java.util.List;
+import java.util.LinkedHashMap;
 
 import javax.inject.Inject;
 
@@ -14,18 +14,18 @@ import msa.domain.interactor.old.UseCaseTypeThree;
  * Created by Abhimuktheeswarar on 01-05-2017.
  */
 
-public class GetMoviesTypeFour extends UseCaseTypeThree<List<Movie>, Integer> {
+public class GetMovieHashes extends UseCaseTypeThree<LinkedHashMap<String, Movie>, Integer> {
 
     private final Repository repository;
 
     @Inject
-    public GetMoviesTypeFour(Repository repository, Scheduler mUiThread, Scheduler mExecutorThread) {
+    public GetMovieHashes(Repository repository, Scheduler mUiThread, Scheduler mExecutorThread) {
         super(mUiThread, mExecutorThread);
         this.repository = repository;
     }
 
     @Override
-    protected Observable<List<Movie>> buildUseCaseObservable(Integer page) {
-        return repository.getMovieList(page);
+    protected Observable<LinkedHashMap<String, Movie>> buildUseCaseObservable(Integer page) {
+        return repository.getMovieHashes(page);
     }
 }

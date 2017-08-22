@@ -32,6 +32,7 @@ import msa.data.repository.BaseDataSource;
 import msa.domain.entities.Lce;
 import msa.domain.entities.Movie;
 import msa.domain.entities.User;
+import msa.domain.holder.carrier.ResourceCarrier;
 import retrofit2.HttpException;
 
 /**
@@ -315,6 +316,19 @@ public class RemoteDataSource implements BaseDataSource {
     @Override
     public Completable setFavoriteMovie(String movieId, boolean isFavorite) {
         return null;
+    }
+
+    @Override
+    public Single<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMovies(String query) {
+        Log.d(TAG, "Query = " + query);
+        return arenaApi.searchForMovie(query).map(movieSearchPojo -> {
+            LinkedHashMap<String, Movie> linkedHashMap = new LinkedHashMap<>();
+            for (MovieSearchResult movieSearchResult : movieSearchPojo.getResults())
+                linkedHashMap.put(String.valueOf(movieSearchResult.getId()), new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false));
+            if (linkedHashMap.size() > 0) return ResourceCarrier.success(linkedHashMap);
+            else
+                return ResourceCarrier.error("Sorry, we couldn't find anything", 2, linkedHashMap);
+        });
     }
 
     private <V> Observable<V> getObs(Observable<V> observable) {

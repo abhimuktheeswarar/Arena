@@ -1,4 +1,4 @@
-package msa.arena.movies.search;
+package msa.arena.movies.searchold;
 
 import android.accounts.NetworkErrorException;
 import android.util.Log;
@@ -28,9 +28,9 @@ import msa.arena.movies.MoviesItem;
 import msa.arena.movies.MoviesItem_;
 import msa.arena.movies.MoviesView;
 import msa.domain.entities.Movie;
-import msa.domain.usecases.SearchForMovie;
-import msa.domain.usecases.SearchMovie;
-import msa.domain.usecases.SearchMovieTypeTwo;
+import msa.domain.usecases.old.SearchForMovie;
+import msa.domain.usecases.old.SearchMovie;
+import msa.domain.usecases.old.SearchMovieTypeTwo;
 
 /**
  * Created by Abhimuktheeswarar on 02-05-2017.

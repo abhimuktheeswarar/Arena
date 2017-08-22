@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import msa.arena.movies.list.MoviesActivityOld;
-import msa.arena.movies.search.MovieSearchActivityOld;
+import msa.arena.movies.searchold.MovieSearchActivityOld;
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.

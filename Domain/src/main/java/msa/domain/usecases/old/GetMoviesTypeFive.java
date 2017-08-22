@@ -1,4 +1,4 @@
-package msa.domain.usecases;
+package msa.domain.usecases.old;
 
 import javax.inject.Inject;
 
@@ -6,18 +6,18 @@ import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 import msa.domain.Repository;
 import msa.domain.entities.Movie;
-import msa.domain.interactor.old.UseCase;
+import msa.domain.interactor.old.UseCaseTypeThree;
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.
  */
 
-public class GetMoviesTypeOne extends UseCase<Movie, Integer> {
+public class GetMoviesTypeFive extends UseCaseTypeThree<Movie, Integer> {
 
     private final Repository repository;
 
     @Inject
-    public GetMoviesTypeOne(Repository repository, Scheduler mUiThread, Scheduler mExecutorThread) {
+    public GetMoviesTypeFive(Repository repository, Scheduler mUiThread, Scheduler mExecutorThread) {
         super(mUiThread, mExecutorThread);
         this.repository = repository;
     }
