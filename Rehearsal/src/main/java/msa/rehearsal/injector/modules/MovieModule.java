@@ -1,22 +1,21 @@
 package msa.rehearsal.injector.modules;
 
-import com.msa.domain.Repository;
-import com.msa.domain.usecases.GetMovieHashes;
-import com.msa.domain.usecases.GetMoviesTypeFive;
-import com.msa.domain.usecases.GetMoviesTypeFour;
-import com.msa.domain.usecases.GetMoviesTypeOne;
-import com.msa.domain.usecases.GetMoviesTypeSix;
-import com.msa.domain.usecases.GetMoviesTypeThree;
-import com.msa.domain.usecases.GetMoviesTypeTwo;
-import com.msa.domain.usecases.SearchForMovie;
-import com.msa.domain.usecases.SearchMovie;
-import com.msa.domain.usecases.SearchMovieTypeTwo;
-
 import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
 import io.reactivex.Scheduler;
+import msa.domain.Repository;
+import msa.domain.usecases.GetMovieHashes;
+import msa.domain.usecases.GetMoviesTypeFive;
+import msa.domain.usecases.GetMoviesTypeFour;
+import msa.domain.usecases.GetMoviesTypeOne;
+import msa.domain.usecases.GetMoviesTypeSix;
+import msa.domain.usecases.GetMoviesTypeThree;
+import msa.domain.usecases.GetMoviesTypeTwo;
+import msa.domain.usecases.SearchForMovie;
+import msa.domain.usecases.SearchMovie;
+import msa.domain.usecases.SearchMovieTypeTwo;
 import msa.rehearsal.injector.PerActivity;
 
 /**

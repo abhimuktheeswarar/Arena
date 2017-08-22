@@ -2,14 +2,13 @@ package msa.arena.injector.components;
 
 import android.content.Context;
 
-import com.msa.domain.Repository;
-
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Component;
 import io.reactivex.Scheduler;
 import msa.arena.injector.modules.ApplicationModule;
+import msa.domain.Repository;
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.

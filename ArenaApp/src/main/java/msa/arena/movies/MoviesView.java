@@ -1,10 +1,9 @@
 package msa.arena.movies;
 
-import com.msa.domain.entities.Movie;
-
 import java.util.List;
 
 import msa.arena.base.BaseView;
+import msa.domain.entities.Movie;
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.

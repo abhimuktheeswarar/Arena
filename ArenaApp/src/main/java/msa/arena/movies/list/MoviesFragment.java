@@ -10,8 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.msa.domain.entities.Movie;
-
 import java.util.List;
 
 import javax.inject.Inject;
@@ -27,6 +25,7 @@ import msa.arena.injector.components.MovieComponent;
 import msa.arena.movies.MoviesItem;
 import msa.arena.movies.MoviesView;
 import msa.arena.utilities.EndlessRecyclerViewScrollListener;
+import msa.domain.entities.Movie;
 
 /**
  * A placeholder fragment containing a simple view.

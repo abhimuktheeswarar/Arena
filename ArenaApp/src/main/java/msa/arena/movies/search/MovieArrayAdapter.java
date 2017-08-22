@@ -8,12 +8,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 
-import com.msa.domain.entities.Movie;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
 import msa.arena.injector.PerActivity;
+import msa.domain.entities.Movie;
 
 /**
  * Created by Abhimuktheeswarar on 03-05-2017.

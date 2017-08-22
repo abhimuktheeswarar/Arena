@@ -11,8 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.davidmoten.rx2.util.Pair;
-import com.msa.domain.entities.Lce;
-import com.msa.domain.entities.Movie;
 
 import java.util.LinkedHashMap;
 import java.util.concurrent.TimeUnit;
@@ -25,6 +23,8 @@ import io.reactivex.subscribers.DisposableSubscriber;
 import msa.arc.R;
 import msa.arc.base.BaseFragment;
 import msa.arc.utilities.EndlessRecyclerViewScrollListener;
+import msa.domain.entities.Lce;
+import msa.domain.entities.Movie;
 
 /**
  * A placeholder fragment containing a simple view.

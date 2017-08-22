@@ -8,11 +8,11 @@ import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyModel;
 import com.airbnb.epoxy.EpoxyModelClass;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
-import com.msa.domain.entities.Movie;
 
 import java.util.List;
 
 import butterknife.BindView;
+import msa.domain.entities.Movie;
 import msa.rehearsal.R;
 import msa.rehearsal.base.BaseEpoxyHolder;
 

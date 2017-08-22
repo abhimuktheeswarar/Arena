@@ -21,8 +21,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ListPopupWindow;
 
-import com.msa.domain.entities.Movie;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -41,6 +39,7 @@ import msa.arena.injector.components.MovieComponent;
 import msa.arena.movies.MoviesItem;
 import msa.arena.movies.MoviesView;
 import msa.arena.utilities.RxSearch;
+import msa.domain.entities.Movie;
 
 /**
  * A placeholder fragment containing a simple view.

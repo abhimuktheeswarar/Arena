@@ -10,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.msa.domain.entities.Movie;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -29,6 +27,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import msa.domain.entities.Movie;
 import msa.rehearsal.R;
 import msa.rehearsal.base.BaseFragment;
 import msa.rehearsal.injector.components.MovieComponent;

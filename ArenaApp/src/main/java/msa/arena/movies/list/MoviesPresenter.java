@@ -2,12 +2,6 @@ package msa.arena.movies.list;
 
 import android.util.Log;
 
-import com.msa.domain.entities.Lce;
-import com.msa.domain.entities.Movie;
-import com.msa.domain.usecases.GetMoviesTypeOne;
-import com.msa.domain.usecases.GetMoviesTypeTwo;
-import com.msa.domain.usecases.GetMoviesTypeTwoLce;
-
 import org.reactivestreams.Publisher;
 
 import javax.inject.Inject;
@@ -22,6 +16,11 @@ import msa.arena.base.BasePresenterInterface;
 import msa.arena.injector.PerActivity;
 import msa.arena.movies.MoviesItem_;
 import msa.arena.movies.MoviesView;
+import msa.domain.entities.Lce;
+import msa.domain.entities.Movie;
+import msa.domain.usecases.GetMoviesTypeOne;
+import msa.domain.usecases.GetMoviesTypeTwo;
+import msa.domain.usecases.GetMoviesTypeTwoLce;
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.

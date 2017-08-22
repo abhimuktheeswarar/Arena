@@ -2,13 +2,12 @@ package msa.arc.base;
 
 import android.arch.lifecycle.ViewModel;
 
-import com.msa.domain.entities.User;
-import com.msa.domain.usecases.GetUserTypeOne;
-
 import javax.inject.Inject;
 
 import dagger.Lazy;
 import io.reactivex.Observable;
+import msa.domain.entities.User;
+import msa.domain.usecases.GetUserTypeOne;
 
 /**
  * Created by Abhimuktheeswarar on 08-06-2017.

@@ -1,10 +1,9 @@
 package msa.arena.movies.list;
 
-import com.msa.domain.entities.Movie;
-import com.msa.domain.interactor.DefaultObserver;
-
 import msa.arena.movies.MoviesItem_;
 import msa.arena.movies.MoviesView;
+import msa.domain.entities.Movie;
+import msa.domain.interactor.old.DefaultObserver;
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.

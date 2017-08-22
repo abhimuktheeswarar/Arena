@@ -4,10 +4,6 @@ import android.accounts.NetworkErrorException;
 import android.util.Log;
 
 import com.github.davidmoten.rx2.RetryWhen;
-import com.msa.domain.entities.Movie;
-import com.msa.domain.usecases.SearchForMovie;
-import com.msa.domain.usecases.SearchMovie;
-import com.msa.domain.usecases.SearchMovieTypeTwo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +27,10 @@ import msa.arena.injector.PerActivity;
 import msa.arena.movies.MoviesItem;
 import msa.arena.movies.MoviesItem_;
 import msa.arena.movies.MoviesView;
+import msa.domain.entities.Movie;
+import msa.domain.usecases.SearchForMovie;
+import msa.domain.usecases.SearchMovie;
+import msa.domain.usecases.SearchMovieTypeTwo;
 
 /**
  * Created by Abhimuktheeswarar on 02-05-2017.

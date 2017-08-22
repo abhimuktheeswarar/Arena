@@ -2,8 +2,6 @@ package msa.arena.injector.modules;
 
 import android.content.Context;
 
-import com.msa.domain.Repository;
-
 import javax.inject.Named;
 import javax.inject.Singleton;
 
@@ -13,7 +11,8 @@ import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import msa.arena.ArenaApplication;
-import msa.arena.data.repository.ArenaRepository;
+import msa.data.repository.ArenaRepository;
+import msa.domain.Repository;
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.

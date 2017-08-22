@@ -2,10 +2,6 @@ package msa.arc.movies.movielist;
 
 import android.util.Log;
 
-import com.msa.domain.entities.Lce;
-import com.msa.domain.entities.Movie;
-import com.msa.domain.usecases.GetMoviesLce;
-
 import org.reactivestreams.Publisher;
 
 import java.util.LinkedHashMap;
@@ -18,6 +14,9 @@ import io.reactivex.functions.Function;
 import io.reactivex.processors.PublishProcessor;
 import io.reactivex.processors.ReplayProcessor;
 import msa.arc.base.BaseViewModel;
+import msa.domain.entities.Lce;
+import msa.domain.entities.Movie;
+import msa.domain.usecases.GetMoviesLce;
 
 /**
  * Created by Abhimuktheeswarar on 11-06-2017.

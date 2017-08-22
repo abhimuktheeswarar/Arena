@@ -2,14 +2,14 @@ package msa.arc.movies.movielist;
 
 import com.airbnb.epoxy.TypedEpoxyController;
 import com.github.davidmoten.rx2.util.Pair;
-import com.msa.domain.entities.Lce;
-import com.msa.domain.entities.Movie;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import io.reactivex.Flowable;
 import io.reactivex.processors.BehaviorProcessor;
+import msa.domain.entities.Lce;
+import msa.domain.entities.Movie;
 
 /**
  * Created by Abhimuktheeswarar on 11-06-2017.
