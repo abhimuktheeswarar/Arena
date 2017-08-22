@@ -19,8 +19,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dagger.Lazy;
 import msa.arena.R;
-import msa.arena.base.BaseEpoxyAdapter;
-import msa.arena.base.BaseFragment;
+import msa.arena.base.old.BaseEpoxyAdapter;
+import msa.arena.base.old.BaseFragmentOld;
 import msa.arena.injector.components.MovieComponent;
 import msa.arena.movies.MoviesItem;
 import msa.arena.movies.MoviesView;
@@ -30,7 +30,7 @@ import msa.domain.entities.Movie;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MoviesFragment extends BaseFragment implements MoviesView {
+public class MoviesFragmentOld extends BaseFragmentOld implements MoviesView {
 
     @BindView(R.id.text_page_number)
     TextView textView_Page;

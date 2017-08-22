@@ -33,8 +33,8 @@ import butterknife.OnClick;
 import dagger.Lazy;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import msa.arena.R;
-import msa.arena.base.BaseEpoxyAdapter;
-import msa.arena.base.BaseFragment;
+import msa.arena.base.old.BaseEpoxyAdapter;
+import msa.arena.base.old.BaseFragmentOld;
 import msa.arena.injector.components.MovieComponent;
 import msa.arena.movies.MoviesItem;
 import msa.arena.movies.MoviesView;
@@ -44,10 +44,10 @@ import msa.domain.entities.Movie;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MovieSearchFragment extends BaseFragment
+public class MovieSearchFragmentOld extends BaseFragmentOld
         implements MoviesView, MovieArrayAdapter.MovieArrayAdapterInterface {
 
-    private static final String TAG = MovieSearchFragment.class.getSimpleName();
+    private static final String TAG = MovieSearchFragmentOld.class.getSimpleName();
     final int EXPAND_MAX = 3;
 
     @BindView(R.id.autoCompleteTextView)

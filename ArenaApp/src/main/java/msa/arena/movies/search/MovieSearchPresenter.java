@@ -22,7 +22,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
-import msa.arena.base.BasePresenterInterface;
+import msa.arena.base.old.BasePresenterInterface;
 import msa.arena.injector.PerActivity;
 import msa.arena.movies.MoviesItem;
 import msa.arena.movies.MoviesItem_;

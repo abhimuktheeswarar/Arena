@@ -2,10 +2,12 @@ package msa.arena;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 
 import com.amitshekhar.DebugDB;
 import com.frogermcs.androiddevmetrics.AndroidDevMetrics;
 import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 import javax.inject.Inject;
 
@@ -28,7 +30,14 @@ public class ArenaApplication extends Application implements HasActivityInjector
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
 
+    private RefWatcher refWatcher;
+
     private ApplicationComponent applicationComponent;
+
+    public static RefWatcher getRefWatcher(Context context) {
+        ArenaApplication offoApplication = (ArenaApplication) context.getApplicationContext();
+        return offoApplication.refWatcher;
+    }
 
     @Override
     public void onCreate() {
@@ -41,6 +50,7 @@ public class ArenaApplication extends Application implements HasActivityInjector
             if (LeakCanary.isInAnalyzerProcess(this)) {
                 return;
             }
+            refWatcher = LeakCanary.install(this);
             Takt.stock(this).play();
         }
 
@@ -48,7 +58,6 @@ public class ArenaApplication extends Application implements HasActivityInjector
 
         this.initializeInjector();
     }
-
 
     @Override
     public AndroidInjector<Activity> activityInjector() {

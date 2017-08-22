@@ -1,9 +1,16 @@
 package msa.arena.base;
 
+import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.support.v4.app.Fragment;
+import android.os.Bundle;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.squareup.leakcanary.RefWatcher;
@@ -16,21 +23,18 @@ import msa.arena.BuildConfig;
 import rx.subscriptions.CompositeSubscription;
 
 /**
- * Created by Abhimuktheeswarar on 04-05-2017
+ * Created by Abhimuktheeswarar on 22-09-2016.
  */
 
-
-/**
- * Base {@link Fragment} class for every fragment in this application.
- */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFullScreenDialogFragment extends DialogFragment {
 
     protected final String TAG = this.getClass().getSimpleName();
 
     @Inject
     protected ViewModelProvider.Factory viewModelFactory;
-    protected CompositeDisposable compositeDisposable = new CompositeDisposable();
-    protected CompositeSubscription compositeSubscription = new CompositeSubscription();
+
+    protected CompositeDisposable compositeDisposable;
+    protected CompositeSubscription compositeSubscription;
 
     protected <V extends BaseViewModel> V getViewModelF(Class<V> viewModelClass) {
         return ViewModelProviders.of(this, viewModelFactory).get(viewModelClass);
@@ -43,15 +47,18 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        compositeDisposable = new CompositeDisposable();
+        compositeSubscription = new CompositeSubscription();
         bind();
     }
+
 
     @Override
     public void onStop() {
         super.onStop();
         unBind();
-        compositeDisposable.clear();
-        compositeSubscription.clear();
+        compositeDisposable.dispose();
+        compositeSubscription.unsubscribe();
     }
 
     @Override
@@ -61,13 +68,6 @@ public abstract class BaseFragment extends Fragment {
             RefWatcher refWatcher = ArenaApplication.getRefWatcher(getActivity());
             refWatcher.watch(this);
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        compositeDisposable.dispose();
-        compositeSubscription.unsubscribe();
     }
 
     /**
@@ -85,14 +85,43 @@ public abstract class BaseFragment extends Fragment {
         return Math.round(dp * (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
-    protected int pxToDp(int px) {
-        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-        return Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-    }
-
     protected abstract void bind();
 
     protected abstract void unBind();
 
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        return dialog;
+    }
 
+
+    protected void showToast(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    protected void setSupportActionBar(Toolbar toolbar) {
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
+    }
+
+    protected void setDisplayHomeAsUpEnabled(boolean shouldEnable) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(shouldEnable);
+
+    }
+
+    protected void setDisplayShowTitleEnabled(boolean shouldShow) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(shouldShow);
+
+    }
+
+    public void setTitle(String title) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
+    }
+
+    protected void setIcon(@DrawableRes int resId) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setLogo(resId);
+    }
 }

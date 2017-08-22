@@ -1,4 +1,4 @@
-package msa.arena.base;
+package msa.arena.base.old;
 
 import com.airbnb.epoxy.EpoxyAdapter;
 import com.airbnb.epoxy.EpoxyHolder;

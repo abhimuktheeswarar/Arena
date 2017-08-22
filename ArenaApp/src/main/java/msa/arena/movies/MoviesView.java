@@ -2,7 +2,7 @@ package msa.arena.movies;
 
 import java.util.List;
 
-import msa.arena.base.BaseView;
+import msa.arena.base.old.BaseView;
 import msa.domain.entities.Movie;
 
 /**

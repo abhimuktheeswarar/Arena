@@ -8,12 +8,12 @@ import android.support.v7.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import msa.arena.R;
-import msa.arena.base.BaseActivity;
+import msa.arena.base.old.BaseActivityOld;
 import msa.arena.injector.components.ApplicationComponent;
 import msa.arena.injector.components.DaggerMovieComponent;
 import msa.arena.injector.components.MovieComponent;
 
-public class MovieSearchActivity extends BaseActivity {
+public class MovieSearchActivityOld extends BaseActivityOld {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;

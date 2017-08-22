@@ -8,12 +8,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import msa.arena.Navigator;
 import msa.arena.R;
-import msa.arena.base.BaseActivity;
+import msa.arena.base.old.BaseActivityOld;
 import msa.arena.injector.components.ApplicationComponent;
 import msa.arena.injector.components.DaggerMovieComponent;
 import msa.arena.injector.components.MovieComponent;
 
-public class MoviesActivity extends BaseActivity {
+public class MoviesActivityOld extends BaseActivityOld {
 
   @BindView(R.id.toolbar)
   Toolbar toolbar;
@@ -28,7 +28,7 @@ public class MoviesActivity extends BaseActivity {
     setSupportActionBar(toolbar);
 
     FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-    fab.setOnClickListener(view -> Navigator.navigateToMovieSearchActivity(MoviesActivity.this));
+    fab.setOnClickListener(view -> Navigator.navigateToMovieSearchActivity(MoviesActivityOld.this));
   }
 
   @Override
