@@ -17,10 +17,20 @@ package msa.data.repository;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
+
+import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity;
+import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.SingleSource;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.subjects.BehaviorSubject;
 import io.realm.Realm;
 import msa.data.repository.datasources.dummy.DummyDataSource;
 import msa.data.repository.datasources.local.realm.RealmDataSource;
@@ -28,6 +38,7 @@ import msa.data.repository.datasources.local.sp.SharedPreferenceDataSource;
 import msa.data.repository.datasources.remote.ArenaApi;
 import msa.data.repository.datasources.remote.RemoteConnection;
 import msa.data.repository.datasources.remote.RemoteDataSource;
+import msa.domain.holder.carrier.ResourceCarrier;
 
 /**
  * Factory that creates different implementations of {@link BaseDataSource}.
@@ -36,32 +47,90 @@ import msa.data.repository.datasources.remote.RemoteDataSource;
 public class DataStoreFactory {
 
     private final Context context;
+    private final RemoteDataSource remoteDataSource;
+    private final SharedPreferenceDataSource sharedPreferenceDataSource;
+    private final RealmDataSource realmDataSource;
+    private final DummyDataSource dummyDataSource;
+    private final Observable<Connectivity> connectivityObservable;
+    private final BehaviorSubject<Boolean> behaviorSubject;
+    private boolean isInternetAvailable;
 
     @Inject
     public DataStoreFactory(@NonNull Context context) {
         this.context = context.getApplicationContext();
+        remoteDataSource = new RemoteDataSource(RemoteConnection.createService(ArenaApi.class), context);
+        connectivityObservable = ReactiveNetwork.observeNetworkConnectivity(context);
+        behaviorSubject = BehaviorSubject.create();
+        connectivityObservable.doOnNext(new Consumer<Connectivity>() {
+            @Override
+            public void accept(Connectivity connectivity) throws Exception {
+                Log.d(DataStoreFactory.class.getSimpleName(), "Is network available 0 = " + connectivity);
+                isInternetAvailable = connectivity.isAvailable();
+                behaviorSubject.onNext(connectivity.isAvailable());
+            }
+        });
+        connectivityObservable.subscribe();
+        sharedPreferenceDataSource = new SharedPreferenceDataSource(context);
         Realm.init(context);
+        realmDataSource = new RealmDataSource(Realm.getDefaultInstance());
+        dummyDataSource = new DummyDataSource(context);
     }
 
     /**
      * Create {@link RemoteDataSource} to retrieve data from the Cloud.
      */
-    RemoteDataSource createRemoteDataSource() {
+    RemoteDataSource getRemoteDataSource() {
 
-        return new RemoteDataSource(RemoteConnection.createService(ArenaApi.class), context);
+        return remoteDataSource;
     }
 
-    DummyDataSource createDummyDataSource() {
-        return new DummyDataSource(context);
+    Single<ResourceCarrier<RemoteDataSource>> getRemoteDataSourceSingle() {
+
+       /* return connectivityObservable.concatMap(new Function<Connectivity, Observable<ResourceCarrier<RemoteDataSource>>>() {
+            @Override
+            public Observable<ResourceCarrier<RemoteDataSource>> apply(@io.reactivex.annotations.NonNull Connectivity connectivity) throws Exception {
+                Log.d(RemoteDataSource.class.getSimpleName(), "Is network available 0 = " + connectivity.isAvailable());
+                if (connectivity.isAvailable())
+                    return Observable.just(ResourceCarrier.success(getRemoteDataSource()));
+                else return Observable.just(ResourceCarrier.error("No internet", 2));
+            }
+        }).single(ResourceCarrier.error("Unknown error"));*/
+        return connectivityObservable.singleOrError().flatMap(new Function<Connectivity, SingleSource<? extends ResourceCarrier<RemoteDataSource>>>() {
+            @Override
+            public SingleSource<? extends ResourceCarrier<RemoteDataSource>> apply(@io.reactivex.annotations.NonNull Connectivity connectivity) throws Exception {
+                if (connectivity.isAvailable())
+                    return Single.just(ResourceCarrier.success(getRemoteDataSource()));
+                else return Single.just(ResourceCarrier.error("No internet", 2));
+            }
+        });
+        //return Single.just(ResourceCarrier.success(getRemoteDataSource()));
     }
 
-    SharedPreferenceDataSource createSharedPreferenceDataSource() {
-        return new SharedPreferenceDataSource(context);
+    Observable<ResourceCarrier<RemoteDataSource>> getRemoteDataSourceObservable() {
+
+        behaviorSubject.onNext(isInternetAvailable);
+
+        return behaviorSubject.switchMap(new Function<Boolean, Observable<ResourceCarrier<RemoteDataSource>>>() {
+            @Override
+            public Observable<ResourceCarrier<RemoteDataSource>> apply(@io.reactivex.annotations.NonNull Boolean connectivity) throws Exception {
+                Log.d(DataStoreFactory.class.getSimpleName(), "Is network available 1 = " + connectivity);
+                if (connectivity)
+                    return Observable.just(ResourceCarrier.success(getRemoteDataSource()));
+                else return Observable.just(ResourceCarrier.error("No internet", 2));
+            }
+        });
     }
 
-    RealmDataSource createRealmDataStore() {
-        return new RealmDataSource(Realm.getDefaultInstance());
+
+    DummyDataSource getDummyDataSource() {
+        return dummyDataSource;
     }
 
+    SharedPreferenceDataSource getSharedPreferenceDataSource() {
+        return sharedPreferenceDataSource;
+    }
 
+    RealmDataSource getRealmDataStore() {
+        return realmDataSource;
+    }
 }

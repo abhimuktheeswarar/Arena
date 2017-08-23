@@ -5,7 +5,8 @@ import dagger.Provides;
 import msa.domain.Repository;
 import msa.domain.executor.PostExecutionThread;
 import msa.domain.executor.ThreadExecutor;
-import msa.domain.usecases.SearchMovies;
+import msa.domain.usecases.SearchMoviesObservable;
+import msa.domain.usecases.SearchMoviesSingle;
 
 /**
  * Created by Abhimuktheeswarar on 08-06-2017.
@@ -15,8 +16,13 @@ import msa.domain.usecases.SearchMovies;
 public class UseCaseModule {
 
     @Provides
-    SearchMovies provideSearchMoviesUseCase(Repository repository, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
-        return new SearchMovies(repository, threadExecutor, postExecutionThread);
+    SearchMoviesSingle provideSearchMoviesSingleUseCase(Repository repository, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+        return new SearchMoviesSingle(repository, threadExecutor, postExecutionThread);
+    }
+
+    @Provides
+    SearchMoviesObservable provideSearchMoviesObservableUseCase(Repository repository, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+        return new SearchMoviesObservable(repository, threadExecutor, postExecutionThread);
     }
 
 }

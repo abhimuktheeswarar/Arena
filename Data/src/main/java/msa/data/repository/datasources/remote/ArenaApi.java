@@ -26,6 +26,9 @@ public interface ArenaApi {
     Single<MovieSearchPojo> searchForMovie(@Query("query") String query);
 
     @GET("search/movie")
+    Observable<MovieSearchPojo> searchForMovieObservable(@Query("query") String query);
+
+    @GET("search/movie")
     Observable<MovieSearchPojo> searchMovie(@Query("query") String query);
 
     @GET("discover/movie?&language=en-US&sort_by=popularity.desc&page=1")

@@ -36,6 +36,8 @@ import msa.arena.R;
 import msa.arena.base.old.BaseEpoxyAdapter;
 import msa.arena.base.old.BaseFragmentOld;
 import msa.arena.injector.components.MovieComponent;
+import msa.arena.movies.list.MoviesItem;
+import msa.arena.movies.list.MoviesView;
 import msa.arena.utilities.RxSearch;
 import msa.domain.entities.Movie;
 

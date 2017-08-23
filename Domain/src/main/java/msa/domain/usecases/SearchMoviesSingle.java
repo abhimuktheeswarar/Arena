@@ -16,10 +16,10 @@ import msa.domain.interactor.UseCaseSingle;
  * Created by Abhimuktheeswarar on 22-08-2017.
  */
 
-public class SearchMovies extends UseCaseSingle<ResourceCarrier<LinkedHashMap<String, Movie>>, SearchMovies.Params> {
+public class SearchMoviesSingle extends UseCaseSingle<ResourceCarrier<LinkedHashMap<String, Movie>>, SearchMoviesSingle.Params> {
 
     @Inject
-    public SearchMovies(Repository repository, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+    public SearchMoviesSingle(Repository repository, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
         super(repository, threadExecutor, postExecutionThread);
     }
 
@@ -27,7 +27,7 @@ public class SearchMovies extends UseCaseSingle<ResourceCarrier<LinkedHashMap<St
     protected Single<ResourceCarrier<LinkedHashMap<String, Movie>>> buildUseCaseSingle(Params params) {
         if (params.query.length() == 0)
             return Single.just(ResourceCarrier.completed(new LinkedHashMap<String, Movie>()));
-        else return repository.searchMovies(params.query);
+        else return repository.searchMoviesSingle(params.query);
     }
 
     public static final class Params {
@@ -38,8 +38,8 @@ public class SearchMovies extends UseCaseSingle<ResourceCarrier<LinkedHashMap<St
             this.query = query;
         }
 
-        public static SearchMovies.Params setQuery(String query) {
-            return new SearchMovies.Params(query);
+        public static SearchMoviesSingle.Params setQuery(String query) {
+            return new SearchMoviesSingle.Params(query);
         }
     }
 }

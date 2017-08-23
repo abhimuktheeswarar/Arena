@@ -62,7 +62,7 @@ ext {
     alerterVersion = '1.0.8'
 
     rxPreferencesVersion = '2.0.0-RC2'
-    reactiveNetworkVersion = '0.9.1'
+    reactiveNetworkVersion = '0.11.0'
     rxJava2InteropVersion = '0.10.0'
 
     //Testing

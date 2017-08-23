@@ -24,6 +24,9 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 import msa.arena.base.old.BasePresenterInterface;
 import msa.arena.injector.PerActivity;
+import msa.arena.movies.list.MoviesItem;
+import msa.arena.movies.list.MoviesItem_;
+import msa.arena.movies.list.MoviesView;
 import msa.domain.entities.Movie;
 import msa.domain.usecases.old.SearchForMovie;
 import msa.domain.usecases.old.SearchMovie;
@@ -41,7 +44,7 @@ class MovieSearchPresenter implements BasePresenterInterface {
     private final SearchMovieTypeTwo searchMovieTypeTwo;
     private final SearchForMovie searchForMovie;
     PublishSubject<String> subject = PublishSubject.create();
-    Flowable<Long> delays = Flowable.just(10L, 20L, 30L, 30L, 30L);
+    Flowable<Long> delays = Flowable.just(2L, 5L, 8L, 30L, 30L);
     String[] countries = {
             "India", "Sweden", "Austria", "France", "Germany", "Canada", "Mexico", "Brazil", "Chile"
     };
@@ -103,8 +106,7 @@ class MovieSearchPresenter implements BasePresenterInterface {
                     public void onNext(@NonNull List<Movie> movies) {
                         List<MoviesItem> moviesItems = new ArrayList<MoviesItem>();
                         for (Movie movie : movies)
-                            moviesItems.add(
-                                    new MoviesItem_().movieId(movie.getMovieId()).movieName(movie.getMovieName()));
+                            moviesItems.add(new MoviesItem_().movieId(movie.getMovieId()).movieName(movie.getMovieName()));
                         moviesView.loadMovieItem(moviesItems);
                     }
 

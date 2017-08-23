@@ -1,7 +1,5 @@
 package msa.arena.movies.list;
 
-import msa.arena.movies.searchold.MoviesItem_;
-import msa.arena.movies.searchold.MoviesView;
 import msa.domain.entities.Movie;
 import msa.domain.interactor.old.DefaultObserver;
 
@@ -31,5 +29,5 @@ public class MoviesObserver extends DefaultObserver<Movie> {
     public void onError(Throwable exception) {
         super.onError(exception);
         moviesView.onError(exception.getMessage());
-  }
+    }
 }

@@ -20,7 +20,8 @@ import msa.domain.entities.Movie;
 import msa.domain.holder.carrier.ResourceCarrier;
 import msa.domain.holder.datastate.DataState;
 import msa.domain.holder.datastate.DataStateContainer;
-import msa.domain.usecases.SearchMovies;
+import msa.domain.usecases.SearchMoviesObservable;
+import msa.domain.usecases.SearchMoviesSingle;
 
 /**
  * Created by Abhimuktheeswarar on 22-08-2017.
@@ -28,7 +29,8 @@ import msa.domain.usecases.SearchMovies;
 
 public class SearchViewModel extends BaseViewModel {
 
-    private final SearchMovies searchMovies;
+    private final SearchMoviesSingle searchMoviesSingle;
+    private final SearchMoviesObservable searchMoviesObservable;
 
     private DataStateContainer<LinkedHashMap<String, Movie>> dataStateContainer;
 
@@ -37,8 +39,9 @@ public class SearchViewModel extends BaseViewModel {
     private ReplaySubject<DataStateContainer<LinkedHashMap<String, Movie>>> dataStateContainerReplaySubject;
 
     @Inject
-    SearchViewModel(SearchMovies searchMovies) {
-        this.searchMovies = searchMovies;
+    SearchViewModel(SearchMoviesSingle searchMoviesSingle, SearchMoviesObservable searchMoviesObservable) {
+        this.searchMoviesSingle = searchMoviesSingle;
+        this.searchMoviesObservable = searchMoviesObservable;
         initializeViewModel();
     }
 
@@ -52,7 +55,7 @@ public class SearchViewModel extends BaseViewModel {
         querySubject.concatMap(new Function<String, Observable<ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
             @Override
             public Observable<ResourceCarrier<LinkedHashMap<String, Movie>>> apply(@NonNull String query) throws Exception {
-                return searchMovies.execute(SearchMovies.Params.setQuery(query)).toObservable();
+                return searchMoviesSingle.execute(SearchMoviesSingle.Params.setQuery(query)).toObservable();
             }
         }).observeOn(Schedulers.computation()).map(linkedHashMapResourceCarrier -> {
             Log.d(TAG, "Status = " + linkedHashMapResourceCarrier.status);

@@ -134,4 +134,9 @@ public class SharedPreferenceDataSource implements BaseDataSource {
     public Single<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMovies(String query) {
         return null;
     }
+
+    @Override
+    public Observable<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMoviesObservable(String query) {
+        return null;
+    }
 }

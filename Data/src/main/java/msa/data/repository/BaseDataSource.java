@@ -47,4 +47,6 @@ public interface BaseDataSource {
     Completable setFavoriteMovie(String movieId, boolean isFavorite);
 
     Single<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMovies(String query);
+
+    Observable<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMoviesObservable(String query);
 }

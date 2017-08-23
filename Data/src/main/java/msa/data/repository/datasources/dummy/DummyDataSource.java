@@ -164,6 +164,11 @@ public class DummyDataSource implements BaseDataSource {
         return null;
     }
 
+    @Override
+    public Observable<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMoviesObservable(String query) {
+        return null;
+    }
+
     public Flowable<Movie> getMoviesTypeThree(int page) {
         return movieObservable.map(new Function<Movie, Movie>() {
             @Override

@@ -11,7 +11,10 @@ import javax.inject.Singleton;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 import msa.data.repository.datasources.local.realm.RealmDataSource;
 import msa.data.repository.datasources.remote.RemoteDataSource;
 import msa.domain.Repository;
@@ -19,6 +22,7 @@ import msa.domain.entities.Lce;
 import msa.domain.entities.Movie;
 import msa.domain.entities.User;
 import msa.domain.holder.carrier.ResourceCarrier;
+import msa.domain.holder.carrier.Status;
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.
@@ -40,25 +44,25 @@ public class ArenaRepository implements Repository {
 
     @Override
     public Observable<User> getUser() {
-        return dataStoreFactory.createSharedPreferenceDataSource().getUser();
+        return dataStoreFactory.getSharedPreferenceDataSource().getUser();
     }
 
     @Override
     public Completable updateUser(User user) {
-        return dataStoreFactory.createSharedPreferenceDataSource().updateUser(user);
+        return dataStoreFactory.getSharedPreferenceDataSource().updateUser(user);
     }
 
     @Override
     public Observable<Movie> getMovies(int page) {
-        //return dataStoreFactory.createRemoteDataSource().getMovies(page);
-        //return dataStoreFactory.createRemoteDataSource().getMovies(page);
-        return dataStoreFactory.createDummyDataSource().getMovies(page);
+        //return dataStoreFactory.getRemoteDataSource().getMovies(page);
+        //return dataStoreFactory.getRemoteDataSource().getMovies(page);
+        return dataStoreFactory.getDummyDataSource().getMovies(page);
 
     }
 
     @Override
     public Observable<List<Movie>> getMovieList(int page) {
-        return dataStoreFactory.createDummyDataSource().getMovieList(page);
+        return dataStoreFactory.getDummyDataSource().getMovieList(page);
     }
 
     @Override
@@ -68,55 +72,67 @@ public class ArenaRepository implements Repository {
 
     @Override
     public Observable<LinkedHashMap<String, Movie>> getMovieHashes(int page) {
-        return dataStoreFactory.createDummyDataSource().getMovieHashes(page);
+        return dataStoreFactory.getDummyDataSource().getMovieHashes(page);
     }
 
     @Override
     public Flowable<Lce<LinkedHashMap<String, Movie>>> getMoviesLce(int page) {
-        RemoteDataSource remoteDataSource = dataStoreFactory.createRemoteDataSource();
+        RemoteDataSource remoteDataSource = dataStoreFactory.getRemoteDataSource();
         return remoteDataSource.getMoviesLce(page);
     }
 
     @Override
     public Flowable<Lce<LinkedHashMap<String, Movie>>> getMoviesLceR(int page) {
         Log.d(TAG, "getMoviesLceR page = " + page);
-        RealmDataSource realmDataSource = dataStoreFactory.createRealmDataStore();
+        RealmDataSource realmDataSource = dataStoreFactory.getRealmDataStore();
         return realmDataSource.getMoviesLceR(page);
-        //return dataStoreFactory.createRealmDataStore().getMoviesLceR(page);
+        //return dataStoreFactory.getRealmDataStore().getMoviesLceR(page);
     }
 
     @Override
     public Flowable<List<Movie>> getMovieFlow(int page) {
-        return dataStoreFactory.createDummyDataSource().getMovieFlow(page);
+        return dataStoreFactory.getDummyDataSource().getMovieFlow(page);
     }
 
     @Override
     public Flowable<Movie> getMoviesTypeTwo(int page) {
-        return dataStoreFactory.createRemoteDataSource().getMoviesTypeTwo(page);
+        return dataStoreFactory.getRemoteDataSource().getMoviesTypeTwo(page);
     }
 
     @Override
     public Flowable<Lce<Movie>> getMoviesTypeTwoLce(int page) {
-        return dataStoreFactory.createRemoteDataSource().getMoviesTypeTwoLce(page);
+        return dataStoreFactory.getRemoteDataSource().getMoviesTypeTwoLce(page);
     }
 
     @Override
     public Observable<List<Movie>> searchMovie(String query) {
-        return dataStoreFactory.createRemoteDataSource().searchMovie(query);
+        return dataStoreFactory.getRemoteDataSource().searchMovie(query);
     }
 
     @Override
     public Single<List<Movie>> searchForMovie(String query) {
-        return dataStoreFactory.createRemoteDataSource().searchForMovie(query);
+        return dataStoreFactory.getRemoteDataSource().searchForMovie(query);
     }
 
     @Override
     public Completable setFavoriteMovie(String movieId, boolean isFavorite) {
-        return dataStoreFactory.createRealmDataStore().setFavoriteMovie(movieId, isFavorite);
+        return dataStoreFactory.getRealmDataStore().setFavoriteMovie(movieId, isFavorite);
     }
 
     @Override
-    public Single<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMovies(String query) {
-        return dataStoreFactory.createRemoteDataSource().searchMovies(query);
+    public Single<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMoviesSingle(String query) {
+        return dataStoreFactory.getRemoteDataSource().searchMovies(query);
+    }
+
+    @Override
+    public Observable<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMoviesObservable(String query) {
+        return dataStoreFactory.getRemoteDataSourceObservable().switchMap(new Function<ResourceCarrier<RemoteDataSource>, ObservableSource<? extends ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
+            @Override
+            public ObservableSource<? extends ResourceCarrier<LinkedHashMap<String, Movie>>> apply(@NonNull ResourceCarrier<RemoteDataSource> remoteDataSourceResourceCarrier) throws Exception {
+                if (remoteDataSourceResourceCarrier.status == Status.SUCCESS && remoteDataSourceResourceCarrier.data != null)
+                    return remoteDataSourceResourceCarrier.data.searchMoviesObservable(query);
+                return Observable.just(ResourceCarrier.error(remoteDataSourceResourceCarrier.message));
+            }
+        });
     }
 }

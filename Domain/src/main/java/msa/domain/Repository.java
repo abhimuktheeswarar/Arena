@@ -47,6 +47,8 @@ public interface Repository {
 
     Completable setFavoriteMovie(String movieId, boolean isFavorite);
 
-    Single<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMovies(String query);
+    Single<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMoviesSingle(String query);
+
+    Observable<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMoviesObservable(String query);
 
 }
