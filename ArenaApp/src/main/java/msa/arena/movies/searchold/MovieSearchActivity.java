@@ -13,7 +13,7 @@ import msa.arena.injector.components.ApplicationComponent;
 import msa.arena.injector.components.DaggerMovieComponent;
 import msa.arena.injector.components.MovieComponent;
 
-public class MovieSearchActivityOld extends BaseActivityOld {
+public class MovieSearchActivity extends BaseActivityOld {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;

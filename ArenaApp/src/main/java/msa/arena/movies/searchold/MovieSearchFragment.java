@@ -36,18 +36,16 @@ import msa.arena.R;
 import msa.arena.base.old.BaseEpoxyAdapter;
 import msa.arena.base.old.BaseFragmentOld;
 import msa.arena.injector.components.MovieComponent;
-import msa.arena.movies.MoviesItem;
-import msa.arena.movies.MoviesView;
 import msa.arena.utilities.RxSearch;
 import msa.domain.entities.Movie;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MovieSearchFragmentOld extends BaseFragmentOld
+public class MovieSearchFragment extends BaseFragmentOld
         implements MoviesView, MovieArrayAdapter.MovieArrayAdapterInterface {
 
-    private static final String TAG = MovieSearchFragmentOld.class.getSimpleName();
+    private static final String TAG = MovieSearchFragment.class.getSimpleName();
     final int EXPAND_MAX = 3;
 
     @BindView(R.id.autoCompleteTextView)

@@ -71,7 +71,8 @@ public class SearchSpinnerActivity extends BaseActivity implements MovieArrayAda
                 case ERROR:
                     //materialProgressBar.setVisibility(View.INVISIBLE);
                     //noinspection ConstantConditions
-                    movieArrayAdapter.addAll(linkedHashMapDataStateContainer.getData());
+                    //movieArrayAdapter.addAll(linkedHashMapDataStateContainer.getData());
+                    showToastMessage(linkedHashMapDataStateContainer.getMessage());
                     break;
                 default:
                     //materialProgressBar.setVisibility(View.INVISIBLE);

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import msa.arena.movies.list.MoviesActivityOld;
-import msa.arena.movies.searchold.MovieSearchActivityOld;
+import msa.arena.movies.searchold.MovieSearchActivity;
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.
@@ -17,7 +17,7 @@ public class Navigator {
     }
 
     public static void navigateToMovieSearchActivity(Context context) {
-        Intent intentToLaunch = new Intent(context, MovieSearchActivityOld.class);
+        Intent intentToLaunch = new Intent(context, MovieSearchActivity.class);
         context.startActivity(intentToLaunch);
     }
 }

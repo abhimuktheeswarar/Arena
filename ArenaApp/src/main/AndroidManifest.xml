@@ -30,7 +30,7 @@
             android:label="@string/title_activity_movies"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".movies.searchold.MovieSearchActivityOld"
+            android:name=".movies.searchold.MovieSearchActivity"
             android:label="@string/title_activity_movie_search"
             android:parentActivityName=".movies.list.MoviesActivityOld"
             android:theme="@style/AppTheme.NoActionBar">

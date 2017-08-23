@@ -22,8 +22,8 @@ import msa.arena.R;
 import msa.arena.base.old.BaseEpoxyAdapter;
 import msa.arena.base.old.BaseFragmentOld;
 import msa.arena.injector.components.MovieComponent;
-import msa.arena.movies.MoviesItem;
-import msa.arena.movies.MoviesView;
+import msa.arena.movies.searchold.MoviesItem;
+import msa.arena.movies.searchold.MoviesView;
 import msa.arena.utilities.EndlessRecyclerViewScrollListener;
 import msa.domain.entities.Movie;
 

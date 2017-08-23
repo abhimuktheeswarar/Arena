@@ -1,7 +1,7 @@
 package msa.arena.movies.list;
 
-import msa.arena.movies.MoviesItem_;
-import msa.arena.movies.MoviesView;
+import msa.arena.movies.searchold.MoviesItem_;
+import msa.arena.movies.searchold.MoviesView;
 import msa.domain.entities.Movie;
 import msa.domain.interactor.old.DefaultObserver;
 
@@ -19,8 +19,7 @@ public class MoviesObserver extends DefaultObserver<Movie> {
     @Override
     public void onNext(Movie movie) {
         super.onNext(movie);
-        moviesView.loadMovieItem(
-                new MoviesItem_().movieId(movie.getMovieId()).movieName(movie.getMovieName()));
+        moviesView.loadMovieItem(new MoviesItem_().movieId(movie.getMovieId()).movieName(movie.getMovieName()));
     }
 
     @Override

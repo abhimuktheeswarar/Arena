@@ -24,9 +24,6 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 import msa.arena.base.old.BasePresenterInterface;
 import msa.arena.injector.PerActivity;
-import msa.arena.movies.MoviesItem;
-import msa.arena.movies.MoviesItem_;
-import msa.arena.movies.MoviesView;
 import msa.domain.entities.Movie;
 import msa.domain.usecases.old.SearchForMovie;
 import msa.domain.usecases.old.SearchMovie;
@@ -169,8 +166,7 @@ class MovieSearchPresenter implements BasePresenterInterface {
         moviesView.loadMovies(movies);
         List<MoviesItem> moviesItems = new ArrayList<MoviesItem>();
         for (Movie movie : movies)
-            moviesItems.add(
-                    new MoviesItem_().movieId(movie.getMovieId()).movieName(movie.getMovieName()));
+            moviesItems.add(new MoviesItem_().movieId(movie.getMovieId()).movieName(movie.getMovieName()));
         moviesView.loadMovieItem(moviesItems);
     }
 
@@ -180,5 +176,5 @@ class MovieSearchPresenter implements BasePresenterInterface {
         } else {
             subject.onNext(newText);
         }
-  }
+    }
 }

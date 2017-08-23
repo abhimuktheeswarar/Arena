@@ -1,4 +1,4 @@
-package msa.arena.movies;
+package msa.arena.movies.searchold;
 
 import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyModelClass;

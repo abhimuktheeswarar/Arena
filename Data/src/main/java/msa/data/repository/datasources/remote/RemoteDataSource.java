@@ -1,5 +1,6 @@
 package msa.data.repository.datasources.remote;
 
+import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.util.Log;
 
@@ -321,13 +322,23 @@ public class RemoteDataSource implements BaseDataSource {
     @Override
     public Single<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMovies(String query) {
         Log.d(TAG, "Query = " + query);
-        return arenaApi.searchForMovie(query).map(movieSearchPojo -> {
-            LinkedHashMap<String, Movie> linkedHashMap = new LinkedHashMap<>();
-            for (MovieSearchResult movieSearchResult : movieSearchPojo.getResults())
-                linkedHashMap.put(String.valueOf(movieSearchResult.getId()), new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false));
-            if (linkedHashMap.size() > 0) return ResourceCarrier.success(linkedHashMap);
-            else
-                return ResourceCarrier.error("Sorry, we couldn't find anything", 2, linkedHashMap);
+        return arenaApi.searchForMovie(query).map(new Function<MovieSearchPojo, ResourceCarrier<LinkedHashMap<String, Movie>>>() {
+            @Override
+            public ResourceCarrier<LinkedHashMap<String, Movie>> apply(@NonNull MovieSearchPojo movieSearchPojo) throws Exception {
+                LinkedHashMap<String, Movie> linkedHashMap = new LinkedHashMap<>();
+                for (MovieSearchResult movieSearchResult : movieSearchPojo.getResults())
+                    linkedHashMap.put(String.valueOf(movieSearchResult.getId()), new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false));
+                if (linkedHashMap.size() > 0) return ResourceCarrier.success(linkedHashMap);
+                else
+                    return ResourceCarrier.error("Sorry, we couldn't find anything", 2, linkedHashMap);
+            }
+        }).onErrorReturn(new Function<Throwable, ResourceCarrier<LinkedHashMap<String, Movie>>>() {
+            @Override
+            public ResourceCarrier<LinkedHashMap<String, Movie>> apply(@NonNull Throwable throwable) throws Exception {
+                if (throwable instanceof UnknownHostException || throwable instanceof NetworkErrorException)
+                    return ResourceCarrier.error("Network not available");
+                else return ResourceCarrier.error(throwable.getMessage());
+            }
         });
     }
 

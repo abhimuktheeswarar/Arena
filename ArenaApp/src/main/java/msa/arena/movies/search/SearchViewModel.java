@@ -89,8 +89,9 @@ public class SearchViewModel extends BaseViewModel {
         return dataStateContainerReplaySubject.map(linkedHashMapDataStateContainer -> {
             DataStateContainer<List<Movie>> stateContainer = new DataStateContainer<>();
             stateContainer.setDataState(linkedHashMapDataStateContainer.getDataState());
+            stateContainer.setMessage(linkedHashMapDataStateContainer.getMessage());
             List<Movie> movies = new ArrayList<>();
-            if (linkedHashMapDataStateContainer.getData() != null) {
+            if ((linkedHashMapDataStateContainer.getDataState() == DataState.SUCCESS || linkedHashMapDataStateContainer.getDataState() == DataState.COMPLETED) && linkedHashMapDataStateContainer.getData() != null) {
                 for (Map.Entry<String, Movie> entry : linkedHashMapDataStateContainer.getData().entrySet()) {
                     Movie movie = entry.getValue();
                     movies.add(movie);

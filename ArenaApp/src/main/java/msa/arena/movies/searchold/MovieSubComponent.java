@@ -9,9 +9,9 @@ import msa.arena.injector.modules.MovieModule;
  */
 
 @Subcomponent(modules = MovieModule.class)
-public interface MovieSubComponent extends AndroidInjector<MovieSearchFragmentOld> {
+public interface MovieSubComponent extends AndroidInjector<MovieSearchFragment> {
 
     @Subcomponent.Builder
-    abstract class Builder extends AndroidInjector.Builder<MovieSearchFragmentOld> {
+    abstract class Builder extends AndroidInjector.Builder<MovieSearchFragment> {
     }
 }

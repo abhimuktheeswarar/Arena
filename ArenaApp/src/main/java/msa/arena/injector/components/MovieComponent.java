@@ -5,7 +5,7 @@ import msa.arena.injector.PerActivity;
 import msa.arena.injector.modules.ActivityModule;
 import msa.arena.injector.modules.MovieModule;
 import msa.arena.movies.list.MoviesFragmentOld;
-import msa.arena.movies.searchold.MovieSearchFragmentOld;
+import msa.arena.movies.searchold.MovieSearchFragment;
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.
@@ -17,5 +17,5 @@ public interface MovieComponent {
 
     void inject(MoviesFragmentOld moviesFragment);
 
-    void inject(MovieSearchFragmentOld movieSearchFragment);
+    void inject(MovieSearchFragment movieSearchFragment);
 }
