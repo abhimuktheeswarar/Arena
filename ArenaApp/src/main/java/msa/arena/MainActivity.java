@@ -3,33 +3,56 @@ package msa.arena;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.Snackbar;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
+import com.jakewharton.rxbinding2.view.RxView;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.BindViews;
+import butterknife.ButterKnife;
+import msa.arena.base.BaseActivity;
+import msa.arena.movies.search.searchmenu.SearchMenuActivity;
 import msa.arena.movies.search.spinner.SearchSpinnerActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
-    private String camelCase;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindViews({R.id.btn_search_menu, R.id.btn_search_spinner})
+    List<AppCompatButton> appCompatButtonList;
+
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+    }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startActivity(new Intent(MainActivity.this, SearchSpinnerActivity.class));
-                    }
-                });
+    @Override
+    protected void bind() {
+
+        compositeDisposable.add(RxView.clicks(appCompatButtonList.get(0)).subscribe(o -> startActivity(new Intent(MainActivity.this, SearchMenuActivity.class))));
+
+        compositeDisposable.add(RxView.clicks(appCompatButtonList.get(1)).subscribe(o -> startActivity(new Intent(MainActivity.this, SearchSpinnerActivity.class))));
+
+        compositeDisposable.add(RxView.clicks(fab).subscribe(o -> Snackbar.make(fab, "Thank you for visiting Arena", Snackbar.LENGTH_LONG).setAction("Action", null).show()));
+
+    }
+
+    @Override
+    protected void unBind() {
+
     }
 
     @Override

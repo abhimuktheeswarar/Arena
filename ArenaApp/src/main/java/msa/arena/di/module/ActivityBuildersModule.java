@@ -2,6 +2,7 @@ package msa.arena.di.module;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
+import msa.arena.MainActivity;
 import msa.arena.movies.search.searchmenu.SearchMenuActivity;
 import msa.arena.movies.search.spinner.SearchSpinnerActivity;
 
@@ -10,6 +11,9 @@ import msa.arena.movies.search.spinner.SearchSpinnerActivity;
  */
 @Module
 public abstract class ActivityBuildersModule {
+
+    @ContributesAndroidInjector(modules = {FragmentBuildersModule.class})
+    abstract MainActivity contributeMainActivity();
 
     @ContributesAndroidInjector(modules = {FragmentBuildersModule.class})
     abstract SearchMenuActivity contributeSearchMenuActivity();
