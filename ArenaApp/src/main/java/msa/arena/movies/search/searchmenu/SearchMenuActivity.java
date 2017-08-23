@@ -71,7 +71,7 @@ public class SearchMenuActivity extends BaseActivity {
 
         compositeDisposable.add(RxView.clicks(fab).subscribe(o -> Snackbar.make(fab, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()));
 
-        compositeDisposable.add(searchViewModel.getSearchObserver().observeOn(AndroidSchedulers.mainThread()).subscribe(linkedHashMapDataStateContainer -> {
+        compositeDisposable.add(searchViewModel.getMovieSearchObserver().observeOn(AndroidSchedulers.mainThread()).subscribe(linkedHashMapDataStateContainer -> {
             Log.d(TAG, "DateState = " + linkedHashMapDataStateContainer.getDataState());
             switch (linkedHashMapDataStateContainer.getDataState()) {
                 case LOADING:

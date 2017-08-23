@@ -1,4 +1,4 @@
-package msa.arena.movies.searchold;
+package msa.arena.movies.search.spinner;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
@@ -11,15 +11,17 @@ import android.widget.Filterable;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
 import msa.domain.entities.Movie;
 
 /**
  * Created by Abhimuktheeswarar on 03-05-2017.
  */
-public class MovieArrayAdapter extends ArrayAdapter<Movie> implements Filterable {
+public class RxMovieArrayAdapter extends ArrayAdapter<Movie> implements Filterable {
 
-    private static final String TAG = MovieArrayAdapter.class.getSimpleName();
-    private final MovieArrayAdapterInterface movieArrayAdapterInterface;
+    private static final String TAG = RxMovieArrayAdapter.class.getSimpleName();
+    private final PublishSubject<String> publishSubject;
     private ArrayList<Movie> movieArrayList;
     private Filter filter =
             new Filter() {
@@ -38,9 +40,9 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> implements Filterable
                 }
             };
 
-    public MovieArrayAdapter(@NonNull Context context, @LayoutRes int resource, MovieArrayAdapterInterface movieArrayAdapterInterface) {
+    public RxMovieArrayAdapter(@NonNull Context context, @LayoutRes int resource) {
         super(context, resource);
-        this.movieArrayAdapterInterface = movieArrayAdapterInterface;
+        publishSubject = PublishSubject.create();
         initialize();
     }
 
@@ -118,11 +120,11 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> implements Filterable
     }
 
     private ArrayList<Movie> doTheQuery(CharSequence query) {
-        movieArrayAdapterInterface.getMovieSuggestionsFromCloud(query.toString());
+        publishSubject.onNext(query.toString());
         return movieArrayList;
     }
 
-    public interface MovieArrayAdapterInterface {
-        void getMovieSuggestionsFromCloud(String query);
+    public Observable<String> getQueryObservable() {
+        return publishSubject;
     }
 }

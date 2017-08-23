@@ -39,11 +39,14 @@
                 android:value="msa.arena.movies.list.MoviesActivityOld" />
         </activity>
         <activity android:name=".tryout.di.DaggerActivity" />
-
         <activity
             android:name=".movies.search.searchmenu.SearchMenuActivity"
             android:label="@string/title_activity_search_menu"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".movies.search.spinner.SearchSpinnerActivity"
+            android:label="@string/title_activity_search_spinner"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

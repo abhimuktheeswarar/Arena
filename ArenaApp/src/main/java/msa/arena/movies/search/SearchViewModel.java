@@ -2,7 +2,10 @@ package msa.arena.movies.search;
 
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -78,9 +81,31 @@ public class SearchViewModel extends BaseViewModel {
         querySubject.onNext(query);
     }
 
-    public Observable<DataStateContainer<LinkedHashMap<String, Movie>>> getSearchObserver() {
+    public Observable<DataStateContainer<LinkedHashMap<String, Movie>>> getMovieSearchObserver() {
         return dataStateContainerReplaySubject;
     }
+
+    public Observable<DataStateContainer<List<Movie>>> getMovieListSearchObserver() {
+        return dataStateContainerReplaySubject.map(linkedHashMapDataStateContainer -> {
+            DataStateContainer<List<Movie>> stateContainer = new DataStateContainer<>();
+            stateContainer.setDataState(linkedHashMapDataStateContainer.getDataState());
+            List<Movie> movies = new ArrayList<>();
+            if (linkedHashMapDataStateContainer.getData() != null) {
+                for (Map.Entry<String, Movie> entry : linkedHashMapDataStateContainer.getData().entrySet()) {
+                    Movie movie = entry.getValue();
+                    movies.add(movie);
+                }
+            }
+            stateContainer.setData(movies);
+            return stateContainer;
+        });
+    }
+
+    public Movie getMovieByIndex(int index) {
+        List<Movie> movies = new ArrayList<>(dataStateContainer.getData().values());
+        return movies.get(index);
+    }
+
 
     @Override
     protected void onCleared() {
