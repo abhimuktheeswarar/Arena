@@ -11,6 +11,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
@@ -52,10 +53,16 @@ public class SearchViewModel extends BaseViewModel {
         querySubject = PublishSubject.create();
         dataStateContainerReplaySubject = ReplaySubject.create();
 
-        querySubject.concatMap(new Function<String, Observable<ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
+        querySubject.doOnNext(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+                Log.d(TAG, "Search string = " + s);
+            }
+        }).switchMap(new Function<String, Observable<ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
             @Override
             public Observable<ResourceCarrier<LinkedHashMap<String, Movie>>> apply(@NonNull String query) throws Exception {
-                return searchMoviesSingle.execute(SearchMoviesSingle.Params.setQuery(query)).toObservable();
+                Log.d(TAG, "Search text = " + query);
+                return searchMoviesObservable.execute(SearchMoviesObservable.Params.setQuery(query));
             }
         }).observeOn(Schedulers.computation()).map(linkedHashMapResourceCarrier -> {
             Log.d(TAG, "Status = " + linkedHashMapResourceCarrier.status);
@@ -109,7 +116,6 @@ public class SearchViewModel extends BaseViewModel {
         List<Movie> movies = new ArrayList<>(dataStateContainer.getData().values());
         return movies.get(index);
     }
-
 
     @Override
     protected void onCleared() {

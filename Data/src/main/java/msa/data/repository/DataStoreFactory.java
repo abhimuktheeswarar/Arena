@@ -28,6 +28,7 @@ import javax.inject.Singleton;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.SingleSource;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
@@ -46,6 +47,8 @@ import msa.domain.holder.carrier.ResourceCarrier;
 @Singleton
 public class DataStoreFactory {
 
+    private static final String TAG = DataStoreFactory.class.getSimpleName();
+
     private final Context context;
     private final RemoteDataSource remoteDataSource;
     private final SharedPreferenceDataSource sharedPreferenceDataSource;
@@ -58,10 +61,33 @@ public class DataStoreFactory {
     @Inject
     public DataStoreFactory(@NonNull Context context) {
         this.context = context.getApplicationContext();
-        remoteDataSource = new RemoteDataSource(RemoteConnection.createService(ArenaApi.class), context);
-        connectivityObservable = ReactiveNetwork.observeNetworkConnectivity(context);
         behaviorSubject = BehaviorSubject.create();
-        connectivityObservable.doOnNext(new Consumer<Connectivity>() {
+        remoteDataSource = new RemoteDataSource(RemoteConnection.createService(ArenaApi.class), context);
+
+        connectivityObservable = ReactiveNetwork.observeNetworkConnectivity(context);
+
+       /* connectivityObservable.doOnSubscribe(new Consumer<Disposable>() {
+            @Override
+            public void accept(Disposable disposable) throws Exception {
+                Log.d(TAG, "connectivityObservable = doOnSubscribe");
+            }
+        });*/
+
+       /* connectivityObservable.map(new Function<Connectivity, Boolean>() {
+            @Override
+            public Boolean apply(@io.reactivex.annotations.NonNull Connectivity connectivity) throws Exception {
+                return connectivity.isAvailable();
+            }
+        }).doOnNext(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+                isInternetAvailable = aBoolean;
+                behaviorSubject.onNext(aBoolean);
+            }
+        }).subscribe();*/
+
+
+       /* connectivityObservable.doOnNext(new Consumer<Connectivity>() {
             @Override
             public void accept(Connectivity connectivity) throws Exception {
                 Log.d(DataStoreFactory.class.getSimpleName(), "Is network available 0 = " + connectivity);
@@ -69,7 +95,7 @@ public class DataStoreFactory {
                 behaviorSubject.onNext(connectivity.isAvailable());
             }
         });
-        connectivityObservable.subscribe();
+        connectivityObservable.subscribe();*/
         sharedPreferenceDataSource = new SharedPreferenceDataSource(context);
         Realm.init(context);
         realmDataSource = new RealmDataSource(Realm.getDefaultInstance());
@@ -95,7 +121,18 @@ public class DataStoreFactory {
                 else return Observable.just(ResourceCarrier.error("No internet", 2));
             }
         }).single(ResourceCarrier.error("Unknown error"));*/
-        return connectivityObservable.singleOrError().flatMap(new Function<Connectivity, SingleSource<? extends ResourceCarrier<RemoteDataSource>>>() {
+
+        return connectivityObservable.doOnSubscribe(new Consumer<Disposable>() {
+            @Override
+            public void accept(Disposable disposable) throws Exception {
+                Log.d(TAG, "connectivityObservable = doOnSubscribe 1");
+            }
+        }).doOnNext(new Consumer<Connectivity>() {
+            @Override
+            public void accept(Connectivity connectivity) throws Exception {
+                Log.d(TAG, "connectivityObservable = doOnNext 1");
+            }
+        }).singleOrError().flatMap(new Function<Connectivity, SingleSource<? extends ResourceCarrier<RemoteDataSource>>>() {
             @Override
             public SingleSource<? extends ResourceCarrier<RemoteDataSource>> apply(@io.reactivex.annotations.NonNull Connectivity connectivity) throws Exception {
                 if (connectivity.isAvailable())
@@ -108,7 +145,9 @@ public class DataStoreFactory {
 
     Observable<ResourceCarrier<RemoteDataSource>> getRemoteDataSourceObservable() {
 
-        behaviorSubject.onNext(isInternetAvailable);
+
+
+       /* behaviorSubject.onNext(isInternetAvailable);
 
         return behaviorSubject.switchMap(new Function<Boolean, Observable<ResourceCarrier<RemoteDataSource>>>() {
             @Override
@@ -118,9 +157,36 @@ public class DataStoreFactory {
                     return Observable.just(ResourceCarrier.success(getRemoteDataSource()));
                 else return Observable.just(ResourceCarrier.error("No internet", 2));
             }
+        });*/
+        Log.d(TAG, "getRemoteDataSourceObservable()");
+
+        behaviorSubject.onNext(isInternetAvailable);
+
+        return connectivityObservable.map(new Function<Connectivity, Boolean>() {
+            @Override
+            public Boolean apply(@io.reactivex.annotations.NonNull Connectivity connectivity) throws Exception {
+                return connectivity.isAvailable();
+            }
+        }).doOnSubscribe(new Consumer<Disposable>() {
+            @Override
+            public void accept(Disposable disposable) throws Exception {
+                Log.d(TAG, "connectivityObservable = doOnSubscribe 1");
+            }
+        }).doOnNext(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean connectivity) throws Exception {
+                Log.d(TAG, "connectivityObservable = doOnNext 1");
+            }
+        }).switchMap(new Function<Boolean, Observable<ResourceCarrier<RemoteDataSource>>>() {
+            @Override
+            public Observable<ResourceCarrier<RemoteDataSource>> apply(@io.reactivex.annotations.NonNull Boolean connectivity) throws Exception {
+                Log.d(TAG, "Is network available = " + connectivity);
+                if (connectivity)
+                    return Observable.just(ResourceCarrier.success(getRemoteDataSource()));
+                else return Observable.just(ResourceCarrier.error("No internet", 2));
+            }
         });
     }
-
 
     DummyDataSource getDummyDataSource() {
         return dummyDataSource;

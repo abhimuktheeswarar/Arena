@@ -126,9 +126,11 @@ public class ArenaRepository implements Repository {
 
     @Override
     public Observable<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMoviesObservable(String query) {
+        Log.d(TAG, "calling searchMoviesObservable");
         return dataStoreFactory.getRemoteDataSourceObservable().switchMap(new Function<ResourceCarrier<RemoteDataSource>, ObservableSource<? extends ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
             @Override
             public ObservableSource<? extends ResourceCarrier<LinkedHashMap<String, Movie>>> apply(@NonNull ResourceCarrier<RemoteDataSource> remoteDataSourceResourceCarrier) throws Exception {
+                Log.d(TAG, "Status = " + remoteDataSourceResourceCarrier.status);
                 if (remoteDataSourceResourceCarrier.status == Status.SUCCESS && remoteDataSourceResourceCarrier.data != null)
                     return remoteDataSourceResourceCarrier.data.searchMoviesObservable(query);
                 return Observable.just(ResourceCarrier.error(remoteDataSourceResourceCarrier.message));
