@@ -11,10 +11,7 @@ import javax.inject.Singleton;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.Single;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Function;
 import msa.data.repository.datasources.local.realm.RealmDataSource;
 import msa.data.repository.datasources.remote.RemoteDataSource;
 import msa.domain.Repository;
@@ -22,7 +19,6 @@ import msa.domain.entities.Lce;
 import msa.domain.entities.Movie;
 import msa.domain.entities.User;
 import msa.domain.holder.carrier.ResourceCarrier;
-import msa.domain.holder.carrier.Status;
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.
@@ -127,7 +123,7 @@ public class ArenaRepository implements Repository {
     @Override
     public Observable<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMoviesObservable(String query) {
         Log.d(TAG, "calling searchMoviesObservable");
-        return dataStoreFactory.getRemoteDataSourceObservable().switchMap(new Function<ResourceCarrier<RemoteDataSource>, ObservableSource<? extends ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
+       /* return dataStoreFactory.getRemoteDataSourceObservable().switchMap(new Function<ResourceCarrier<RemoteDataSource>, ObservableSource<? extends ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
             @Override
             public ObservableSource<? extends ResourceCarrier<LinkedHashMap<String, Movie>>> apply(@NonNull ResourceCarrier<RemoteDataSource> remoteDataSourceResourceCarrier) throws Exception {
                 Log.d(TAG, "Status = " + remoteDataSourceResourceCarrier.status);
@@ -135,6 +131,7 @@ public class ArenaRepository implements Repository {
                     return remoteDataSourceResourceCarrier.data.searchMoviesObservable(query);
                 return Observable.just(ResourceCarrier.error(remoteDataSourceResourceCarrier.message));
             }
-        });
+        });*/
+        return dataStoreFactory.getRemoteDataSource().searchMoviesObservable(query);
     }
 }

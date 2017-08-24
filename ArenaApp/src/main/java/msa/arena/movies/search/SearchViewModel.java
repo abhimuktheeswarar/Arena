@@ -11,8 +11,8 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.ReplaySubject;
@@ -21,6 +21,7 @@ import msa.domain.entities.Movie;
 import msa.domain.holder.carrier.ResourceCarrier;
 import msa.domain.holder.datastate.DataState;
 import msa.domain.holder.datastate.DataStateContainer;
+import msa.domain.rx.GetSubscriber;
 import msa.domain.usecases.SearchMoviesObservable;
 import msa.domain.usecases.SearchMoviesSingle;
 
@@ -39,6 +40,7 @@ public class SearchViewModel extends BaseViewModel {
 
     private ReplaySubject<DataStateContainer<LinkedHashMap<String, Movie>>> dataStateContainerReplaySubject;
 
+
     @Inject
     SearchViewModel(SearchMoviesSingle searchMoviesSingle, SearchMoviesObservable searchMoviesObservable) {
         this.searchMoviesSingle = searchMoviesSingle;
@@ -53,12 +55,10 @@ public class SearchViewModel extends BaseViewModel {
         querySubject = PublishSubject.create();
         dataStateContainerReplaySubject = ReplaySubject.create();
 
-        querySubject.doOnNext(new Consumer<String>() {
-            @Override
-            public void accept(String s) throws Exception {
-                Log.d(TAG, "Search string = " + s);
-            }
-        }).switchMap(new Function<String, Observable<ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
+        DisposableObserver<DataStateContainer<LinkedHashMap<String, Movie>>> disposableObserver = GetSubscriber.get(dataStateContainerReplaySubject);
+        compositeDisposable.add(disposableObserver);
+
+        querySubject.doOnNext(s -> Log.d(TAG, "Search string = " + s)).switchMap(new Function<String, Observable<ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
             @Override
             public Observable<ResourceCarrier<LinkedHashMap<String, Movie>>> apply(@NonNull String query) throws Exception {
                 Log.d(TAG, "Search text = " + query);
@@ -82,7 +82,7 @@ public class SearchViewModel extends BaseViewModel {
                     break;
             }
             return dataStateContainer;
-        }).startWith(dataStateContainer).subscribe(dataStateContainerReplaySubject);
+        }).startWith(dataStateContainer).subscribe(disposableObserver);
     }
 
     public void searchIt(String query) {

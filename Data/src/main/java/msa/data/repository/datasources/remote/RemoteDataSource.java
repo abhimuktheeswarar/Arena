@@ -34,6 +34,7 @@ import msa.domain.entities.Lce;
 import msa.domain.entities.Movie;
 import msa.domain.entities.User;
 import msa.domain.holder.carrier.ResourceCarrier;
+import msa.domain.rx.RetryWithDelay;
 import retrofit2.HttpException;
 
 /**
@@ -354,7 +355,7 @@ public class RemoteDataSource implements BaseDataSource {
                 else
                     return ResourceCarrier.error("Sorry, we couldn't find anything", 2, linkedHashMap);
             }
-        }).onErrorReturn(new Function<Throwable, ResourceCarrier<LinkedHashMap<String, Movie>>>() {
+        }).retryWhen(new RetryWithDelay(5, 5000)).onErrorReturn(new Function<Throwable, ResourceCarrier<LinkedHashMap<String, Movie>>>() {
             @Override
             public ResourceCarrier<LinkedHashMap<String, Movie>> apply(@NonNull Throwable throwable) throws Exception {
                 if (throwable instanceof UnknownHostException || throwable instanceof NetworkErrorException)

@@ -100,7 +100,6 @@ public class SearchMenuActivity extends BaseActivity {
 
     @Override
     protected void unBind() {
-
     }
 
     private void bindSearchView() {
