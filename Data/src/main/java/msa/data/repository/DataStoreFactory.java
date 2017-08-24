@@ -32,6 +32,7 @@ import io.reactivex.SingleSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 import io.realm.Realm;
 import msa.data.repository.datasources.dummy.DummyDataSource;
@@ -69,7 +70,7 @@ public class DataStoreFactory {
         connectivityObservable = ReactiveNetwork.observeNetworkConnectivity(context);
 
 
-        connectivityObservable.map(new Function<Connectivity, Boolean>() {
+        connectivityObservable.subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).map(new Function<Connectivity, Boolean>() {
             @Override
             public Boolean apply(@io.reactivex.annotations.NonNull Connectivity connectivity) throws Exception {
                 return connectivity.isAvailable();
@@ -195,7 +196,7 @@ public class DataStoreFactory {
     }
 
     Observable<ResourceCarrier<RemoteDataSource>> getRemoteDataSourceObservable3() {
-        return Observable.just(ResourceCarrier.success(remoteDataSource)).switchMap(new Function<ResourceCarrier<RemoteDataSource>, ObservableSource<? extends ResourceCarrier<RemoteDataSource>>>() {
+        return Observable.just(ResourceCarrier.success(remoteDataSource)).subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).switchMap(new Function<ResourceCarrier<RemoteDataSource>, ObservableSource<? extends ResourceCarrier<RemoteDataSource>>>() {
             @Override
             public ObservableSource<? extends ResourceCarrier<RemoteDataSource>> apply(@io.reactivex.annotations.NonNull ResourceCarrier<RemoteDataSource> remoteDataSourceResourceCarrier) throws Exception {
                 Log.d(TAG, "Is network available 3 = " + isInternetAvailable);
