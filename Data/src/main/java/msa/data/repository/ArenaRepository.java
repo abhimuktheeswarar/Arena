@@ -12,6 +12,8 @@ import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 import msa.data.repository.datasources.local.realm.RealmDataSource;
 import msa.data.repository.datasources.remote.RemoteDataSource;
 import msa.domain.Repository;
@@ -19,6 +21,7 @@ import msa.domain.entities.Lce;
 import msa.domain.entities.Movie;
 import msa.domain.entities.User;
 import msa.domain.holder.carrier.ResourceCarrier;
+import msa.domain.holder.carrier.Status;
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.
@@ -132,6 +135,15 @@ public class ArenaRepository implements Repository {
                 return Observable.just(ResourceCarrier.error(remoteDataSourceResourceCarrier.message));
             }
         });*/
-        return dataStoreFactory.getRemoteDataSource().searchMoviesObservable(query);
+        //return dataStoreFactory.getRemoteDataSource().searchMoviesObservable(query);
+        return dataStoreFactory.getRemoteDataSourceObservable2().switchMap(new Function<ResourceCarrier<RemoteDataSource>, Observable<ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
+            @Override
+            public Observable<ResourceCarrier<LinkedHashMap<String, Movie>>> apply(@NonNull ResourceCarrier<RemoteDataSource> remoteDataSourceResourceCarrier) throws Exception {
+                if (remoteDataSourceResourceCarrier.status == Status.SUCCESS && remoteDataSourceResourceCarrier.data != null)
+                    return remoteDataSourceResourceCarrier.data.searchMoviesObservable(query);
+                else
+                    return Observable.just(ResourceCarrier.error(remoteDataSourceResourceCarrier.message));
+            }
+        });
     }
 }
