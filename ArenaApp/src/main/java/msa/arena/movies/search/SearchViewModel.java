@@ -17,11 +17,11 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.ReplaySubject;
 import msa.arena.base.BaseViewModel;
+import msa.arena.utilities.RxUtilities;
 import msa.domain.entities.Movie;
 import msa.domain.holder.carrier.ResourceCarrier;
 import msa.domain.holder.datastate.DataState;
 import msa.domain.holder.datastate.DataStateContainer;
-import msa.domain.rx.GetSubscriber;
 import msa.domain.usecases.SearchMoviesObservable;
 import msa.domain.usecases.SearchMoviesSingle;
 
@@ -55,8 +55,8 @@ public class SearchViewModel extends BaseViewModel {
         querySubject = PublishSubject.create();
         dataStateContainerReplaySubject = ReplaySubject.create();
 
-        DisposableObserver<DataStateContainer<LinkedHashMap<String, Movie>>> disposableObserver = GetSubscriber.get(dataStateContainerReplaySubject);
-        compositeDisposable.add(disposableObserver);
+        DisposableObserver<DataStateContainer<LinkedHashMap<String, Movie>>> dataStateContainerDisposableObserver = RxUtilities.get(dataStateContainerReplaySubject);
+        compositeDisposable.add(dataStateContainerDisposableObserver);
 
         querySubject.doOnNext(s -> Log.d(TAG, "Search string = " + s)).switchMap(new Function<String, Observable<ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
             @Override
@@ -82,7 +82,7 @@ public class SearchViewModel extends BaseViewModel {
                     break;
             }
             return dataStateContainer;
-        }).startWith(dataStateContainer).subscribe(disposableObserver);
+        }).startWith(dataStateContainer).subscribe(dataStateContainerDisposableObserver);
     }
 
     public void searchIt(String query) {

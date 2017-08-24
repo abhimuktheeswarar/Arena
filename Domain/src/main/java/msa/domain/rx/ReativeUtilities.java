@@ -7,7 +7,7 @@ import io.reactivex.subjects.Subject;
  * Created by Abhimuktheeswarar on 25-08-2017.
  */
 
-public class GetSubscriber {
+public class ReativeUtilities {
 
     public static <D> DisposableObserver<D> get(final Subject<D> subject) {
         return new DisposableObserver<D>() {
