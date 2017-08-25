@@ -151,7 +151,7 @@ public class ArenaRepository implements Repository {
 
     @Override
     public Flowable<ResourceCarrier<LinkedHashMap<String, Movie>>> getMovies(int page) {
-        return dataStoreFactory.getRemoteDataSourceObservable3().toFlowable(BackpressureStrategy.BUFFER).switchMap(new Function<ResourceCarrier<RemoteDataSource>, Flowable<ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
+        return dataStoreFactory.getRemoteDataSourceObservable7().toFlowable(BackpressureStrategy.BUFFER).switchMap(new Function<ResourceCarrier<RemoteDataSource>, Flowable<ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
             @Override
             public Flowable<ResourceCarrier<LinkedHashMap<String, Movie>>> apply(@NonNull ResourceCarrier<RemoteDataSource> remoteDataSourceResourceCarrier) throws Exception {
                 if (remoteDataSourceResourceCarrier.status == Status.SUCCESS && remoteDataSourceResourceCarrier.data != null)

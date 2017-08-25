@@ -64,7 +64,7 @@ public class MovieListViewModel extends BaseViewModel {
             public void accept(Integer integer) throws Exception {
                 Log.d(TAG, "doOnNext Paginator = " + page);
             }
-        }).observeOn(Schedulers.io()).flatMap(new Function<Integer, Publisher<ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
+        }).observeOn(Schedulers.io()).concatMap(new Function<Integer, Publisher<ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
             @Override
             public Publisher<ResourceCarrier<LinkedHashMap<String, Movie>>> apply(@NonNull Integer page) throws Exception {
                 Log.d(TAG, "Paginator = " + page);

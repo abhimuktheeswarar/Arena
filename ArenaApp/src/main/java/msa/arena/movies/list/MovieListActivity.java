@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.LinkedHashMap;
 
@@ -71,6 +72,10 @@ public class MovieListActivity extends BaseActivity {
 
     @Override
     protected void bind() {
+
+        compositeDisposable.add(RxView.clicks(fab).subscribe(o -> movieListViewModel.loadMore()));
+
+
 
         recyclerView.addOnScrollListener(endlessScrollListener);
 

@@ -34,6 +34,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.PublishSubject;
 import io.realm.Realm;
 import msa.data.repository.datasources.dummy.DummyDataSource;
 import msa.data.repository.datasources.local.realm.RealmDataSource;
@@ -59,6 +60,8 @@ public class DataStoreFactory {
     private final DummyDataSource dummyDataSource;
     private final Observable<Connectivity> connectivityObservable;
     private final BehaviorSubject<Boolean> behaviorSubject;
+    private final PublishSubject<Boolean> publishSubject;
+    private final BehaviorSubject<ResourceCarrier<RemoteDataSource>> resourceCarrierPublishSubject;
     private boolean isInternetAvailable;
 
     @Inject
@@ -67,8 +70,28 @@ public class DataStoreFactory {
         behaviorSubject = BehaviorSubject.create();
         remoteDataSource = new RemoteDataSource(RemoteConnection.createService(ArenaApi.class), context);
 
+        resourceCarrierPublishSubject = BehaviorSubject.create();
+
         connectivityObservable = ReactiveNetwork.observeNetworkConnectivity(context);
 
+        connectivityObservable.subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).map(new Function<Connectivity, Boolean>() {
+            @Override
+            public Boolean apply(@io.reactivex.annotations.NonNull Connectivity connectivity) throws Exception {
+                return connectivity.isAvailable();
+            }
+        }).doOnNext(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+                isInternetAvailable = aBoolean;
+                if (isInternetAvailable)
+                    resourceCarrierPublishSubject.onNext(ResourceCarrier.success(remoteDataSource));
+                else
+                    resourceCarrierPublishSubject.onNext(ResourceCarrier.error("no internet dude"));
+                Log.d(TAG, "1st, Is Network Available = " + isInternetAvailable);
+            }
+        }).subscribe(behaviorSubject);
+
+        publishSubject = PublishSubject.create();
 
         connectivityObservable.subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).map(new Function<Connectivity, Boolean>() {
             @Override
@@ -81,7 +104,7 @@ public class DataStoreFactory {
                 isInternetAvailable = aBoolean;
                 Log.d(TAG, "1st, Is Network Available = " + isInternetAvailable);
             }
-        }).subscribe(behaviorSubject);
+        }).subscribe(publishSubject);
 
        /* connectivityObservable.subscribe(new Consumer<Connectivity>() {
             @Override
@@ -222,12 +245,88 @@ public class DataStoreFactory {
                 Log.d(TAG, "Is network available 3 = " + isInternetAvailable);
                 if (isInternetAvailable) return Observable.just(remoteDataSourceResourceCarrier);
                 else
-                    return behaviorSubject.concatMap(new Function<Boolean, ObservableSource<? extends ResourceCarrier<RemoteDataSource>>>() {
+                    return publishSubject.flatMap(new Function<Boolean, ObservableSource<? extends ResourceCarrier<RemoteDataSource>>>() {
                         @Override
                         public ObservableSource<? extends ResourceCarrier<RemoteDataSource>> apply(@io.reactivex.annotations.NonNull Boolean aBoolean) throws Exception {
                             Log.d(TAG, "Is network available 4 = " + aBoolean + " | Is network available 5 = " + isInternetAvailable);
                             if (aBoolean)
                                 return Observable.just(ResourceCarrier.success(remoteDataSource));
+                            return Observable.just(ResourceCarrier.error("No internet"));
+                        }
+                    });
+            }
+        });
+    }
+
+    Observable<ResourceCarrier<RemoteDataSource>> getRemoteDataSourceObservable5() {
+        return Observable.just(ResourceCarrier.success(remoteDataSource)).doOnNext(new Consumer<ResourceCarrier<RemoteDataSource>>() {
+            @Override
+            public void accept(ResourceCarrier<RemoteDataSource> remoteDataSourceResourceCarrier) throws Exception {
+                Log.d(TAG, "doOnNext 1");
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).switchMap(new Function<ResourceCarrier<RemoteDataSource>, ObservableSource<? extends ResourceCarrier<RemoteDataSource>>>() {
+            @Override
+            public ObservableSource<? extends ResourceCarrier<RemoteDataSource>> apply(@io.reactivex.annotations.NonNull ResourceCarrier<RemoteDataSource> remoteDataSourceResourceCarrier) throws Exception {
+                Log.d(TAG, "Is network available 3 = " + isInternetAvailable);
+                if (isInternetAvailable)
+                    return Observable.just(remoteDataSourceResourceCarrier).doOnNext(new Consumer<ResourceCarrier<RemoteDataSource>>() {
+                        @Override
+                        public void accept(ResourceCarrier<RemoteDataSource> remoteDataSourceResourceCarrier) throws Exception {
+                            Log.d(TAG, "doOnNext 2");
+                        }
+                    });
+                else
+                    return behaviorSubject.map(new Function<Boolean, ResourceCarrier<RemoteDataSource>>() {
+                        @Override
+                        public ResourceCarrier<RemoteDataSource> apply(@io.reactivex.annotations.NonNull Boolean aBoolean) throws Exception {
+                            if (aBoolean)
+                                return ResourceCarrier.success(remoteDataSource);
+                            return ResourceCarrier.error("No internet");
+                        }
+                    }).doOnNext(new Consumer<ResourceCarrier<RemoteDataSource>>() {
+                        @Override
+                        public void accept(ResourceCarrier<RemoteDataSource> remoteDataSourceResourceCarrier) throws Exception {
+                            Log.d(TAG, "doOnNext 3");
+                        }
+                    });
+            }
+        }).flatMap(new Function<ResourceCarrier<RemoteDataSource>, Observable<ResourceCarrier<RemoteDataSource>>>() {
+            @Override
+            public Observable<ResourceCarrier<RemoteDataSource>> apply(@io.reactivex.annotations.NonNull ResourceCarrier<RemoteDataSource> remoteDataSourceResourceCarrier) throws Exception {
+                return Observable.just(remoteDataSourceResourceCarrier);
+            }
+        }).doOnNext(new Consumer<ResourceCarrier<RemoteDataSource>>() {
+            @Override
+            public void accept(ResourceCarrier<RemoteDataSource> remoteDataSourceResourceCarrier) throws Exception {
+                Log.d(TAG, "doOnNext 4");
+            }
+        });
+    }
+
+    Observable<ResourceCarrier<RemoteDataSource>> getRemoteDataSourceObservable6() {
+        return behaviorSubject.flatMap(new Function<Boolean, Observable<ResourceCarrier<RemoteDataSource>>>() {
+            @Override
+            public Observable<ResourceCarrier<RemoteDataSource>> apply(@io.reactivex.annotations.NonNull Boolean aBoolean) throws Exception {
+                if (aBoolean)
+                    return Observable.just(ResourceCarrier.success(remoteDataSource));
+                return Observable.just(ResourceCarrier.error("No internet"));
+            }
+        });
+    }
+
+    Observable<ResourceCarrier<RemoteDataSource>> getRemoteDataSourceObservable7() {
+        return resourceCarrierPublishSubject.subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).switchMap(new Function<ResourceCarrier<RemoteDataSource>, ObservableSource<? extends ResourceCarrier<RemoteDataSource>>>() {
+            @Override
+            public ObservableSource<? extends ResourceCarrier<RemoteDataSource>> apply(@io.reactivex.annotations.NonNull ResourceCarrier<RemoteDataSource> remoteDataSourceResourceCarrier) throws Exception {
+                Log.d(TAG, "Is network available 3 = " + isInternetAvailable);
+                if (isInternetAvailable) return resourceCarrierPublishSubject;
+                else
+                    return behaviorSubject.switchMap(new Function<Boolean, ObservableSource<? extends ResourceCarrier<RemoteDataSource>>>() {
+                        @Override
+                        public ObservableSource<? extends ResourceCarrier<RemoteDataSource>> apply(@io.reactivex.annotations.NonNull Boolean aBoolean) throws Exception {
+                            Log.d(TAG, "Is network available 4 = " + aBoolean + " | Is network available 5 = " + isInternetAvailable);
+                            if (aBoolean)
+                                return resourceCarrierPublishSubject;
                             return Observable.just(ResourceCarrier.error("No internet"));
                         }
                     });
