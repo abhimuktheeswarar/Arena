@@ -142,7 +142,7 @@ public class ArenaRepository implements Repository {
         });*/
         //return dataStoreFactory.getRemoteDataSource().searchMoviesObservable(query);
 
-        return dataStoreFactory.getRemoteDataSourceObservable3().switchMap(new Function<ResourceCarrier<RemoteDataSource>, Observable<ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
+        return dataStoreFactory.getRemoteDataSourceObservable12().switchMap(new Function<ResourceCarrier<RemoteDataSource>, Observable<ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
             @Override
             public Observable<ResourceCarrier<LinkedHashMap<String, Movie>>> apply(@NonNull ResourceCarrier<RemoteDataSource> remoteDataSourceResourceCarrier) throws Exception {
                 if (remoteDataSourceResourceCarrier.status == Status.SUCCESS && remoteDataSourceResourceCarrier.data != null)
