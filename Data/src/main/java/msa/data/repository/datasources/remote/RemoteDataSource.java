@@ -71,11 +71,11 @@ public class RemoteDataSource implements BaseDataSource {
     }
 
     @Override
-    public Observable<Movie> getMovies(int page) {
+    public Observable<Movie> getMovies1(int page) {
 
-        getObs(arenaApi.getMovies());
+        getObs(arenaApi.getMovies1());
 
-        return arenaApi.getMovies().flatMap(new Function<MovieListPojo, ObservableSource<Movie>>() {
+        return arenaApi.getMovies1().flatMap(new Function<MovieListPojo, ObservableSource<Movie>>() {
             @Override
             public ObservableSource<Movie> apply(@NonNull MovieListPojo movieSearchPojo) throws Exception {
                 List<Movie> movies = new ArrayList<Movie>();
@@ -109,7 +109,7 @@ public class RemoteDataSource implements BaseDataSource {
 
     @Override
     public Flowable<Movie> getMoviesTypeTwo(int page) {
-        return getFlow3(arenaApi.getMoviesTypeTwo(page)).flatMap(new Function<MovieListPojo, Publisher<Movie>>() {
+        return getFlow3(arenaApi.getMovies(page)).flatMap(new Function<MovieListPojo, Publisher<Movie>>() {
             @Override
             public Publisher<Movie> apply(@NonNull MovieListPojo movieListPojo) throws Exception {
                 List<Movie> movies = new ArrayList<Movie>();
@@ -123,7 +123,7 @@ public class RemoteDataSource implements BaseDataSource {
     @Override
     public Flowable<Lce<Movie>> getMoviesTypeTwoLce(int page) {
 
-        return arenaApi.getMoviesTypeTwo(page).flatMap(new Function<MovieListPojo, Publisher<Lce<Movie>>>() {
+        return arenaApi.getMovies(page).flatMap(new Function<MovieListPojo, Publisher<Lce<Movie>>>() {
             @Override
             public Publisher<Lce<Movie>> apply(@NonNull MovieListPojo movieListPojo) throws Exception {
                 Log.d(TAG, "Loading movies...,,,");
@@ -155,7 +155,7 @@ public class RemoteDataSource implements BaseDataSource {
             @Override
             public Publisher<? extends Lce<Movie>> apply(@NonNull Boolean aBoolean) throws Exception {
                 if (aBoolean)
-                    return arenaApi.getMoviesTypeTwo().flatMap(new Function<MovieListPojo, Publisher<Lce<Movie>>>() {
+                    return arenaApi.getMovies().flatMap(new Function<MovieListPojo, Publisher<Lce<Movie>>>() {
                         @Override
                         public Publisher<Lce<Movie>> apply(@NonNull MovieListPojo movieListPojo) throws Exception {
                             Log.d(TAG, "Loading movies...,,,");
@@ -184,7 +184,7 @@ public class RemoteDataSource implements BaseDataSource {
             @Override
             public ObservableSource<Lce<Movie>> apply(@NonNull Boolean aBoolean) throws Exception {
                 if (aBoolean)
-                    return arenaApi.getMoviesTypeTwo().toObservable().flatMap(new Function<MovieListPojo, ObservableSource<Lce<Movie>>>() {
+                    return arenaApi.getMovies().toObservable().flatMap(new Function<MovieListPojo, ObservableSource<Lce<Movie>>>() {
                         @Override
                         public ObservableSource<Lce<Movie>> apply(@NonNull MovieListPojo movieListPojo) throws Exception {
                             Log.d(TAG, "Loading movies...,,,");
@@ -203,7 +203,7 @@ public class RemoteDataSource implements BaseDataSource {
             }
         }).startWith(Lce.loading()).toFlowable(BackpressureStrategy.BUFFER);*/
 
-        /*return arenaApi.getMoviesTypeTwo().flatMap(new Function<MovieListPojo, Publisher<Lce<Movie>>>() {
+        /*return arenaApi.getMovies().flatMap(new Function<MovieListPojo, Publisher<Lce<Movie>>>() {
             @Override
             public Publisher<Lce<Movie>> apply(@NonNull MovieListPojo movieListPojo) throws Exception {
                 Log.d(TAG, "Loading movies...,,,");
@@ -225,7 +225,7 @@ public class RemoteDataSource implements BaseDataSource {
                 if (connectivity.isAvailable())
                     return Flowable.just(Lce.error(new Throwable("No network")));
                 else
-                    return arenaApi.getMoviesTypeTwo().flatMap(new Function<MovieListPojo, Publisher<Lce<Movie>>>() {
+                    return arenaApi.getMovies().flatMap(new Function<MovieListPojo, Publisher<Lce<Movie>>>() {
                         @Override
                         public Publisher<Lce<Movie>> apply(@NonNull MovieListPojo movieListPojo) throws Exception {
                             Log.d(TAG, "Loading movies...,,,");
@@ -242,7 +242,7 @@ public class RemoteDataSource implements BaseDataSource {
                     });
             }
         });*/
-       /* return getFlow6(arenaApi.getMoviesTypeTwo()).flatMap(new Function<Lce<MovieListPojo>, Publisher<Lce<Movie>>>() {
+       /* return getFlow6(arenaApi.getMovies()).flatMap(new Function<Lce<MovieListPojo>, Publisher<Lce<Movie>>>() {
             @Override
             public Publisher<Lce<Movie>> apply(@NonNull Lce<MovieListPojo> movieListPojoLce) throws Exception {
                 Log.d(TAG, "Loading movies...,,,");
@@ -261,7 +261,7 @@ public class RemoteDataSource implements BaseDataSource {
 
     @Override
     public Flowable<Lce<LinkedHashMap<String, Movie>>> getMoviesLce(int page) {
-        return arenaApi.getMoviesTypeTwo(page).map(movieListPojo -> {
+        return arenaApi.getMovies(page).map(movieListPojo -> {
             LinkedHashMap<String, Movie> movieLinkedHashMap = new LinkedHashMap<String, Movie>();
             for (MovieListResult movieSearchResult : movieListPojo.getResults()) {
                 movieLinkedHashMap.put(String.valueOf(movieSearchResult.getId()), new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false));
@@ -344,23 +344,34 @@ public class RemoteDataSource implements BaseDataSource {
 
     @Override
     public Observable<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMoviesObservable(String query) {
-        return arenaApi.searchForMovieObservable(query).map(new Function<MovieSearchPojo, ResourceCarrier<LinkedHashMap<String, Movie>>>() {
-            @Override
-            public ResourceCarrier<LinkedHashMap<String, Movie>> apply(@NonNull MovieSearchPojo movieSearchPojo) throws Exception {
-                LinkedHashMap<String, Movie> linkedHashMap = new LinkedHashMap<>();
-                for (MovieSearchResult movieSearchResult : movieSearchPojo.getResults())
-                    linkedHashMap.put(String.valueOf(movieSearchResult.getId()), new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false));
-                if (linkedHashMap.size() > 0) return ResourceCarrier.success(linkedHashMap);
-                else
-                    return ResourceCarrier.error("Sorry, we couldn't find anything", 2, linkedHashMap);
-            }
-        }).onErrorReturn(new Function<Throwable, ResourceCarrier<LinkedHashMap<String, Movie>>>() {
-            @Override
-            public ResourceCarrier<LinkedHashMap<String, Movie>> apply(@NonNull Throwable throwable) throws Exception {
-                if (throwable instanceof UnknownHostException || throwable instanceof NetworkErrorException)
-                    return ResourceCarrier.error("Network not available");
-                else return ResourceCarrier.error(throwable.getMessage());
-            }
+        return arenaApi.searchForMovieObservable(query).map(movieSearchPojo -> {
+            LinkedHashMap<String, Movie> linkedHashMap = new LinkedHashMap<>();
+            for (MovieSearchResult movieSearchResult : movieSearchPojo.getResults())
+                linkedHashMap.put(String.valueOf(movieSearchResult.getId()), new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false));
+            if (linkedHashMap.size() > 0) return ResourceCarrier.success(linkedHashMap);
+            else
+                return ResourceCarrier.error("Sorry, we couldn't find anything", 2, linkedHashMap);
+        }).onErrorReturn(throwable -> {
+            if (throwable instanceof UnknownHostException || throwable instanceof NetworkErrorException)
+                return ResourceCarrier.error("Network not available");
+            else return ResourceCarrier.error(throwable.getMessage());
+        });
+    }
+
+    @Override
+    public Flowable<ResourceCarrier<LinkedHashMap<String, Movie>>> getMovies(int page) {
+        Log.d(TAG, "getMovies = " + page);
+        return arenaApi.getMovies(page).map(movieListPojo -> {
+            LinkedHashMap<String, Movie> linkedHashMap = new LinkedHashMap<>();
+            for (MovieListResult movieListResult : movieListPojo.getResults())
+                linkedHashMap.put(String.valueOf(movieListResult.getId()), new Movie(String.valueOf(movieListResult.getId()), movieListResult.getTitle(), false));
+            if (linkedHashMap.size() > 0) return ResourceCarrier.loading(linkedHashMap);
+            else
+                return ResourceCarrier.error("Sorry, error loading movies", 1, linkedHashMap);
+        }).onErrorReturn(throwable -> {
+            if (throwable instanceof UnknownHostException || throwable instanceof NetworkErrorException)
+                return ResourceCarrier.error("Network not available");
+            else return ResourceCarrier.error(throwable.getMessage());
         });
     }
 

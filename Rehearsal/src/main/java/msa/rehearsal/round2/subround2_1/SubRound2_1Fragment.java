@@ -114,7 +114,7 @@ public class SubRound2_1Fragment extends BaseFragment {
 
         compositeDisposable = new CompositeDisposable();
 
-        /*compositeDisposable.add(subRound2_1ViewModelLazy.get().getMovies(0).subscribe(new Consumer<List<Movie>>() {
+        /*compositeDisposable.add(subRound2_1ViewModelLazy.get().getMovies1(0).subscribe(new Consumer<List<Movie>>() {
             @Override
             public void accept(@NonNull List<Movie> movies) throws Exception {
                 movieEpoxyController.setMovies(movies);
@@ -146,7 +146,7 @@ public class SubRound2_1Fragment extends BaseFragment {
             @Override
             public Observable<List<Movie>> apply(@NonNull EndlessRecyclerViewScrollListener.ScrollState scrollState) throws Exception {
                 Log.d(SubRound2_1Fragment.class.getSimpleName(), "Page = " + scrollState.getPage());
-                return subRound2_1ViewModelLazy.get().getMovies(scrollState.getPage());
+                return subRound2_1ViewModelLazy.get().getMovies1(scrollState.getPage());
             }
         }).scan(new BiFunction<List<Movie>, List<Movie>, List<Movie>>() {
             @Override

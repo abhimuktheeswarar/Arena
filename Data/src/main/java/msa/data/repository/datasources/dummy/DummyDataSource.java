@@ -65,7 +65,7 @@ public class DummyDataSource implements BaseDataSource {
     }
 
     @Override
-    public Observable<Movie> getMovies(int page) {
+    public Observable<Movie> getMovies1(int page) {
         List<Movie> movieList = new LinkedList<>();
         for (int i = page; i < page + 10; i++) {
             movieList.add(new Movie(UUID.randomUUID().toString() + i, "Movie " + i, i % 2 == 0));
@@ -166,6 +166,11 @@ public class DummyDataSource implements BaseDataSource {
 
     @Override
     public Observable<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMoviesObservable(String query) {
+        return null;
+    }
+
+    @Override
+    public Flowable<ResourceCarrier<LinkedHashMap<String, Movie>>> getMovies(int page) {
         return null;
     }
 

@@ -8,6 +8,7 @@ import dagger.Module;
 import dagger.multibindings.IntoMap;
 import msa.arena.di.ArenaViewModelFactory;
 import msa.arena.di.ViewModelKey;
+import msa.arena.movies.list.MovieListViewModel;
 import msa.arena.movies.search.SearchViewModel;
 
 /**
@@ -25,4 +26,9 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SearchViewModel.class)
     abstract ViewModel bindSearchViewModel(SearchViewModel searchViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MovieListViewModel.class)
+    abstract ViewModel bindMovieListViewModel(MovieListViewModel movieListViewModel);
 }

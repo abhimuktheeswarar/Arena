@@ -3,7 +3,7 @@ package msa.arena;
 import android.content.Context;
 import android.content.Intent;
 
-import msa.arena.movies.list.MoviesActivityOld;
+import msa.arena.movies.list.listold.MoviesActivityOld;
 import msa.arena.movies.searchold.MovieSearchActivity;
 
 /**

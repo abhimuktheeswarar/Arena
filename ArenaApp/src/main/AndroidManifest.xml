@@ -26,17 +26,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".movies.list.MoviesActivityOld"
+            android:name=".movies.list.listold.MoviesActivityOld"
             android:label="@string/title_activity_movies"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".movies.searchold.MovieSearchActivity"
             android:label="@string/title_activity_movie_search"
-            android:parentActivityName=".movies.list.MoviesActivityOld"
+            android:parentActivityName=".movies.list.listold.MoviesActivityOld"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="msa.arena.movies.list.MoviesActivityOld" />
+                android:value="msa.arena.movies.list.listold.MoviesActivityOld" />
         </activity>
         <activity android:name=".tryout.di.DaggerActivity" />
         <activity
@@ -46,7 +46,16 @@
         <activity
             android:name=".movies.search.spinner.SearchSpinnerActivity"
             android:label="@string/title_activity_search_spinner"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".movies.list.MovieListActivity"
+            android:label="@string/title_activity_movie_list"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="msa.arena.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

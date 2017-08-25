@@ -4,7 +4,7 @@ import dagger.Component;
 import msa.arena.injector.PerActivity;
 import msa.arena.injector.modules.ActivityModule;
 import msa.arena.injector.modules.MovieModule;
-import msa.arena.movies.list.MoviesFragmentOld;
+import msa.arena.movies.list.listold.MoviesFragmentOld;
 import msa.arena.movies.searchold.MovieSearchFragment;
 
 /**

@@ -24,6 +24,6 @@ public class GetMoviesTypeFive extends UseCaseTypeThree<Movie, Integer> {
 
     @Override
     protected Observable<Movie> buildUseCaseObservable(Integer page) {
-        return repository.getMovies(page);
+        return repository.getMovies1(page);
     }
 }

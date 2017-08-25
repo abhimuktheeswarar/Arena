@@ -71,7 +71,7 @@ public class SharedPreferenceDataSource implements BaseDataSource {
     }
 
     @Override
-    public Observable<Movie> getMovies(int page) {
+    public Observable<Movie> getMovies1(int page) {
         return null;
     }
 
@@ -137,6 +137,11 @@ public class SharedPreferenceDataSource implements BaseDataSource {
 
     @Override
     public Observable<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMoviesObservable(String query) {
+        return null;
+    }
+
+    @Override
+    public Flowable<ResourceCarrier<LinkedHashMap<String, Movie>>> getMovies(int page) {
         return null;
     }
 }

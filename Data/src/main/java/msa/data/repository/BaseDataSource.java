@@ -22,7 +22,7 @@ public interface BaseDataSource {
 
     Completable updateUser(User user);
 
-    Observable<Movie> getMovies(int page);
+    Observable<Movie> getMovies1(int page);
 
     Observable<List<Movie>> getMovieList(int page);
 
@@ -49,4 +49,6 @@ public interface BaseDataSource {
     Single<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMovies(String query);
 
     Observable<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMoviesObservable(String query);
+
+    Flowable<ResourceCarrier<LinkedHashMap<String, Movie>>> getMovies(int page);
 }

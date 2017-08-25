@@ -215,6 +215,26 @@ public class DataStoreFactory {
         });
     }
 
+    Observable<ResourceCarrier<RemoteDataSource>> getRemoteDataSourceObservable4() {
+        return Observable.just(ResourceCarrier.success(remoteDataSource)).subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).switchMap(new Function<ResourceCarrier<RemoteDataSource>, ObservableSource<? extends ResourceCarrier<RemoteDataSource>>>() {
+            @Override
+            public ObservableSource<? extends ResourceCarrier<RemoteDataSource>> apply(@io.reactivex.annotations.NonNull ResourceCarrier<RemoteDataSource> remoteDataSourceResourceCarrier) throws Exception {
+                Log.d(TAG, "Is network available 3 = " + isInternetAvailable);
+                if (isInternetAvailable) return Observable.just(remoteDataSourceResourceCarrier);
+                else
+                    return behaviorSubject.concatMap(new Function<Boolean, ObservableSource<? extends ResourceCarrier<RemoteDataSource>>>() {
+                        @Override
+                        public ObservableSource<? extends ResourceCarrier<RemoteDataSource>> apply(@io.reactivex.annotations.NonNull Boolean aBoolean) throws Exception {
+                            Log.d(TAG, "Is network available 4 = " + aBoolean + " | Is network available 5 = " + isInternetAvailable);
+                            if (aBoolean)
+                                return Observable.just(ResourceCarrier.success(remoteDataSource));
+                            return Observable.just(ResourceCarrier.error("No internet"));
+                        }
+                    });
+            }
+        });
+    }
+
     DummyDataSource getDummyDataSource() {
         return dummyDataSource;
     }

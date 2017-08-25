@@ -17,6 +17,7 @@ import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import msa.arena.base.BaseActivity;
+import msa.arena.movies.list.MovieListActivity;
 import msa.arena.movies.search.searchmenu.SearchMenuActivity;
 import msa.arena.movies.search.spinner.SearchSpinnerActivity;
 import msa.arena.movies.searchold.MovieSearchActivity;
@@ -26,7 +27,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    @BindViews({R.id.btn_search_menu, R.id.btn_search_spinner, R.id.btn_search_old})
+    @BindViews({R.id.btn_search_menu, R.id.btn_search_spinner, R.id.btn_search_old, R.id.btn_movie_list})
     List<AppCompatButton> appCompatButtonList;
 
     @BindView(R.id.fab)
@@ -50,6 +51,8 @@ public class MainActivity extends BaseActivity {
         compositeDisposable.add(RxView.clicks(appCompatButtonList.get(2)).subscribe(o -> startActivity(new Intent(MainActivity.this, MovieSearchActivity.class))));
 
         compositeDisposable.add(RxView.clicks(fab).subscribe(o -> Snackbar.make(fab, "Thank you for visiting Arena", Snackbar.LENGTH_LONG).setAction("Action", null).show()));
+
+        compositeDisposable.add(RxView.clicks(appCompatButtonList.get(3)).subscribe(o -> startActivity(new Intent(MainActivity.this, MovieListActivity.class))));
 
     }
 

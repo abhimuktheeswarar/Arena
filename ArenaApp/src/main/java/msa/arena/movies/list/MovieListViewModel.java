@@ -1,0 +1,128 @@
+package msa.arena.movies.list;
+
+import android.util.Log;
+
+import org.reactivestreams.Publisher;
+
+import java.util.LinkedHashMap;
+
+import javax.inject.Inject;
+
+import io.reactivex.Flowable;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.processors.PublishProcessor;
+import io.reactivex.processors.ReplayProcessor;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subscribers.DisposableSubscriber;
+import msa.arena.base.BaseViewModel;
+import msa.arena.utilities.RxUtilities;
+import msa.domain.entities.Movie;
+import msa.domain.holder.carrier.ResourceCarrier;
+import msa.domain.holder.datastate.DataState;
+import msa.domain.holder.datastate.DataStateContainer;
+import msa.domain.usecases.GetMovies;
+
+/**
+ * Created by Abhimuktheeswarar on 25-08-2017.
+ */
+
+public class MovieListViewModel extends BaseViewModel {
+
+    private final GetMovies getMovies;
+
+    private DataStateContainer<LinkedHashMap<String, Movie>> movies;
+
+    private ReplayProcessor<DataStateContainer<LinkedHashMap<String, Movie>>> movies_ReplayProcessor;
+
+    private PublishProcessor<Integer> paginator;
+
+    private int page;
+
+    @Inject
+    MovieListViewModel(GetMovies getMovies) {
+        this.getMovies = getMovies;
+        initializeViewModel();
+    }
+
+    @Override
+    protected void initializeViewModel() {
+        super.initializeViewModel();
+        Log.d(TAG, "initializeViewModel");
+        paginator = PublishProcessor.create();
+        movies = new DataStateContainer<>(new LinkedHashMap<>());
+        movies_ReplayProcessor = ReplayProcessor.create();
+
+        DisposableSubscriber<DataStateContainer<LinkedHashMap<String, Movie>>> disposableSubscriber = RxUtilities.get(movies_ReplayProcessor);
+        compositeDisposable.add(disposableSubscriber);
+
+        page = 1;
+
+        paginator.startWith(page).doOnNext(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Log.d(TAG, "doOnNext Paginator = " + page);
+            }
+        }).observeOn(Schedulers.io()).flatMap(new Function<Integer, Publisher<ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
+            @Override
+            public Publisher<ResourceCarrier<LinkedHashMap<String, Movie>>> apply(@NonNull Integer page) throws Exception {
+                Log.d(TAG, "Paginator = " + page);
+                return getMovies.execute(GetMovies.Params.newBuilder().page(page).build()).doOnNext(new Consumer<ResourceCarrier<LinkedHashMap<String, Movie>>>() {
+                    @Override
+                    public void accept(ResourceCarrier<LinkedHashMap<String, Movie>> linkedHashMapResourceCarrier) throws Exception {
+                        Log.d(TAG, "doOnNext linkedHashMapResourceCarrier for page:" + page + " is " + linkedHashMapResourceCarrier.status);
+                    }
+                });
+            }
+        }).map(linkedHashMapResourceCarrier -> {
+            Log.d(TAG, "status = " + linkedHashMapResourceCarrier.status);
+            switch (linkedHashMapResourceCarrier.status) {
+                case LOADING:
+                    if (movies.getDataState() == DataState.REFRESHING) {
+                        movies.getData().clear();
+                        movies.setDataState(DataState.REFRESHED);
+                    } else movies.setDataState(DataState.LOADING);
+                    movies.getData().putAll(linkedHashMapResourceCarrier.data);
+                    break;
+                case COMPLETED:
+                    movies.setDataState(DataState.COMPLETED);
+                    break;
+                case NETWORK_ERROR:
+                    movies.setDataState(DataState.NETWORK_ERROR);
+                    break;
+                case ERROR:
+                    movies.setDataState(DataState.ERROR);
+                    break;
+            }
+
+            return movies;
+        }).startWith(movies).subscribe(disposableSubscriber);
+    }
+
+    Flowable<DataStateContainer<LinkedHashMap<String, Movie>>> getMovies() {
+        return movies_ReplayProcessor;
+    }
+
+    void loadMore() {
+        page++;
+        paginator.onNext(page);
+        Log.d(TAG, "loadMore = " + page);
+
+    }
+
+    void reset() {
+        Log.d(TAG, "reset");
+        movies.setDataState(DataState.REFRESHING);
+        page = 1;
+        paginator.onNext(page);
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        Log.d(TAG, "onCleared");
+        paginator.onComplete();
+        movies_ReplayProcessor.onComplete();
+    }
+}

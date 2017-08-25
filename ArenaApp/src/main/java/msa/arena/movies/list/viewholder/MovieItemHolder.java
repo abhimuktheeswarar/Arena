@@ -1,4 +1,4 @@
-package msa.arena.movies.list;
+package msa.arena.movies.list.viewholder;
 
 import android.widget.TextView;
 
@@ -9,8 +9,8 @@ import msa.arena.base.old.BaseEpoxyHolder;
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.
  */
-class MoviesHolder extends BaseEpoxyHolder {
+public class MovieItemHolder extends BaseEpoxyHolder {
 
     @BindView(R.id.text_movie_name)
-    TextView textView;
+    public TextView textView;
 }

@@ -8,6 +8,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import io.reactivex.BackpressureStrategy;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
@@ -52,10 +53,10 @@ public class ArenaRepository implements Repository {
     }
 
     @Override
-    public Observable<Movie> getMovies(int page) {
-        //return dataStoreFactory.getRemoteDataSource().getMovies(page);
-        //return dataStoreFactory.getRemoteDataSource().getMovies(page);
-        return dataStoreFactory.getDummyDataSource().getMovies(page);
+    public Observable<Movie> getMovies1(int page) {
+        //return dataStoreFactory.getRemoteDataSource().getMovies1(page);
+        //return dataStoreFactory.getRemoteDataSource().getMovies1(page);
+        return dataStoreFactory.getDummyDataSource().getMovies1(page);
 
     }
 
@@ -136,6 +137,7 @@ public class ArenaRepository implements Repository {
             }
         });*/
         //return dataStoreFactory.getRemoteDataSource().searchMoviesObservable(query);
+
         return dataStoreFactory.getRemoteDataSourceObservable3().switchMap(new Function<ResourceCarrier<RemoteDataSource>, Observable<ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
             @Override
             public Observable<ResourceCarrier<LinkedHashMap<String, Movie>>> apply(@NonNull ResourceCarrier<RemoteDataSource> remoteDataSourceResourceCarrier) throws Exception {
@@ -145,5 +147,20 @@ public class ArenaRepository implements Repository {
                     return Observable.just(ResourceCarrier.error(remoteDataSourceResourceCarrier.message));
             }
         });
+    }
+
+    @Override
+    public Flowable<ResourceCarrier<LinkedHashMap<String, Movie>>> getMovies(int page) {
+        return dataStoreFactory.getRemoteDataSourceObservable3().toFlowable(BackpressureStrategy.BUFFER).switchMap(new Function<ResourceCarrier<RemoteDataSource>, Flowable<ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
+            @Override
+            public Flowable<ResourceCarrier<LinkedHashMap<String, Movie>>> apply(@NonNull ResourceCarrier<RemoteDataSource> remoteDataSourceResourceCarrier) throws Exception {
+                if (remoteDataSourceResourceCarrier.status == Status.SUCCESS && remoteDataSourceResourceCarrier.data != null)
+                    return remoteDataSourceResourceCarrier.data.getMovies(page);
+                else
+                    return Flowable.just(ResourceCarrier.error(remoteDataSourceResourceCarrier.message));
+            }
+        });
+
+        //return dataStoreFactory.getRemoteDataSource().getMovies(page);
     }
 }

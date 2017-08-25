@@ -23,7 +23,7 @@ public interface Repository {
 
     Completable updateUser(User user);
 
-    Observable<Movie> getMovies(int page);
+    Observable<Movie> getMovies1(int page);
 
     Observable<List<Movie>> getMovieList(int page);
 
@@ -50,5 +50,9 @@ public interface Repository {
     Single<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMoviesSingle(String query);
 
     Observable<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMoviesObservable(String query);
+
+    Flowable<ResourceCarrier<LinkedHashMap<String, Movie>>> getMovies(int page);
+
+
 
 }

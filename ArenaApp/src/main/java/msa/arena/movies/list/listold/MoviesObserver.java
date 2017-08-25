@@ -1,4 +1,4 @@
-package msa.arena.movies.list;
+package msa.arena.movies.list.listold;
 
 import msa.domain.entities.Movie;
 import msa.domain.interactor.old.DefaultObserver;

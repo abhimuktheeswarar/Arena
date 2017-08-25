@@ -32,13 +32,15 @@ public interface ArenaApi {
     Observable<MovieSearchPojo> searchMovie(@Query("query") String query);
 
     @GET("discover/movie?&language=en-US&sort_by=popularity.desc&page=1")
-    Observable<MovieListPojo> getMovies();
+    Observable<MovieListPojo> getMovies1();
 
     @GET("discover/movie?&language=en-US&sort_by=popularity.desc&page=1")
-    Flowable<MovieListPojo> getMoviesTypeTwo();
+    Flowable<MovieListPojo> getMovies();
 
     @GET("discover/movie")
-    Flowable<MovieListPojo> getMoviesTypeTwo(@Query("page") int page);
+    Flowable<MovieListPojo> getMovies(@Query("page") int page);
+
+
 
     @POST("api/serve_appointment/searchMedicine")
     Single<List<SearchMedResult>> getMedicineSuggestions(@Body SearchSubmit searchSubmit);

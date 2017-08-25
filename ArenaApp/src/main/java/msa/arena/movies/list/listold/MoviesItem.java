@@ -1,4 +1,4 @@
-package msa.arena.movies.list;
+package msa.arena.movies.list.listold;
 
 import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyModelClass;
