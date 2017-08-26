@@ -10,14 +10,11 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import io.reactivex.BackpressureStrategy;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import msa.data.repository.datasources.local.realm.RealmDataSource;
 import msa.data.repository.datasources.remote.RemoteDataSource;
@@ -130,19 +127,8 @@ public class ArenaRepository implements Repository {
 
     @Override
     public Observable<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMoviesObservable(String query) {
-        Log.d(TAG, "calling searchMoviesObservable");
-       /* return dataStoreFactory.getRemoteDataSourceObservable().switchMap(new Function<ResourceCarrier<RemoteDataSource>, ObservableSource<? extends ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
-            @Override
-            public ObservableSource<? extends ResourceCarrier<LinkedHashMap<String, Movie>>> apply(@NonNull ResourceCarrier<RemoteDataSource> remoteDataSourceResourceCarrier) throws Exception {
-                Log.d(TAG, "Status = " + remoteDataSourceResourceCarrier.status);
-                if (remoteDataSourceResourceCarrier.status == Status.SUCCESS && remoteDataSourceResourceCarrier.data != null)
-                    return remoteDataSourceResourceCarrier.data.searchMoviesObservable(query);
-                return Observable.just(ResourceCarrier.error(remoteDataSourceResourceCarrier.message));
-            }
-        });*/
-        //return dataStoreFactory.getRemoteDataSource().searchMoviesObservable(query);
-
-        return dataStoreFactory.getRemoteDataSourceObservable12().switchMap(new Function<ResourceCarrier<RemoteDataSource>, Observable<ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
+        //Log.d(TAG, "calling searchMoviesObservable");
+        return dataStoreFactory.getRemoteDataSourceObservable().switchMap(new Function<ResourceCarrier<RemoteDataSource>, Observable<ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
             @Override
             public Observable<ResourceCarrier<LinkedHashMap<String, Movie>>> apply(@NonNull ResourceCarrier<RemoteDataSource> remoteDataSourceResourceCarrier) throws Exception {
                 if (remoteDataSourceResourceCarrier.status == Status.SUCCESS && remoteDataSourceResourceCarrier.data != null)
@@ -155,40 +141,16 @@ public class ArenaRepository implements Repository {
 
     @Override
     public Flowable<ResourceCarrier<LinkedHashMap<String, Movie>>> getMovies(int page) {
-        Log.d(TAG, "getMovies -> " + page);
-        /*return dataStoreFactory.getRemoteDataSourceObservable3().toFlowable(BackpressureStrategy.BUFFER).concatMap(new Function<ResourceCarrier<RemoteDataSource>, Flowable<ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
-            @Override
-            public Flowable<ResourceCarrier<LinkedHashMap<String, Movie>>> apply(@NonNull ResourceCarrier<RemoteDataSource> remoteDataSourceResourceCarrier) throws Exception {
-                Log.d(TAG, "status = " + remoteDataSourceResourceCarrier.status);
-                if (remoteDataSourceResourceCarrier.status == Status.SUCCESS && remoteDataSourceResourceCarrier.data != null)
-                    return remoteDataSourceResourceCarrier.data.getMovies(page);
-                else
-                    return Flowable.just(ResourceCarrier.error(remoteDataSourceResourceCarrier.message));
-            }
-        });*/
-
-
-        return dataStoreFactory.getRemoteDataSourceObservable12().toFlowable(BackpressureStrategy.BUFFER).switchMap(new Function<ResourceCarrier<RemoteDataSource>, Publisher<? extends ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
+        //Log.d(TAG, "getMovies -> " + page);
+        return dataStoreFactory.getRemoteDataSourceFlowable().switchMap(new Function<ResourceCarrier<RemoteDataSource>, Publisher<? extends ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
             @Override
             public Publisher<? extends ResourceCarrier<LinkedHashMap<String, Movie>>> apply(@NonNull ResourceCarrier<RemoteDataSource> remoteDataSourceResourceCarrier) throws Exception {
-                Log.d(TAG, "status = " + remoteDataSourceResourceCarrier.status);
+                //Log.d(TAG, "status = " + remoteDataSourceResourceCarrier.status);
                 if (remoteDataSourceResourceCarrier.status == Status.SUCCESS && remoteDataSourceResourceCarrier.data != null)
                     return remoteDataSourceResourceCarrier.data.getMovies(page);
                 else
                     return Flowable.just(ResourceCarrier.error(remoteDataSourceResourceCarrier.message));
             }
-        }).doOnNext(new Consumer<ResourceCarrier<LinkedHashMap<String, Movie>>>() {
-            @Override
-            public void accept(ResourceCarrier<LinkedHashMap<String, Movie>> linkedHashMapResourceCarrier) throws Exception {
-                Log.d(TAG, "onNext -> " + page);
-            }
-        }).doOnComplete(new Action() {
-            @Override
-            public void run() throws Exception {
-                Log.d(TAG, "completed -> " + page);
-            }
         });
-
-        //return dataStoreFactory.getRemoteDataSource().getMovies(page);
     }
 }

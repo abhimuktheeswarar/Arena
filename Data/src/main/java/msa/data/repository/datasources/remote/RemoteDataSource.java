@@ -22,7 +22,6 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import msa.data.entities.remote.MovieSearchPojo;
@@ -34,6 +33,7 @@ import msa.domain.entities.Lce;
 import msa.domain.entities.Movie;
 import msa.domain.entities.User;
 import msa.domain.holder.carrier.ResourceCarrier;
+import msa.domain.rx.RetryWithDelayF;
 import retrofit2.HttpException;
 
 /**
@@ -46,18 +46,10 @@ public class RemoteDataSource implements BaseDataSource {
 
     private final ArenaApi arenaApi;
     private final Context context;
-    private boolean isInternetAvailable;
 
     public RemoteDataSource(ArenaApi arenaApi, Context context) {
         this.arenaApi = arenaApi;
         this.context = context;
-        ReactiveNetwork.observeNetworkConnectivity(context).subscribe(new Consumer<Connectivity>() {
-            @Override
-            public void accept(@NonNull Connectivity connectivity) throws Exception {
-                isInternetAvailable = connectivity.isAvailable();
-                Log.d(TAG, "Is network available 0 = " + connectivity.isAvailable());
-            }
-        });
     }
 
     @Override
@@ -217,7 +209,7 @@ public class RemoteDataSource implements BaseDataSource {
                 }
                 return Flowable.fromIterable(movies);
             }
-        }).retryWhen(new RetryWithDelay(5, 1000));*/
+        }).retryWhen(new RetryWithDelayO(5, 1000));*/
 
         /*return ReactiveNetwork.observeNetworkConnectivity(context).toFlowable(BackpressureStrategy.BUFFER).switchMap(new Function<Connectivity, Publisher<Lce<Movie>>>() {
             @Override
@@ -361,7 +353,7 @@ public class RemoteDataSource implements BaseDataSource {
     @Override
     public Flowable<ResourceCarrier<LinkedHashMap<String, Movie>>> getMovies(int page) {
         Log.d(TAG, "getMovies = " + page);
-        return arenaApi.getMovies(page).map(movieListPojo -> {
+        return arenaApi.getMovies(page).retryWhen(new RetryWithDelayF(3, 3000)).map(movieListPojo -> {
             LinkedHashMap<String, Movie> linkedHashMap = new LinkedHashMap<>();
             for (MovieListResult movieListResult : movieListPojo.getResults())
                 linkedHashMap.put(String.valueOf(movieListResult.getId()), new Movie(String.valueOf(movieListResult.getId()), movieListResult.getTitle(), false));
