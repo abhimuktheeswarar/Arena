@@ -152,5 +152,7 @@ public class ArenaRepository implements Repository {
                     return Flowable.just(ResourceCarrier.error(remoteDataSourceResourceCarrier.message));
             }
         });
+
+        //return dataStoreFactory.getRemoteDataSource().getMovies(page);
     }
 }

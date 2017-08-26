@@ -2,6 +2,9 @@ package msa.arena.base;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -14,9 +17,11 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
+import dagger.Lazy;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
+import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import rx.subscriptions.CompositeSubscription;
 
@@ -31,6 +36,10 @@ public abstract class BaseActivity extends AppCompatActivity implements HasSuppo
     protected CompositeSubscription compositeSubscription = new CompositeSubscription();
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+
+    @Inject
+    Lazy<Observable<Boolean>> observeNetworkConnectivity;
+
     private RxPermissions rxPermissions;
 
     @Override
@@ -101,6 +110,16 @@ public abstract class BaseActivity extends AppCompatActivity implements HasSuppo
     public RxPermissions getRxPermissions() {
         if (rxPermissions == null) rxPermissions = new RxPermissions(this);
         return rxPermissions;
+    }
+
+    public Observable<Boolean> getObserveNetworkConnectivity() {
+        return observeNetworkConnectivity.get().map(aBoolean -> aBoolean && isNetworkAvailable());
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     protected abstract void bind();

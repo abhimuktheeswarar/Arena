@@ -16,6 +16,7 @@ import com.jakewharton.rxbinding2.view.RxView;
 import java.util.LinkedHashMap;
 
 import butterknife.BindView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import msa.arena.R;
 import msa.arena.base.BaseActivity;
@@ -66,13 +67,17 @@ public class MovieListActivity extends BaseActivity {
                 movieListViewModel.loadMore();
             }
         };
+
+        //swipeRefreshLayout.setEnabled(false);
     }
 
     @Override
     protected void bind() {
 
-        compositeDisposable.add(RxView.clicks(fab).subscribe(o -> movieListViewModel.loadMore()));
 
+        compositeDisposable.add(RxView.clicks(fab).subscribe(o -> movieListViewModel.reload()));
+
+        compositeDisposable.add(getObserveNetworkConnectivity().observeOn(AndroidSchedulers.mainThread()).subscribe(aBoolean -> swipeRefreshLayout.setEnabled(aBoolean)));
 
 
         recyclerView.addOnScrollListener(endlessScrollListener);
@@ -92,6 +97,7 @@ public class MovieListActivity extends BaseActivity {
 
                 switch (linkedHashMapResourceCarrier.getDataState()) {
                     case LOADING:
+                        if (!swipeRefreshLayout.isEnabled()) swipeRefreshLayout.setEnabled(true);
                         movieListController.setMovies(linkedHashMapResourceCarrier);
                         break;
                     case REFRESHING:

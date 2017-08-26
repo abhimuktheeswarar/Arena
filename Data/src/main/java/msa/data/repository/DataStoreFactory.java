@@ -16,10 +16,11 @@
 package msa.data.repository;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity;
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 
 import java.util.concurrent.TimeUnit;
@@ -57,28 +58,20 @@ public class DataStoreFactory {
     private final SharedPreferenceDataSource sharedPreferenceDataSource;
     private final RealmDataSource realmDataSource;
     private final DummyDataSource dummyDataSource;
-    private final PublishSubject<Boolean> behaviorSubject;
+    private final PublishSubject<Boolean> networkConnectivityObservable;
     private boolean isInternetAvailable;
-
-    private Observable<ResourceCarrier<RemoteDataSource>> observable;
-
 
     @Inject
     public DataStoreFactory(@NonNull Context context) {
         this.context = context.getApplicationContext();
-        behaviorSubject = PublishSubject.create();
+        networkConnectivityObservable = PublishSubject.create();
         remoteDataSource = new RemoteDataSource(RemoteConnection.createService(ArenaApi.class), context);
 
 
-        ReactiveNetwork.observeNetworkConnectivity(context).subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).map(new Function<Connectivity, Boolean>() {
-            @Override
-            public Boolean apply(@io.reactivex.annotations.NonNull Connectivity connectivity) throws Exception {
-                return connectivity.isAvailable();
-            }
-        }).doOnNext(aBoolean -> {
-            isInternetAvailable = aBoolean;
-            Log.d(TAG, "IS INTERNET AVAILABLE = " + isInternetAvailable + " | " + aBoolean);
-        }).subscribe(behaviorSubject);
+        ReactiveNetwork.observeNetworkConnectivity(context).subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).map(connectivity -> {
+            Log.d(TAG, "IS INTERNET AVAILABLE = " + connectivity.isAvailable() + " | " + isNetworkAvailable());
+            return connectivity.isAvailable() && isNetworkAvailable();
+        }).doOnNext(aBoolean -> isInternetAvailable = aBoolean).subscribe(networkConnectivityObservable);
 
         sharedPreferenceDataSource = new SharedPreferenceDataSource(context);
         dummyDataSource = new DummyDataSource(context);
@@ -104,7 +97,7 @@ public class DataStoreFactory {
                 if (isInternetAvailable) return Observable.just(remoteDataSourceResourceCarrier);
                 else {
                     PublishSubject<Boolean> publishSubject = PublishSubject.create();
-                    behaviorSubject.subscribe(publishSubject);
+                    networkConnectivityObservable.subscribe(publishSubject);
                     return publishSubject.startWith(false).switchMap(new Function<Boolean, ObservableSource<? extends ResourceCarrier<RemoteDataSource>>>() {
                         @Override
                         public ObservableSource<? extends ResourceCarrier<RemoteDataSource>> apply(@io.reactivex.annotations.NonNull Boolean aBoolean) throws Exception {
@@ -130,7 +123,7 @@ public class DataStoreFactory {
             if (isInternetAvailable) return Observable.just(remoteDataSourceResourceCarrier);
             else {
                 PublishSubject<Boolean> publishSubject = PublishSubject.create();
-                behaviorSubject.debounce(2, TimeUnit.SECONDS).subscribe(publishSubject);
+                networkConnectivityObservable.debounce(2, TimeUnit.SECONDS).subscribe(publishSubject);
                 return publishSubject.startWith(false).switchMap(new Function<Boolean, ObservableSource<? extends ResourceCarrier<RemoteDataSource>>>() {
                     @Override
                     public ObservableSource<? extends ResourceCarrier<RemoteDataSource>> apply(@io.reactivex.annotations.NonNull Boolean aBoolean) throws Exception {
@@ -149,7 +142,7 @@ public class DataStoreFactory {
             if (isInternetAvailable) return Observable.just(remoteDataSourceResourceCarrier);
             else {
                 PublishSubject<Boolean> publishSubject = PublishSubject.create();
-                behaviorSubject.debounce(2, TimeUnit.SECONDS).subscribe(publishSubject);
+                networkConnectivityObservable.debounce(2, TimeUnit.SECONDS).subscribe(publishSubject);
                 return publishSubject.startWith(false).switchMap(new Function<Boolean, ObservableSource<? extends ResourceCarrier<RemoteDataSource>>>() {
                     @Override
                     public ObservableSource<? extends ResourceCarrier<RemoteDataSource>> apply(@io.reactivex.annotations.NonNull Boolean aBoolean) throws Exception {
@@ -173,5 +166,11 @@ public class DataStoreFactory {
 
     RealmDataSource getRealmDataStore() {
         return realmDataSource;
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

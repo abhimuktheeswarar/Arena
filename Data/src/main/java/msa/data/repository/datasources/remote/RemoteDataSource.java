@@ -353,7 +353,7 @@ public class RemoteDataSource implements BaseDataSource {
     @Override
     public Flowable<ResourceCarrier<LinkedHashMap<String, Movie>>> getMovies(int page) {
         Log.d(TAG, "getMovies = " + page);
-        return arenaApi.getMovies(page).retryWhen(new RetryWithDelayF(3, 3000)).map(movieListPojo -> {
+        return arenaApi.getMovies(page).retryWhen(new RetryWithDelayF(3, 1000)).map(movieListPojo -> {
             LinkedHashMap<String, Movie> linkedHashMap = new LinkedHashMap<>();
             for (MovieListResult movieListResult : movieListPojo.getResults())
                 linkedHashMap.put(String.valueOf(movieListResult.getId()), new Movie(String.valueOf(movieListResult.getId()), movieListResult.getTitle(), false));

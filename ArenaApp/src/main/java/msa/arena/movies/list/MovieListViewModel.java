@@ -81,10 +81,7 @@ public class MovieListViewModel extends BaseViewModel {
             Log.d(TAG, "PAGE = " + page);
             switch (linkedHashMapResourceCarrier.status) {
                 case LOADING:
-                    if (movies.getDataState() == DataState.REFRESHING) {
-                        movies.getData().clear();
-                        movies.setDataState(DataState.REFRESHED);
-                    } else if (movies.getDataState() == DataState.ERROR && page == 1) {
+                    if (movies.getDataState() == DataState.REFRESHING || (movies.getDataState() == DataState.ERROR && page == 1)) {
                         movies.getData().clear();
                         movies.setDataState(DataState.REFRESHED);
                     } else movies.setDataState(DataState.LOADING);
@@ -113,6 +110,10 @@ public class MovieListViewModel extends BaseViewModel {
 
     void loadMore() {
 
+        /*page++;
+        paginator.onNext(page);
+        Log.d(TAG, "loadMore = " + page);*/
+
         if (movies.getDataState() != DataState.ERROR) {
             page++;
             Log.d(TAG, "loadMore = " + page);
@@ -122,16 +123,20 @@ public class MovieListViewModel extends BaseViewModel {
     }
 
     void refresh() {
-        Log.d(TAG, "refresh");
-        if (movies.getDataState() != DataState.REFRESHING && movies.getDataState() != DataState.ERROR) {
-            movies.setDataState(DataState.REFRESHING);
+
+        if (movies.getDataState() != DataState.REFRESHING) {
+            Log.d(TAG, "reset");
+            if (movies.getDataState() != DataState.ERROR) movies.setDataState(DataState.REFRESHING);
             page = 1;
             paginator.onNext(page);
-        } else if (movies.getDataState() == DataState.ERROR && movies.getData() != null && movies.getData().size() > 0 && page == 1) {
-            paginator.onNext(page);
-        } else if (movies.getDataState() == DataState.ERROR) {
+        } else {
             movies_ReplayProcessor.onNext(movies);
+            Log.d(TAG, "reset nope");
         }
+    }
+
+    void reload() {
+        paginator.onNext(page);
     }
 
     @Override
