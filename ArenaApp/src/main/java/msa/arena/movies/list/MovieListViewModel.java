@@ -90,9 +90,11 @@ public class MovieListViewModel extends BaseViewModel {
                     break;
                 case NETWORK_ERROR:
                     movies.setDataState(DataState.NETWORK_ERROR);
+                    movies.setMessage(linkedHashMapResourceCarrier.message);
                     break;
                 case ERROR:
                     movies.setDataState(DataState.ERROR);
+                    movies.setMessage(linkedHashMapResourceCarrier.message);
                     break;
             }
 
@@ -108,14 +110,15 @@ public class MovieListViewModel extends BaseViewModel {
         page++;
         paginator.onNext(page);
         Log.d(TAG, "loadMore = " + page);
-
     }
 
     void reset() {
         Log.d(TAG, "reset");
-        movies.setDataState(DataState.REFRESHING);
-        page = 1;
-        paginator.onNext(page);
+        if (movies.getDataState() != DataState.ERROR) {
+            movies.setDataState(DataState.REFRESHING);
+            page = 1;
+            paginator.onNext(page);
+        } else movies_ReplayProcessor.onNext(movies);
     }
 
     @Override

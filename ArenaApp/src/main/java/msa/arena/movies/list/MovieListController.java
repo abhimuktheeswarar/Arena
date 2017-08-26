@@ -8,6 +8,7 @@ import com.airbnb.epoxy.TypedEpoxyController;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import msa.arena.common.item.ErrorItemModel_;
 import msa.arena.common.item.LoadMoreItemModel_;
 import msa.arena.movies.list.itemmodel.MovieItemModel_;
 import msa.arena.movies.search.searchmenu.itemmodel.SearchItem;
@@ -26,6 +27,8 @@ class MovieListController extends TypedEpoxyController<DataStateContainer<Linked
     @AutoModel
     LoadMoreItemModel_ loadMoreItemModel_F, loadMoreItemModel;
 
+    @AutoModel
+    ErrorItemModel_ errorItemModel_F, errorItemModel;
 
     MovieListController() {
 
@@ -40,7 +43,9 @@ class MovieListController extends TypedEpoxyController<DataStateContainer<Linked
 
         Log.d(TAG, "DataState = " + movies.getDataState() + " | is data available = " + (movies.getData() != null));
 
-        if (movies.getData() != null) {
+        loadMoreItemModel_F.isFullHeight(true).addIf(movies.getDataState() == DataState.INITIALIZE, this);
+
+        if (movies.getData() != null && movies.getData().size() > 0) {
             for (Map.Entry<String, Movie> entry : movies.getData().entrySet()) {
                 Movie movie = entry.getValue();
 
@@ -49,12 +54,13 @@ class MovieListController extends TypedEpoxyController<DataStateContainer<Linked
                         .movieId(movie.getMovieId())
                         .movieName(movie.getMovieName())
                         .addTo(this);
-
             }
-
-            loadMoreItemModel_F.isFullHeight(true).addIf(movies.getDataState() == DataState.INITIALIZE, this);
         }
-
-        loadMoreItemModel.isFullHeight(false).addIf(movies.getDataState() == DataState.LOADING, this);
+        if (movies.getDataState() == DataState.LOADING && movies.getData().size() > 0)
+            loadMoreItemModel.isFullHeight(false).addTo(this);
+        else if (movies.getDataState() == DataState.ERROR && movies.getData().size() > 0)
+            errorItemModel.isFullHeight(false).errorMessage(movies.getMessage()).addTo(this);
+        else if (movies.getDataState() == DataState.ERROR && movies.getData().size() == 0)
+            errorItemModel_F.isFullHeight(true).errorMessage(movies.getMessage()).addTo(this);
     }
 }

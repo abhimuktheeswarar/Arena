@@ -16,7 +16,6 @@ import com.jakewharton.rxbinding2.view.RxView;
 import java.util.LinkedHashMap;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.reactivex.functions.Consumer;
 import msa.arena.R;
 import msa.arena.base.BaseActivity;
@@ -49,7 +48,6 @@ public class MovieListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_list);
-        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -108,6 +106,14 @@ public class MovieListActivity extends BaseActivity {
                         break;
                     case COMPLETED:
                         recyclerView.removeOnScrollListener(endlessScrollListener);
+                        movieListController.setMovies(linkedHashMapResourceCarrier);
+                        break;
+                    case ERROR:
+                        swipeRefreshLayout.setRefreshing(false);
+                        movieListController.setMovies(linkedHashMapResourceCarrier);
+                        break;
+                    case NETWORK_ERROR:
+                        swipeRefreshLayout.setRefreshing(false);
                         movieListController.setMovies(linkedHashMapResourceCarrier);
                         break;
                     default:

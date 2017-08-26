@@ -12,7 +12,6 @@ import com.jakewharton.rxbinding2.widget.RxAutoCompleteTextView;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
@@ -40,8 +39,8 @@ public class SearchSpinnerActivity extends BaseActivity implements MovieArrayAda
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_spinner);
-        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         searchViewModel = getViewModelA(SearchViewModel.class);
         movieArrayAdapter = new RxMovieArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item);
         autoCompleteTextView.setAdapter(movieArrayAdapter);

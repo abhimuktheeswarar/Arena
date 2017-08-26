@@ -17,7 +17,6 @@ import com.jakewharton.rxbinding2.view.RxView;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import msa.arena.R;
 import msa.arena.base.BaseActivity;
@@ -44,8 +43,8 @@ public class SearchMenuActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_menu);
-        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         searchViewModel = getViewModelA(SearchViewModel.class);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);

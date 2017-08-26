@@ -1,7 +1,7 @@
 package msa.arena.common.item;
 
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.airbnb.epoxy.EpoxyAttribute;
 import com.airbnb.epoxy.EpoxyModelClass;
@@ -15,39 +15,42 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 /**
- * Created by Abhimuktheeswarar on 26-06-2017.
+ * Created by Abhimuktheeswarar on 26-08-2017.
  */
-@EpoxyModelClass(layout = R.layout.item_load_more)
-public abstract class LoadMoreItemModel extends EpoxyModelWithHolder<LoadMoreItemModel.LoadMoreItemHolder> {
+@EpoxyModelClass(layout = R.layout.item_error)
+public abstract class ErrorItemModel extends EpoxyModelWithHolder<ErrorItemModel.ErrorItemHolder> {
 
     @EpoxyAttribute
     boolean isFullHeight;
 
+    @EpoxyAttribute
+    int errorType;
+
+    @EpoxyAttribute
+    String errorMessage;
+
     @Override
-    public void onViewAttachedToWindow(LoadMoreItemHolder holder) {
+    public void onViewAttachedToWindow(ErrorItemHolder holder) {
         super.onViewAttachedToWindow(holder);
         holder.SetItemHeight(isFullHeight);
     }
 
     @Override
-    public void bind(LoadMoreItemHolder holder) {
+    public void bind(ErrorItemHolder holder) {
         super.bind(holder);
+        holder.textView.setText(errorMessage != null ? errorMessage : "Something went wrong");
     }
 
-    @Override
-    public void unbind(LoadMoreItemHolder holder) {
-        super.unbind(holder);
-    }
+    class ErrorItemHolder extends BaseEpoxyHolder {
 
-    class LoadMoreItemHolder extends BaseEpoxyHolder {
-
-        @BindView(R.id.progressBar)
-        ProgressBar progressBar;
+        @BindView(R.id.text_error)
+        TextView textView;
 
         void SetItemHeight(boolean isFullHeight) {
             ViewGroup.LayoutParams layoutParams = itemView.getLayoutParams();
             layoutParams.height = isFullHeight ? MATCH_PARENT : WRAP_CONTENT;
             itemView.setLayoutParams(layoutParams);
         }
+
     }
 }

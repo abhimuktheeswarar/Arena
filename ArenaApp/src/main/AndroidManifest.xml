@@ -42,11 +42,19 @@
         <activity
             android:name=".movies.search.searchmenu.SearchMenuActivity"
             android:label="@string/title_activity_search_menu"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="msa.arena.MainActivity" />
+        </activity>
         <activity
             android:name=".movies.search.spinner.SearchSpinnerActivity"
             android:label="@string/title_activity_search_spinner"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="msa.arena.MainActivity" />
+        </activity>
         <activity
             android:name=".movies.list.MovieListActivity"
             android:label="@string/title_activity_movie_list"
