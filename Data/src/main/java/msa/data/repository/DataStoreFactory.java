@@ -34,7 +34,6 @@ import io.reactivex.ObservableSource;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
 import io.realm.Realm;
 import msa.data.repository.datasources.dummy.DummyDataSource;
@@ -58,7 +57,7 @@ public class DataStoreFactory {
     private final SharedPreferenceDataSource sharedPreferenceDataSource;
     private final RealmDataSource realmDataSource;
     private final DummyDataSource dummyDataSource;
-    private final BehaviorSubject<Boolean> behaviorSubject;
+    private final PublishSubject<Boolean> behaviorSubject;
     private boolean isInternetAvailable;
 
     private Observable<ResourceCarrier<RemoteDataSource>> observable;
@@ -67,7 +66,7 @@ public class DataStoreFactory {
     @Inject
     public DataStoreFactory(@NonNull Context context) {
         this.context = context.getApplicationContext();
-        behaviorSubject = BehaviorSubject.create();
+        behaviorSubject = PublishSubject.create();
         remoteDataSource = new RemoteDataSource(RemoteConnection.createService(ArenaApi.class), context);
 
 
@@ -78,7 +77,7 @@ public class DataStoreFactory {
             }
         }).doOnNext(aBoolean -> {
             isInternetAvailable = aBoolean;
-            Log.d(TAG, "Is internet available = " + isInternetAvailable);
+            Log.d(TAG, "IS INTERNET AVAILABLE = " + isInternetAvailable + " | " + aBoolean);
         }).subscribe(behaviorSubject);
 
         sharedPreferenceDataSource = new SharedPreferenceDataSource(context);

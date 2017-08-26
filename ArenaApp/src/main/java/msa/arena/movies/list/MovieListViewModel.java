@@ -40,6 +40,7 @@ public class MovieListViewModel extends BaseViewModel {
 
     private int page;
 
+
     @Inject
     MovieListViewModel(GetMovies getMovies) {
         this.getMovies = getMovies;
@@ -77,9 +78,13 @@ public class MovieListViewModel extends BaseViewModel {
             }
         }).map(linkedHashMapResourceCarrier -> {
             Log.d(TAG, "status = " + linkedHashMapResourceCarrier.status);
+            Log.d(TAG, "PAGE = " + page);
             switch (linkedHashMapResourceCarrier.status) {
                 case LOADING:
                     if (movies.getDataState() == DataState.REFRESHING) {
+                        movies.getData().clear();
+                        movies.setDataState(DataState.REFRESHED);
+                    } else if (movies.getDataState() == DataState.ERROR && page == 1) {
                         movies.getData().clear();
                         movies.setDataState(DataState.REFRESHED);
                     } else movies.setDataState(DataState.LOADING);
@@ -107,18 +112,26 @@ public class MovieListViewModel extends BaseViewModel {
     }
 
     void loadMore() {
-        page++;
-        paginator.onNext(page);
-        Log.d(TAG, "loadMore = " + page);
+
+        if (movies.getDataState() != DataState.ERROR) {
+            page++;
+            Log.d(TAG, "loadMore = " + page);
+            movies.setDataState(DataState.LOADING);
+            paginator.onNext(page);
+        } else Log.d(TAG, "loadMore = " + page + " nope");
     }
 
-    void reset() {
-        Log.d(TAG, "reset");
-        if (movies.getDataState() != DataState.ERROR) {
+    void refresh() {
+        Log.d(TAG, "refresh");
+        if (movies.getDataState() != DataState.REFRESHING && movies.getDataState() != DataState.ERROR) {
             movies.setDataState(DataState.REFRESHING);
             page = 1;
             paginator.onNext(page);
-        } else movies_ReplayProcessor.onNext(movies);
+        } else if (movies.getDataState() == DataState.ERROR && movies.getData() != null && movies.getData().size() > 0 && page == 1) {
+            paginator.onNext(page);
+        } else if (movies.getDataState() == DataState.ERROR) {
+            movies_ReplayProcessor.onNext(movies);
+        }
     }
 
     @Override

@@ -80,7 +80,7 @@ public class MovieListActivity extends BaseActivity {
         compositeDisposable.add(RxSwipeRefreshLayout.refreshes(swipeRefreshLayout).subscribe(new Consumer<Object>() {
             @Override
             public void accept(Object o) throws Exception {
-                movieListViewModel.reset();
+                movieListViewModel.refresh();
                 recyclerView.addOnScrollListener(endlessScrollListener);
             }
         }));
