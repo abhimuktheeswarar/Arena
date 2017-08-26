@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import javax.inject.Inject;
@@ -113,7 +114,7 @@ public abstract class BaseActivity extends AppCompatActivity implements HasSuppo
     }
 
     public Observable<Boolean> getObserveNetworkConnectivity() {
-        return observeNetworkConnectivity.get().map(aBoolean -> aBoolean && isNetworkAvailable());
+        return ReactiveNetwork.observeNetworkConnectivity(this).map(connectivity -> connectivity.isAvailable() && BaseActivity.this.isNetworkAvailable());
     }
 
     private boolean isNetworkAvailable() {
