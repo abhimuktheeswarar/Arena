@@ -18,7 +18,6 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
-import dagger.Lazy;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
@@ -37,9 +36,6 @@ public abstract class BaseActivity extends AppCompatActivity implements HasSuppo
     protected CompositeSubscription compositeSubscription = new CompositeSubscription();
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
-
-    @Inject
-    Lazy<Observable<Boolean>> observeNetworkConnectivity;
 
     private RxPermissions rxPermissions;
 
