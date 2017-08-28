@@ -3,6 +3,7 @@ allprojects {
         jcenter()
         maven { url 'https://jitpack.io' }
         maven { url 'https://maven.google.com' }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
         mavenCentral()
     }
 }
@@ -48,7 +49,7 @@ ext {
     //RxLibraries
     rxBindingVersion = '2.0.0'
     rxPreferencesVersion = '2.0.0-RC2'
-    reactiveNetworkVersion = '0.9.1'
+    reactiveNetworkVersion = '0.11.0'
     rxJava2InteropVersion = '0.10.0'
 
     //ArchitectureComponents

@@ -2,8 +2,6 @@ package msa.arc.di.component;
 
 import android.app.Application;
 
-import com.msa.domain.Repository;
-
 import javax.inject.Named;
 import javax.inject.Singleton;
 
@@ -15,6 +13,7 @@ import msa.arc.ArcApp;
 import msa.arc.di.module.ArcAppModule;
 import msa.arc.di.module.BuildersModule;
 import msa.arc.di.module.UseCaseModule;
+import msa.domain.Repository;
 
 /**
  * Created by Abhimuktheeswarar on 08-06-2017.

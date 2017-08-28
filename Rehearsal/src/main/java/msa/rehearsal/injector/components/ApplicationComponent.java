@@ -2,13 +2,12 @@ package msa.rehearsal.injector.components;
 
 import android.content.Context;
 
-import com.msa.domain.Repository;
-
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Component;
 import io.reactivex.Scheduler;
+import msa.domain.Repository;
 import msa.rehearsal.injector.modules.ApplicationModule;
 
 /**
