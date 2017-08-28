@@ -17,9 +17,6 @@ import dagger.android.HasActivityInjector;
 import io.reactivex.plugins.RxJavaPlugins;
 import jp.wasabeef.takt.Takt;
 import msa.arena.di.ApplicationInjector;
-import msa.arena.injector.components.ApplicationComponent;
-import msa.arena.injector.components.DaggerApplicationComponent;
-import msa.arena.injector.modules.ApplicationModule;
 import rx_activity_result2.RxActivityResult;
 
 /**
@@ -31,8 +28,6 @@ public class ArenaApplication extends Application implements HasActivityInjector
     DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
 
     private RefWatcher refWatcher;
-
-    private ApplicationComponent applicationComponent;
 
     public static RefWatcher getRefWatcher(Context context) {
         ArenaApplication arenaApplication = (ArenaApplication) context.getApplicationContext();
@@ -55,8 +50,6 @@ public class ArenaApplication extends Application implements HasActivityInjector
         }
 
         RxJavaPlugins.setErrorHandler(Throwable::printStackTrace);
-
-        this.initializeInjector();
     }
 
     @Override
@@ -70,13 +63,5 @@ public class ArenaApplication extends Application implements HasActivityInjector
             Takt.finish();
         }
         super.onTerminate();
-    }
-
-    private void initializeInjector() {
-        this.applicationComponent = DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(this)).build();
-    }
-
-    public ApplicationComponent getApplicationComponent() {
-        return this.applicationComponent;
     }
 }

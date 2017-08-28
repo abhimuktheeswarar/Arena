@@ -18,9 +18,8 @@ import io.reactivex.functions.Consumer;
 import msa.arena.R;
 import msa.arena.base.BaseActivity;
 import msa.arena.movies.search.SearchViewModel;
-import msa.arena.movies.searchold.MovieArrayAdapter;
 
-public class SearchSpinnerActivity extends BaseActivity implements MovieArrayAdapter.MovieArrayAdapterInterface {
+public class SearchSpinnerActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -94,10 +93,5 @@ public class SearchSpinnerActivity extends BaseActivity implements MovieArrayAda
     @Override
     protected void unBind() {
 
-    }
-
-    @Override
-    public void getMovieSuggestionsFromCloud(String query) {
-        searchViewModel.searchIt(query);
     }
 }

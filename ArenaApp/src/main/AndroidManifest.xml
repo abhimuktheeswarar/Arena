@@ -25,19 +25,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".movies.list.listold.MoviesActivityOld"
-            android:label="@string/title_activity_movies"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".movies.searchold.MovieSearchActivity"
-            android:label="@string/title_activity_movie_search"
-            android:parentActivityName=".movies.list.listold.MoviesActivityOld"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="msa.arena.movies.list.listold.MoviesActivityOld" />
-        </activity>
         <activity android:name=".tryout.di.DaggerActivity" />
         <activity
             android:name=".movies.search.searchmenu.SearchMenuActivity"

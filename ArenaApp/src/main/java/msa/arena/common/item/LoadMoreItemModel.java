@@ -9,7 +9,7 @@ import com.airbnb.epoxy.EpoxyModelWithHolder;
 
 import butterknife.BindView;
 import msa.arena.R;
-import msa.arena.base.old.BaseEpoxyHolder;
+import msa.arena.base.BaseEpoxyHolder;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;

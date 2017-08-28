@@ -1,4 +1,4 @@
-package msa.arena.base.old;
+package msa.arena.base;
 
 import android.support.annotation.CallSuper;
 import android.view.View;
