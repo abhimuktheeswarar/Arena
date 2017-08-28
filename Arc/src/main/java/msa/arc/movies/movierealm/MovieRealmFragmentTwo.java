@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.msa.domain.entities.Movie;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -21,8 +23,7 @@ import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import msa.arc.R;
-import msa.data.repository.datasources.local.realm.realmobjects.MovieR;
-import msa.domain.entities.Movie;
+import msa.arena.data.repository.datasources.local.realm.realmobjects.MovieR;
 import rx.functions.Action1;
 import rx.functions.Func1;
 

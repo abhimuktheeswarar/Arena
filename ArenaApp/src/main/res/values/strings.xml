@@ -3,8 +3,4 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_movies">MoviesActivity</string>
     <string name="title_activity_movie_search">MovieSearchActivity</string>
-    <string name="title_activity_search_menu">SearchMenuActivity</string>
-    <string name="hint_search">Search for moves by title</string>
-    <string name="title_activity_search_spinner">SearchSpinnerActivity</string>
-    <string name="title_activity_movie_list">MovieListActivity</string>
 </resources>

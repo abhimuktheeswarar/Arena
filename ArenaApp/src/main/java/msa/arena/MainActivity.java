@@ -1,57 +1,35 @@
 package msa.arena;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.AppCompatButton;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-import com.jakewharton.rxbinding2.view.RxView;
+import msa.arena.movies.list.MoviesActivity;
 
-import java.util.List;
+public class MainActivity extends AppCompatActivity {
 
-import butterknife.BindView;
-import butterknife.BindViews;
-import butterknife.ButterKnife;
-import msa.arena.base.BaseActivity;
-
-public class MainActivity extends BaseActivity {
-
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-
-    @BindViews({R.id.btn_search_menu, R.id.btn_search_spinner, R.id.btn_movie_list})
-    List<AppCompatButton> appCompatButtonList;
-
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
+    private String camelCase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-    }
 
-    @Override
-    protected void bind() {
-
-        compositeDisposable.add(RxView.clicks(fab).subscribe(o -> Snackbar.make(fab, "Thank you for visiting Arena", Snackbar.LENGTH_LONG).setAction("Action", null).show()));
-
-        compositeDisposable.add(RxView.clicks(appCompatButtonList.get(0)).subscribe(o -> Navigator.navigateToSearchMenuActivity(this)));
-
-        compositeDisposable.add(RxView.clicks(appCompatButtonList.get(1)).subscribe(o -> Navigator.navigateToSearchSpinnerActivity(this)));
-
-        compositeDisposable.add(RxView.clicks(appCompatButtonList.get(2)).subscribe(o -> Navigator.navigateToMovieListActivity(this)));
-
-    }
-
-    @Override
-    protected void unBind() {
-
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(MainActivity.this, MoviesActivity.class));
+                    }
+                });
     }
 
     @Override

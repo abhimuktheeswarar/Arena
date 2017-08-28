@@ -2,6 +2,12 @@ package msa.rehearsal.round2.subround2_1;
 
 import android.util.Log;
 
+import com.msa.domain.entities.Movie;
+import com.msa.domain.usecases.GetMovieHashes;
+import com.msa.domain.usecases.GetMoviesTypeFive;
+import com.msa.domain.usecases.GetMoviesTypeFour;
+import com.msa.domain.usecases.GetMoviesTypeSix;
+
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,11 +17,6 @@ import javax.inject.Inject;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
-import msa.domain.entities.Movie;
-import msa.domain.usecases.old.GetMovieHashes;
-import msa.domain.usecases.old.GetMoviesTypeFive;
-import msa.domain.usecases.old.GetMoviesTypeFour;
-import msa.domain.usecases.old.GetMoviesTypeSix;
 import msa.rehearsal.injector.PerActivity;
 
 /**
