@@ -25,32 +25,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".movies.list.MoviesActivity"
+            android:label="@string/title_activity_movies"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".movies.search.MovieSearchActivity"
+            android:label="@string/title_activity_movie_search"
+            android:parentActivityName=".movies.list.MoviesActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="msa.arena.movies.list.MoviesActivity" />
+        </activity>
+        <activity android:name=".constraint.ConstraintActivity" />
         <activity android:name=".tryout.di.DaggerActivity" />
         <activity
-            android:name=".movies.search.searchmenu.SearchMenuActivity"
-            android:label="@string/title_activity_search_menu"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="msa.arena.MainActivity" />
-        </activity>
-        <activity
-            android:name=".movies.search.spinner.SearchSpinnerActivity"
-            android:label="@string/title_activity_search_spinner"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="msa.arena.MainActivity" />
-        </activity>
-        <activity
-            android:name=".movies.list.MovieListActivity"
-            android:label="@string/title_activity_movie_list"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="msa.arena.MainActivity" />
-        </activity>
+            android:name=".epoxyplay.EpoxyPlayActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

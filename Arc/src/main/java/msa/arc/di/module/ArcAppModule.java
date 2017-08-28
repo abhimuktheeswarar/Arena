@@ -2,6 +2,8 @@ package msa.arc.di.module;
 
 import android.app.Application;
 
+import com.msa.domain.Repository;
+
 import javax.inject.Named;
 import javax.inject.Singleton;
 
@@ -10,9 +12,8 @@ import dagger.Provides;
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import msa.data.repository.ArenaRepository;
-import msa.data.repository.DataStoreFactory;
-import msa.domain.Repository;
+import msa.arena.data.repository.ArenaRepository;
+import msa.arena.data.repository.DataStoreFactory;
 
 /**
  * Created by Abhimuktheeswarar on 08-06-2017.

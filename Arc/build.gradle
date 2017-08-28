@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.frogermcs.androiddevmetrics'
 apply plugin: 'realm-android'
 
@@ -90,8 +90,7 @@ dependencies {
     compile presentationDependencies.rxJava2Extras
     provided presentationDependencies.javaxAnnotation
 
-    compile presentationDependencies.supportLibraryV4
-    compile presentationDependencies.supportLibraryV7
+    compile presentationDependencies.supportLibrary
     compile presentationDependencies.designSupport
     compile presentationDependencies.cardView
     compile presentationDependencies.constraintLayout

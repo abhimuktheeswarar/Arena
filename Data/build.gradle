@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
-//apply plugin: 'me.tatarka.retrolambda'
-//apply plugin: 'com.jakewharton.hugo'
+apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'realm-android'
 
 android {
@@ -43,6 +42,7 @@ android {
         disable 'OldTargetApi'
         // Due to Robolectric that modifies the manifest when running tests
     }
+    buildToolsVersion '25.0.2'
 }
 
 dependencies {
@@ -64,14 +64,13 @@ dependencies {
         exclude group: 'org.json', module: 'json'
     }
     compile dataDependencies.retrofit
-    compile dataDependencies.RetrofitAdapaterJackson
+    compile dataDependencies.retrofitAdapaterJackson
+    //compile dataDependencies.retrofitAdapaterGson
     compile dataDependencies.rxCallAdapter
 
     compile dataDependencies.reactiveNetwork
     compile dataDependencies.rxJava2Interop
 
-    compile dataDependencies.location
-    compile dataDependencies.rxLocation
 
     androidTestCompile testDependencies.junit
     androidTestCompile testDependencies.assertj
@@ -79,9 +78,5 @@ dependencies {
     androidTestCompile testDependencies.robolectric
     androidTestCompile testDependencies.runner
 
-    compile developmentDependencies.logger
-
     testCompile testDependencies.testing
-
-    debugCompile developmentDependencies.debugDb
 }

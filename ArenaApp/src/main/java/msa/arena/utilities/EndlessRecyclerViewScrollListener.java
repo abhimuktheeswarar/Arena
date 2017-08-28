@@ -9,39 +9,21 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
  * Created by Abhimuktheeswarar on 02-01-2017.
  */
 public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollListener {
-
-    private static final String TAG = EndlessRecyclerViewScrollListener.class.getSimpleName();
-
     RecyclerView.LayoutManager mLayoutManager;
     // The minimum amount of items to have below your current scroll position
     // before loading more.
-    private int visibleThreshold = 10;
+    private int visibleThreshold = 5;
     // The current offset index of data you have loaded
-    private int currentPage = 1;
+    private int currentPage = 0;
     // The total number of items in the dataset after the last load
     private int previousTotalItemCount = 0;
     // True if we are still waiting for the last set of data to load.
     private boolean loading = true;
     // Sets the starting page index
-    private int startingPageIndex = 1;
-    private boolean firstTime;
-
-    public EndlessRecyclerViewScrollListener(LinearLayoutManager layoutManager, int currentPage, int visibleThreshold) {
-        this.mLayoutManager = layoutManager;
-        firstTime = true;
-        this.currentPage = currentPage;
-        this.visibleThreshold = visibleThreshold;
-    }
-
-    public EndlessRecyclerViewScrollListener(LinearLayoutManager layoutManager, int currentPage) {
-        this.mLayoutManager = layoutManager;
-        firstTime = true;
-        this.currentPage = currentPage;
-    }
+    private int startingPageIndex = 0;
 
     public EndlessRecyclerViewScrollListener(LinearLayoutManager layoutManager) {
         this.mLayoutManager = layoutManager;
-        firstTime = true;
     }
 
     public EndlessRecyclerViewScrollListener(GridLayoutManager layoutManager) {
@@ -75,13 +57,15 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
         int totalItemCount = mLayoutManager.getItemCount();
 
         if (mLayoutManager instanceof StaggeredGridLayoutManager) {
-            int[] lastVisibleItemPositions = ((StaggeredGridLayoutManager) mLayoutManager).findLastVisibleItemPositions(null);
+            int[] lastVisibleItemPositions =
+                    ((StaggeredGridLayoutManager) mLayoutManager).findLastVisibleItemPositions(null);
             // get maximum element within the list
             lastVisibleItemPosition = getLastVisibleItem(lastVisibleItemPositions);
         } else if (mLayoutManager instanceof GridLayoutManager) {
             lastVisibleItemPosition = ((GridLayoutManager) mLayoutManager).findLastVisibleItemPosition();
         } else if (mLayoutManager instanceof LinearLayoutManager) {
-            lastVisibleItemPosition = ((LinearLayoutManager) mLayoutManager).findLastVisibleItemPosition();
+            lastVisibleItemPosition =
+                    ((LinearLayoutManager) mLayoutManager).findLastVisibleItemPosition();
         }
 
         // If the total item count is zero and the previous isn't, assume the
@@ -90,7 +74,7 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
             this.currentPage = this.startingPageIndex;
             this.previousTotalItemCount = totalItemCount;
             if (totalItemCount == 0) {
-                this.loading = true;
+        this.loading = true;
             }
         }
         // If it’s still loading, we check to see if the dataset count has
@@ -107,7 +91,6 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
         // threshold should reflect how many total columns there are too
         if (!loading && (lastVisibleItemPosition + visibleThreshold) > totalItemCount) {
             currentPage++;
-
             onLoadMore(currentPage, totalItemCount, view);
             loading = true;
         }
@@ -122,5 +105,4 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
 
     // Defines the process for actually loading more data based on page
     public abstract void onLoadMore(int page, int totalItemsCount, RecyclerView view);
-
 }
