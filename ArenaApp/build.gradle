@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.f2prateek.javafmt'
-apply plugin: 'com.frogermcs.androiddevmetrics'
 
 android {
     def globalConfiguration = rootProject.extensions.getByName("ext")
@@ -91,34 +90,18 @@ dependencies {
     compile presentationDependencies.rxJava2Extras
     provided presentationDependencies.javaxAnnotation
 
-    compile presentationDependencies.lifeCycleRuntime
-    compile presentationDependencies.lifeCycleExtensions
-    annotationProcessor presentationDependencies.lifeCycleCompiler
-
-    compile presentationDependencies.androidAnnotations
-    compile presentationDependencies.supportLibraryV4
-    compile presentationDependencies.supportLibraryV7
+    compile presentationDependencies.supportLibrary
     compile presentationDependencies.designSupport
     compile presentationDependencies.cardView
     compile presentationDependencies.constraintLayout
 
     annotationProcessor presentationDependencies.epoxyProcessor
     compile presentationDependencies.epoxy
-    compile presentationDependencies.glide
-    annotationProcessor presentationDependencies.glideProcessor
-    compile presentationDependencies.parceler
-    annotationProcessor presentationDependencies.parcelerProcessor
-
-    compile presentationDependencies.rxActivityResult
-    compile presentationDependencies.rxBinding
-    compile presentationDependencies.rxBindingV4Support
-    compile presentationDependencies.rxBindingV7Support
-    compile presentationDependencies.rxBindingDesign
-    compile presentationDependencies.rxBindingRecyclerView
-    compile presentationDependencies.rxPermissions
-    compile presentationDependencies.rxPaparazzo
 
     compile presentationDependencies.alerter
+
+    compile presentationDependencies.androidAnnotations
+    compile presentationDependencies.leakCanary
 
     androidTestCompile presentationTestDependencies.androidAnnotations
     androidTestCompile presentationTestDependencies.junit
@@ -138,7 +121,4 @@ dependencies {
 
     //Development
     debugCompile developmentDependencies.leakCanary
-    compile developmentDependencies.takt
-    compile developmentDependencies.logger
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }

@@ -5,13 +5,13 @@ import android.view.View;
 import com.airbnb.epoxy.EpoxyController;
 import com.airbnb.epoxy.EpoxyModel;
 import com.airbnb.epoxy.OnModelClickListener;
+import com.msa.domain.entities.Movie;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.processors.BehaviorProcessor;
-import msa.domain.entities.Movie;
 
 /**
  * Created by Abhimuktheeswarar on 01-06-2017.

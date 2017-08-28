@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.msa.domain.entities.User;
 import com.tapadoo.alerter.Alerter;
 
 import butterknife.BindView;
@@ -22,7 +23,6 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import msa.arc.R;
 import msa.arc.base.BaseFragment;
-import msa.domain.entities.User;
 
 /**
  * A simple {@link Fragment} subclass.

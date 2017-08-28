@@ -1,21 +1,22 @@
 package msa.arc.di.module;
 
+import com.msa.domain.Repository;
+import com.msa.domain.usecases.GetMovieHashes;
+import com.msa.domain.usecases.GetMoviesLce;
+import com.msa.domain.usecases.GetMoviesLceR;
+import com.msa.domain.usecases.GetMoviesTypeOne;
+import com.msa.domain.usecases.GetMoviesTypeThree;
+import com.msa.domain.usecases.GetMoviesTypeTwo;
+import com.msa.domain.usecases.GetUserTypeOne;
+import com.msa.domain.usecases.SetFavoriteMovie;
+import com.msa.domain.usecases.UpdateUserTypeOne;
+
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 import io.reactivex.Scheduler;
-import msa.domain.Repository;
-import msa.domain.usecases.old.GetMovieHashes;
-import msa.domain.usecases.old.GetMoviesLce;
-import msa.domain.usecases.old.GetMoviesLceR;
-import msa.domain.usecases.old.GetMoviesTypeOne;
-import msa.domain.usecases.old.GetMoviesTypeThree;
-import msa.domain.usecases.old.GetMoviesTypeTwo;
-import msa.domain.usecases.old.GetUserTypeOne;
-import msa.domain.usecases.old.SetFavoriteMovie;
-import msa.domain.usecases.old.UpdateUserTypeOne;
 
 /**
  * Created by Abhimuktheeswarar on 08-06-2017.
