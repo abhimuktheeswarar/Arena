@@ -2,7 +2,6 @@ package msa.arc.movies.movielist;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -36,9 +35,6 @@ public class MovieListFragment extends BaseFragment {
     @BindView(R.id.rV_movies)
     RecyclerView recyclerView;
 
-    @BindView(R.id.swipeRefreshLayout)
-    SwipeRefreshLayout swipeRefreshLayout;
-
     private LinearLayoutManager linearLayoutManager;
 
     private EndlessRecyclerViewScrollListener scrollListener;
@@ -59,10 +55,10 @@ public class MovieListFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         linearLayoutManager = new LinearLayoutManager(getContext());
-        //linearLayoutManager.setRecycleChildrenOnDetach(true);
         movieListController = new MovieListController();
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(movieListController.getAdapter());
+
     }
 
     @Override
@@ -104,7 +100,6 @@ public class MovieListFragment extends BaseFragment {
         DisposableSubscriber<Lce<LinkedHashMap<String, Movie>>> disposableSubscriber = new DisposableSubscriber<Lce<LinkedHashMap<String, Movie>>>() {
             @Override
             public void onNext(Lce<LinkedHashMap<String, Movie>> linkedHashMapLce) {
-                Log.d(MovieListFragment.class.getSimpleName(), "data received");
                 if (!linkedHashMapLce.hasError()) movieListController.setMovies(linkedHashMapLce);
             }
 
@@ -138,7 +133,5 @@ public class MovieListFragment extends BaseFragment {
     public void onStop() {
         super.onStop();
         recyclerView.removeOnScrollListener(scrollListener);
-        compositeDisposable.clear();
-        compositeSubscription.clear();
     }
 }
