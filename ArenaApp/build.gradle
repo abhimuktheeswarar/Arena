@@ -123,6 +123,7 @@ dependencies {
     androidTestCompile presentationTestDependencies.androidAnnotations
     androidTestCompile presentationTestDependencies.junit
     androidTestCompile presentationTestDependencies.mockito
+    androidTestCompile presentationTestDependencies.mockitoAndroid
     androidTestCompile presentationTestDependencies.dexmaker
     androidTestCompile presentationTestDependencies.dexmakerMockito
     androidTestCompile(presentationTestDependencies.espresso) {
@@ -132,9 +133,13 @@ dependencies {
     androidTestCompile presentationTestDependencies.rules
     androidTestCompile presentationTestDependencies.uiautomator
     androidTestCompile presentationTestDependencies.findBugs
+    androidTestCompile presentationTestDependencies.architectureCore
 
+    testCompile presentationTestDependencies.junit
+    testCompile presentationTestDependencies.mockito
     testCompile presentationDependencies.leakCanary
     testCompile presentationTestDependencies.testing
+    testCompile presentationTestDependencies.architectureCore
 
     //Development
     debugCompile developmentDependencies.leakCanary

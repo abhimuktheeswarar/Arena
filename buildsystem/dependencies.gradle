@@ -10,7 +10,7 @@ allprojects {
 
 ext {
     //Android
-    androidBuildToolsVersion = "26.0.0"
+    androidBuildToolsVersion = "26.0.1"
     androidMinSdkVersion = 19
     androidTargetSdkVersion = 26
     androidCompileSdkVersion = 26
@@ -29,11 +29,11 @@ ext {
     multiDexVersion = '1.0.1'
 
     //Google-Libraries
-    supportLibraryVersion = '25.4.0'
+    supportLibraryVersion = '26.0.0'
     constraintLayoutVersion = '1.0.2'
     playServicesVersion = '11.0.2'
     googleCollectionsVersion = '1.0'
-    architectureComponentsVersion = '1.0.0-alpha4'
+    architectureComponentsVersion = '1.0.0-alpha7'
     googleMapsUtilsVersion = '0.5'
 
     //Data-Libraries
@@ -70,7 +70,7 @@ ext {
     robolectricVersion = '3.2.2'
     jUnitVersion = '4.12'
     assertJVersion = '1.7.1'
-    mockitoVersion = '2.7.22'
+    mockitoVersion = '2.9.0'
     dexmakerVersion = '1.2'
     espressoVersion = '2.2.2'
     testVersion = '0.5'
@@ -138,6 +138,7 @@ ext {
     presentationTestDependencies = [
             junit             : "junit:junit:${jUnitVersion}",
             mockito           : "org.mockito:mockito-core:${mockitoVersion}",
+            mockitoAndroid    : "org.mockito:mockito-android:${mockitoVersion}",
             dexmaker          : "com.google.dexmaker:dexmaker:${dexmakerVersion}",
             dexmakerMockito   : "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}",
             espresso          : "com.android.support.test.espresso:espresso-core:${espressoVersion}",
@@ -147,6 +148,7 @@ ext {
             androidAnnotations: "com.android.support:support-annotations:${supportLibraryVersion}",
             testing           : "org.testng:testng:${testingVersion}",
             findBugs          : "com.google.code.findbugs:jsr305:${findBugsVersion}",
+            architectureCore  : "android.arch.core:core-testing:${architectureComponentsVersion}",
     ]
 
     domainDependencies = [
@@ -190,16 +192,16 @@ ext {
             rxLocation             : "com.patloew.rxlocation:rxlocation:${rxLocationVersion}",
 
 
-
     ]
 
     dataTestDependencies = [
-            junit      : "junit:junit:${jUnitVersion}",
-            assertj    : "org.assertj:assertj-core:${assertJVersion}",
-            mockito    : "org.mockito:mockito-core:${mockitoVersion}",
-            robolectric: "org.robolectric:robolectric:${robolectricVersion}",
-            runner     : "com.android.support.test:runner:${testVersion}",
-            testing    : "org.testng:testng:${testingVersion}"
+            junit              : "junit:junit:${jUnitVersion}",
+            assertj            : "org.assertj:assertj-core:${assertJVersion}",
+            mockito            : "org.mockito:mockito-core:${mockitoVersion}",
+            robolectric        : "org.robolectric:robolectric:${robolectricVersion}",
+            runner             : "com.android.support.test:runner:${testVersion}",
+            testing            : "org.testng:testng:${testingVersion}",
+            okhttpMockWebServer: "com.squareup.okhttp3:mockwebserver:${okHttpVersion}"
     ]
 
     infrastructureDependencies = [

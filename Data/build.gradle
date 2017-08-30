@@ -82,6 +82,9 @@ dependencies {
     compile developmentDependencies.logger
 
     testCompile testDependencies.testing
+    testCompile testDependencies.junit
+    testCompile testDependencies.mockito
+    testCompile testDependencies.okhttpMockWebServer
 
     debugCompile developmentDependencies.debugDb
 }

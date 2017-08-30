@@ -23,7 +23,6 @@ import msa.domain.holder.carrier.ResourceCarrier;
 import msa.domain.holder.datastate.DataState;
 import msa.domain.holder.datastate.DataStateContainer;
 import msa.domain.usecases.SearchMoviesObservable;
-import msa.domain.usecases.SearchMoviesSingle;
 
 /**
  * Created by Abhimuktheeswarar on 22-08-2017.
@@ -31,19 +30,18 @@ import msa.domain.usecases.SearchMoviesSingle;
 
 public class SearchViewModel extends BaseViewModel {
 
-    private final SearchMoviesSingle searchMoviesSingle;
+
     private final SearchMoviesObservable searchMoviesObservable;
 
-    private DataStateContainer<LinkedHashMap<String, Movie>> dataStateContainer;
+    DataStateContainer<LinkedHashMap<String, Movie>> dataStateContainer;
 
     private PublishSubject<String> querySubject;
 
     private ReplaySubject<DataStateContainer<LinkedHashMap<String, Movie>>> dataStateContainerReplaySubject;
-
+    private String queryText;
 
     @Inject
-    SearchViewModel(SearchMoviesSingle searchMoviesSingle, SearchMoviesObservable searchMoviesObservable) {
-        this.searchMoviesSingle = searchMoviesSingle;
+    SearchViewModel(SearchMoviesObservable searchMoviesObservable) {
         this.searchMoviesObservable = searchMoviesObservable;
         initializeViewModel();
     }
@@ -117,10 +115,20 @@ public class SearchViewModel extends BaseViewModel {
         return movies.get(index);
     }
 
+    //For testing purposes--------------------------------------------------------------------------
+
     @Override
     protected void onCleared() {
         super.onCleared();
         querySubject.onComplete();
         dataStateContainerReplaySubject.onComplete();
+    }
+
+    public String getQueryText() {
+        return queryText;
+    }
+
+    public void setQueryText(String queryText) {
+        this.queryText = queryText;
     }
 }
