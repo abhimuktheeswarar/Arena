@@ -83,7 +83,7 @@ public class DataStoreFactory {
     /**
      * Create {@link RemoteDataSource} to retrieve data from the Cloud.
      */
-    RemoteDataSource getRemoteDataSource() {
+    public RemoteDataSource getRemoteDataSource() {
 
         return remoteDataSource;
     }
@@ -168,7 +168,7 @@ public class DataStoreFactory {
         return realmDataSource;
     }
 
-    private boolean isNetworkAvailable() {
+    public boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();

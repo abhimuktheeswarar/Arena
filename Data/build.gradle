@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-//apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'me.tatarka.retrolambda'
 //apply plugin: 'com.jakewharton.hugo'
 apply plugin: 'realm-android'
 
@@ -85,6 +85,7 @@ dependencies {
     testCompile testDependencies.junit
     testCompile testDependencies.mockito
     testCompile testDependencies.okhttpMockWebServer
+    testCompile testDependencies.retrofitMock
 
     debugCompile developmentDependencies.debugDb
 }

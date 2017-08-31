@@ -201,7 +201,8 @@ ext {
             robolectric        : "org.robolectric:robolectric:${robolectricVersion}",
             runner             : "com.android.support.test:runner:${testVersion}",
             testing            : "org.testng:testng:${testingVersion}",
-            okhttpMockWebServer: "com.squareup.okhttp3:mockwebserver:${okHttpVersion}"
+            okhttpMockWebServer: "com.squareup.okhttp3:mockwebserver:${okHttpVersion}",
+            retrofitMock       : "com.squareup.retrofit2:retrofit-mock:${retrofitVersion}",
     ]
 
     infrastructureDependencies = [

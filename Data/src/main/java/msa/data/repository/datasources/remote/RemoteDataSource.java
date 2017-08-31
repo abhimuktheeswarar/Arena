@@ -504,4 +504,18 @@ public class RemoteDataSource implements BaseDataSource {
     }
 
 
+    //------------------------------------------------------------
+
+    public Observable<ResourceCarrier<LinkedHashMap<String, Movie>>> searchMoviesObservableForTesting(String query) {
+        return arenaApi.searchForMovieObservable(query).map(movieSearchPojo -> {
+            LinkedHashMap<String, Movie> linkedHashMap = new LinkedHashMap<>();
+            for (MovieSearchResult movieSearchResult : movieSearchPojo.getResults())
+                linkedHashMap.put(String.valueOf(movieSearchResult.getId()), new Movie(String.valueOf(movieSearchResult.getId()), movieSearchResult.getTitle(), false));
+            if (linkedHashMap.size() > 0) return ResourceCarrier.success(linkedHashMap);
+            else
+                return ResourceCarrier.error("Sorry, we couldn't find anything", 2, linkedHashMap);
+        });
+    }
+
+
 }

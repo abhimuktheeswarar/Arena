@@ -38,7 +38,7 @@ public class ArenaRepository implements Repository {
     private final DataStoreFactory dataStoreFactory;
 
     @Inject
-    ArenaRepository(DataStoreFactory dataStoreFactory) {
+    public ArenaRepository(DataStoreFactory dataStoreFactory) {
         this.dataStoreFactory = dataStoreFactory;
     }
 
