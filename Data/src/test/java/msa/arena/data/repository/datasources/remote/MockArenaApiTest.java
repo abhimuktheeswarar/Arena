@@ -1,30 +1,23 @@
 package msa.arena.data.repository.datasources.remote;
 
-import android.content.Context;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.mockito.Mock;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
-import io.reactivex.observers.TestObserver;
 import msa.data.entities.remote.MovieSearchPojo;
+import msa.data.entities.remote.MovieSearchResult;
 import msa.data.repository.datasources.remote.ArenaApi;
-import msa.data.repository.datasources.remote.RemoteDataSource;
-import msa.domain.entities.Movie;
-import msa.domain.holder.carrier.ResourceCarrier;
-import msa.domain.holder.carrier.Status;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
+import okhttp3.mockwebserver.RecordedRequest;
 import okio.BufferedSource;
 import okio.Okio;
 import retrofit2.Retrofit;
@@ -36,19 +29,17 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 /**
- * Created by Abhimuktheeswarar on 31-08-2017.
+ * Created by Abhimuktheeswarar on 30-08-2017.
  */
 @RunWith(JUnit4.class)
-public class RemoteDataSourceTest {
+public class MockArenaApiTest {
 
-    @Mock
-    Context context;
-    private RemoteDataSource remoteDataSource;
-    private MockWebServer mockWebServer;
     private ArenaApi arenaApi;
 
+    private MockWebServer mockWebServer;
+
     @Before
-    public void setup() {
+    public void createService() throws IOException {
         mockWebServer = new MockWebServer();
         arenaApi = new Retrofit.Builder()
                 .baseUrl(mockWebServer.url("/"))
@@ -56,8 +47,6 @@ public class RemoteDataSourceTest {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
                 .create(ArenaApi.class);
-
-        remoteDataSource = new RemoteDataSource(arenaApi, context);
     }
 
     @After
@@ -69,30 +58,16 @@ public class RemoteDataSourceTest {
     public void searchMovie() throws IOException, InterruptedException {
         enqueueResponse("search.json");
 
-        TestObserver<MovieSearchPojo> testObserver = new TestObserver<>();
-        arenaApi.searchForMovieObservable("abhi").subscribe(testObserver);
-        testObserver.assertNoErrors();
-        testObserver.assertComplete();
+        MovieSearchPojo movieSearchPojo = arenaApi.searchForMovieObservable("abhi").blockingFirst();
 
-        enqueueResponse("search.json");
+        RecordedRequest request = mockWebServer.takeRequest();
+        assertThat(request.getPath(), is("/search/movie?query=abhi"));
+        assertThat(movieSearchPojo, notNullValue());
+        assertThat(movieSearchPojo.getResults().size(), is(19));
 
-        TestObserver<ResourceCarrier<LinkedHashMap<String, Movie>>> resourceCarrierTestObserver = new TestObserver<>();
+        MovieSearchResult movieSearchResult = movieSearchPojo.getResults().get(0);
 
-        remoteDataSource.searchMoviesObservableForTesting("abhi").subscribe(resourceCarrierTestObserver);
-
-        resourceCarrierTestObserver.assertNoErrors();
-        resourceCarrierTestObserver.assertComplete();
-
-        assertThat(remoteDataSource, notNullValue());
-
-        enqueueResponse("search.json");
-
-        ResourceCarrier<LinkedHashMap<String, Movie>> linkedHashMapResourceCarrier = remoteDataSource.searchMoviesObservableForTesting("abhi").blockingFirst();
-
-        assertThat(linkedHashMapResourceCarrier.data, notNullValue());
-        assertThat(linkedHashMapResourceCarrier.status, is(Status.SUCCESS));
-        assertThat(linkedHashMapResourceCarrier.data.size(), is(19));
-        assertThat(linkedHashMapResourceCarrier.data.get("472947").getMovieName(), is("Abhi and Anu"));
+        assertThat(movieSearchResult.getTitle(), is("Abhi and Anu"));
 
     }
 
@@ -107,6 +82,9 @@ public class RemoteDataSourceTest {
         for (Map.Entry<String, String> header : headers.entrySet()) {
             mockResponse.addHeader(header.getKey(), header.getValue());
         }
+        //simulate network delays
+        //mockResponse.throttleBody(1024, 1, TimeUnit.SECONDS);
         mockWebServer.enqueue(mockResponse.setBody(source.readString(StandardCharsets.UTF_8)));
     }
+
 }
