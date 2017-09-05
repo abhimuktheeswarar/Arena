@@ -27,7 +27,8 @@ import static org.junit.Assert.assertThat;
  */
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class DataStoreFactoryTest {
+public class DataStoreFactoryIuTest {
+
 
     private DataStoreFactory dataStoreFactory;
 
@@ -54,7 +55,8 @@ public class DataStoreFactoryTest {
         testObserver.assertNoErrors();
         testObserver.assertNotComplete();
 
-        ResourceCarrier<RemoteDataSource> resourceCarrier = dataStoreFactory.getRemoteDataSourceObservable().timeout(20, TimeUnit.SECONDS).blockingLast();
+
+        ResourceCarrier<RemoteDataSource> resourceCarrier = dataStoreFactory.getRemoteDataSourceObservable().timeout(1, TimeUnit.MINUTES).blockingLast();
 
         if (dataStoreFactory.isNetworkAvailable())
             assertThat(resourceCarrier.status, is(Status.SUCCESS));

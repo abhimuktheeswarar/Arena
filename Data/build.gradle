@@ -81,7 +81,6 @@ dependencies {
     androidTestCompile testDependencies.junit
     androidTestCompile testDependencies.assertj
     androidTestCompile testDependencies.mockito
-    //androidTestCompile testDependencies.robolectric
     androidTestCompile testDependencies.runner
 
     compile developmentDependencies.logger
@@ -89,6 +88,7 @@ dependencies {
     testCompile testDependencies.testing
     testCompile testDependencies.junit
     testCompile testDependencies.mockito
+    testCompile testDependencies.robolectric
     testCompile testDependencies.okhttpMockWebServer
     testCompile testDependencies.retrofitMock
 
