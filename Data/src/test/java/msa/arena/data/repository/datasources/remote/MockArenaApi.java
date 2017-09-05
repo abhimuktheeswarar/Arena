@@ -18,6 +18,8 @@ import retrofit2.mock.BehaviorDelegate;
  * Created by Abhimuktheeswarar on 31-08-2017.
  */
 
+
+@Deprecated
 public final class MockArenaApi implements ArenaApi {
 
     private final BehaviorDelegate<ArenaApi> delegate;

@@ -118,7 +118,7 @@ public class DataStoreFactory {
         });
     }
 
-    Observable<ResourceCarrier<RemoteDataSource>> getRemoteDataSourceObservable() {
+    public Observable<ResourceCarrier<RemoteDataSource>> getRemoteDataSourceObservable() {
         return Observable.just(ResourceCarrier.success(remoteDataSource)).subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).switchMap(remoteDataSourceResourceCarrier -> {
             if (isInternetAvailable) return Observable.just(remoteDataSourceResourceCarrier);
             else {

@@ -20,6 +20,10 @@ android {
         buildConfigField("String", "MEDI_BASE_URL", mediBaseUrl)
         buildConfigField("String", "MEDI_TOKEN_KEY", mediTokenKey)
         buildConfigField("String", "MEDI_TOKEN", mediToken)
+
+        testInstrumentationRunner globalConfiguration["testInstrumentationRunner"]
+
+        multiDexEnabled true
     }
 
     compileOptions {
@@ -33,6 +37,7 @@ android {
         exclude 'META-INF/ASL2.0'
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/LICENSE'
+        pickFirst 'META-INF/rxjava.properties'
     }
 
     lintOptions {
@@ -76,7 +81,7 @@ dependencies {
     androidTestCompile testDependencies.junit
     androidTestCompile testDependencies.assertj
     androidTestCompile testDependencies.mockito
-    androidTestCompile testDependencies.robolectric
+    //androidTestCompile testDependencies.robolectric
     androidTestCompile testDependencies.runner
 
     compile developmentDependencies.logger
