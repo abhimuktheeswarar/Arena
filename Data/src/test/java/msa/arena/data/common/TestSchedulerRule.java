@@ -32,6 +32,8 @@ public class TestSchedulerRule implements TestRule {
         return new Statement() {
             @Override
             public void evaluate() throws Throwable {
+                RxJavaPlugins.setInitIoSchedulerHandler(
+                        scheduler -> testScheduler);
                 RxJavaPlugins.setIoSchedulerHandler(
                         scheduler -> testScheduler);
                 RxJavaPlugins.setComputationSchedulerHandler(

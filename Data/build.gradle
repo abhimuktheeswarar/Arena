@@ -91,6 +91,7 @@ dependencies {
     testCompile testDependencies.robolectric
     testCompile testDependencies.okhttpMockWebServer
     testCompile testDependencies.retrofitMock
+    testCompile testDependencies.awaitility
 
     debugCompile developmentDependencies.debugDb
 }

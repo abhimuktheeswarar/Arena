@@ -76,6 +76,7 @@ ext {
     testVersion = '0.5'
     uiAutomatorVersion = '2.1.2'
     testingVersion = '6.11'
+    awaitilityVersion = '3.0.0'
 
     //Development
     leakCanaryVersion = '1.5.1'
@@ -203,6 +204,7 @@ ext {
             testing            : "org.testng:testng:${testingVersion}",
             okhttpMockWebServer: "com.squareup.okhttp3:mockwebserver:${okHttpVersion}",
             retrofitMock       : "com.squareup.retrofit2:retrofit-mock:${retrofitVersion}",
+            awaitility         : "org.awaitility:awaitility:${awaitilityVersion}",
     ]
 
     infrastructureDependencies = [
