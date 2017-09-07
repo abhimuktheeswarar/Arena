@@ -10,9 +10,9 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import io.reactivex.functions.Consumer;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.schedulers.Schedulers;
@@ -22,6 +22,7 @@ import msa.data.repository.datasources.remote.RemoteDataSource;
 import msa.domain.holder.carrier.ResourceCarrier;
 import msa.domain.holder.carrier.Status;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertFalse;
@@ -79,23 +80,49 @@ public class DataStoreFactoryTest {
         testObserver.assertValueCount(1);
         testObserver.assertComplete();
 
-        ResourceCarrier<RemoteDataSource> resourceCarrier = dataStoreFactory.getRemoteDataSourceObservable().timeout(20, TimeUnit.SECONDS).blockingFirst();
+        ResourceCarrier<RemoteDataSource> resourceCarrier = dataStoreFactory.getRemoteDataSourceObservable().timeout(20, SECONDS).blockingFirst();
 
-        if (dataStoreFactory.isNetworkAvailable())
-            assertThat(resourceCarrier.status, is(Status.SUCCESS));
-        else assertThat(resourceCarrier.status, is(Status.ERROR));
+        assertThat(resourceCarrier.status, is(Status.SUCCESS));
 
     }
 
     @Test
-    public void networkNotAvailableCase() throws TimeoutException {
+    public void networkNotAvailableCaseSynchronous() throws TimeoutException {
 
+        dataStoreFactory.setInternetAvailable(false);
+
+        ResourceCarrier<RemoteDataSource> remoteDataSourceResourceCarrier = dataStoreFactory.getRemoteDataSourceObservable().doAfterNext(remoteDataSourceResourceCarrier1 -> {
+            System.out.println("doAfterNext");
+            dataStoreFactory.getNetworkConnectivityObservable().onNext(true);
+        }).blockingLast();
+
+        assertThat(remoteDataSourceResourceCarrier, notNullValue());
+        assertThat(remoteDataSourceResourceCarrier.status, is(Status.SUCCESS));
+
+    }
+
+    @Test
+    public void networkNotAvailableCase() {
+
+        dataStoreFactory.setInternetAvailable(false);
 
         TestObserver<ResourceCarrier<RemoteDataSource>> testObserver = new TestObserver<>();
 
-        dataStoreFactory.getRemoteDataSourceObservable().doAfterNext(remoteDataSourceResourceCarrier -> dataStoreFactory.getNetworkConnectivityObservable().onNext(true)).subscribe(testObserver);
+        dataStoreFactory.getRemoteDataSourceObservable().doAfterNext(new Consumer<ResourceCarrier<RemoteDataSource>>() {
+            @Override
+            public void accept(ResourceCarrier<RemoteDataSource> remoteDataSourceResourceCarrier) throws Exception {
+                System.out.println("doAfterNext");
+                dataStoreFactory.getNetworkConnectivityObservable().onNext(true);
+            }
+        }).subscribe(testObserver);
+
+        testObserver.awaitTerminalEvent(4, SECONDS);
+
 
         testObserver.assertNoErrors();
+        for (ResourceCarrier<RemoteDataSource> resourceCarrier : testObserver.values())
+            System.out.println("Resource carrier status = " + resourceCarrier.status);
+
         testObserver.assertValueCount(2);
         testObserver.assertComplete();
 
