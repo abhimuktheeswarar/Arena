@@ -25,6 +25,7 @@ import static org.junit.Assert.assertThat;
 /**
  * Created by Abhimuktheeswarar on 31-08-2017.
  */
+@Deprecated
 @RunWith(AndroidJUnit4.class)
 @SmallTest
 public class DataStoreFactoryIuTest {

@@ -1,5 +1,6 @@
 package msa.data.repository;
 
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import org.reactivestreams.Publisher;
@@ -35,6 +36,7 @@ public class ArenaRepository implements Repository {
 
     private final static String TAG = ArenaRepository.class.getSimpleName();
 
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     private final DataStoreFactory dataStoreFactory;
 
     @Inject
@@ -42,6 +44,9 @@ public class ArenaRepository implements Repository {
         this.dataStoreFactory = dataStoreFactory;
     }
 
+    public DataStoreFactory getDataStoreFactory() {
+        return dataStoreFactory;
+    }
 
     @Override
     public Observable<User> getUser() {

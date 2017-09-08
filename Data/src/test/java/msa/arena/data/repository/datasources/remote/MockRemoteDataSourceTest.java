@@ -2,6 +2,7 @@ package msa.arena.data.repository.datasources.remote;
 
 import android.content.Context;
 
+import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -62,6 +63,11 @@ public class MockRemoteDataSourceTest {
     @After
     public void stopService() throws IOException {
         mockWebServer.shutdown();
+    }
+
+    @Test
+    public void initialCheck() {
+        assertThat(remoteDataSource, Matchers.notNullValue());
     }
 
     @Test

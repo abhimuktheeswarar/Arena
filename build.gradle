@@ -8,7 +8,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
-        //classpath 'com.android.tools.build:gradle:3.0.0-beta3'
+        //classpath 'com.android.tools.build:gradle:3.0.0-beta4'
         classpath 'me.tatarka:gradle-retrolambda:3.6.0'
         classpath 'com.f2prateek.javafmt:javafmt:0.1.2'
         classpath 'com.frogermcs.androiddevmetrics:androiddevmetrics-plugin:0.5'

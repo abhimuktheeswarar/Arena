@@ -112,7 +112,7 @@ public class DataStoreFactory {
 
     //Original method
     private Observable<ResourceCarrier<RemoteDataSource>> getRemoteDataSourceObservable12() {
-        return Observable.just(ResourceCarrier.success(remoteDataSource)).subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).switchMap(new Function<ResourceCarrier<RemoteDataSource>, ObservableSource<? extends ResourceCarrier<RemoteDataSource>>>() {
+        return Observable.just(ResourceCarrier.success(getRemoteDataSource())).subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).switchMap(new Function<ResourceCarrier<RemoteDataSource>, ObservableSource<? extends ResourceCarrier<RemoteDataSource>>>() {
             @Override
             public ObservableSource<? extends ResourceCarrier<RemoteDataSource>> apply(@io.reactivex.annotations.NonNull ResourceCarrier<RemoteDataSource> remoteDataSourceResourceCarrier) throws Exception {
                 Log.d(TAG, "Is network available 3 = " + isInternetAvailable());
@@ -125,7 +125,7 @@ public class DataStoreFactory {
                         public ObservableSource<? extends ResourceCarrier<RemoteDataSource>> apply(@io.reactivex.annotations.NonNull Boolean aBoolean) throws Exception {
                             Log.d(TAG, "Is network available 4 = " + aBoolean + " | Is network available 5 = " + isInternetAvailable());
                             if (aBoolean) {
-                                return Observable.just(ResourceCarrier.success(remoteDataSource)).doAfterNext(new Consumer<ResourceCarrier<RemoteDataSource>>() {
+                                return Observable.just(ResourceCarrier.success(getRemoteDataSource())).doAfterNext(new Consumer<ResourceCarrier<RemoteDataSource>>() {
                                     @Override
                                     public void accept(ResourceCarrier<RemoteDataSource> remoteDataSourceResourceCarrier) throws Exception {
                                         publishSubject.onComplete();
@@ -141,7 +141,7 @@ public class DataStoreFactory {
     }
 
     public Observable<ResourceCarrier<RemoteDataSource>> getRemoteDataSourceObservable() {
-        return Observable.just(ResourceCarrier.success(remoteDataSource)).subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).switchMap(remoteDataSourceResourceCarrier -> {
+        return Observable.just(ResourceCarrier.success(getRemoteDataSource())).subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).switchMap(remoteDataSourceResourceCarrier -> {
             if (isInternetAvailable()) return Observable.just(remoteDataSourceResourceCarrier);
             else {
                 PublishSubject<Boolean> publishSubject = PublishSubject.create();
@@ -150,7 +150,7 @@ public class DataStoreFactory {
                     @Override
                     public ObservableSource<? extends ResourceCarrier<RemoteDataSource>> apply(@io.reactivex.annotations.NonNull Boolean aBoolean) throws Exception {
                         if (aBoolean) {
-                            return Observable.just(ResourceCarrier.success(remoteDataSource)).doAfterNext(remoteDataSourceResourceCarrier1 -> publishSubject.onComplete());
+                            return Observable.just(ResourceCarrier.success(getRemoteDataSource())).doAfterNext(remoteDataSourceResourceCarrier1 -> publishSubject.onComplete());
                         }
                         return Observable.just(ResourceCarrier.error("No internet connection"));
                     }
@@ -160,7 +160,7 @@ public class DataStoreFactory {
     }
 
     Flowable<ResourceCarrier<RemoteDataSource>> getRemoteDataSourceFlowable() {
-        return Observable.just(ResourceCarrier.success(remoteDataSource)).subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).switchMap(remoteDataSourceResourceCarrier -> {
+        return Observable.just(ResourceCarrier.success(getRemoteDataSource())).subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).switchMap(remoteDataSourceResourceCarrier -> {
             if (isInternetAvailable()) return Observable.just(remoteDataSourceResourceCarrier);
             else {
                 PublishSubject<Boolean> publishSubject = PublishSubject.create();

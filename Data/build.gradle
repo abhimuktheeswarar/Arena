@@ -62,6 +62,7 @@ dependencies {
     compile dataDependencies.rxJavaExtras
     compile dataDependencies.rxJava2Extras
     compile dataDependencies.androidAnnotations
+    //compile dataDependencies.multiDex
 
     compile dataDependencies.okHttp
     compile dataDependencies.okHttpInterceptor

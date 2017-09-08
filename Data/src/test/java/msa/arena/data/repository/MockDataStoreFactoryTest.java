@@ -26,6 +26,7 @@ import static org.mockito.Mockito.when;
 /**
  * Created by Abhimuktheeswarar on 31-08-2017.
  */
+@Deprecated
 @RunWith(JUnit4.class)
 public class MockDataStoreFactoryTest {
 
