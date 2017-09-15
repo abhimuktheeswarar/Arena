@@ -1,5 +1,6 @@
 package msa.arena.movies.list.viewholder;
 
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -13,4 +14,7 @@ public class MovieItemHolder extends BaseEpoxyHolder {
 
     @BindView(R.id.text_movie_name)
     public TextView textView;
+
+    @BindView(R.id.check_movie_favorite)
+    public CheckBox checkBox;
 }

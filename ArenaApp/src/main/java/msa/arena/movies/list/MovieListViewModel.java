@@ -2,6 +2,8 @@ package msa.arena.movies.list;
 
 import android.util.Log;
 
+import com.github.davidmoten.rx2.util.Pair;
+
 import org.reactivestreams.Publisher;
 
 import java.util.LinkedHashMap;
@@ -137,6 +139,11 @@ public class MovieListViewModel extends BaseViewModel {
 
     void reload() {
         paginator.onNext(page);
+    }
+
+    void setFavoriteMovie(Pair<String, Boolean> isFavorite) {
+        movies.getData().get(isFavorite.left()).setFavorite(isFavorite.right());
+        movies_ReplayProcessor.onNext(movies);
     }
 
     @Override

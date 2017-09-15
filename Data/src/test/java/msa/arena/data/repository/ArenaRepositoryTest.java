@@ -100,10 +100,9 @@ public class ArenaRepositoryTest {
 
         TestObserver<ResourceCarrier<LinkedHashMap<String, Movie>>> resourceCarrierTestObserver = new TestObserver<>();
 
-        arenaRepository.searchMoviesObservable("abhi").doAfterNext(linkedHashMapResourceCarrier -> {
-            System.out.println("doAfterNext: " + linkedHashMapResourceCarrier.status);
-            mockDataStoreFactory.getNetworkConnectivityObservable().onNext(true);
-        }).subscribe(resourceCarrierTestObserver);
+        arenaRepository.searchMoviesObservable("abhi").subscribe(resourceCarrierTestObserver);
+
+        mockDataStoreFactory.getNetworkConnectivityObservable().onNext(true);
 
         await().timeout(10, SECONDS).until(resourceCarrierTestObserver::valueCount, equalTo(2));
 

@@ -176,10 +176,9 @@ public class DataStoreFactoryTest {
 
         TestObserver<ResourceCarrier<RemoteDataSource>> testObserver = new TestObserver<>();
 
-        dataStoreFactory.getRemoteDataSourceObservable().doAfterNext(remoteDataSourceResourceCarrier -> {
-            System.out.println("doAfterNext");
-            dataStoreFactory.getNetworkConnectivityObservable().onNext(true);
-        }).subscribe(testObserver);
+        dataStoreFactory.getRemoteDataSourceObservable().subscribe(testObserver);
+
+        dataStoreFactory.getNetworkConnectivityObservable().onNext(true);
 
         await().timeout(10, SECONDS).until(testObserver::valueCount, equalTo(2));
 

@@ -19,6 +19,8 @@ android {
         testInstrumentationRunner globalConfiguration["testInstrumentationRunner"]
         testApplicationId globalConfiguration["testApplicationId"]
 
+        testInstrumentationRunner globalConfiguration["testInstrumentationRunner"]
+
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -94,6 +96,7 @@ dependencies {
     compile presentationDependencies.lifeCycleRuntime
     compile presentationDependencies.lifeCycleExtensions
     annotationProcessor presentationDependencies.lifeCycleCompiler
+    compile presentationDependencies.lifeCycleReactiveStreams
 
     compile presentationDependencies.androidAnnotations
     compile presentationDependencies.supportLibraryV4
@@ -120,6 +123,8 @@ dependencies {
 
     compile presentationDependencies.alerter
 
+    //compile presentationTestDependencies.testing
+
     androidTestCompile presentationTestDependencies.androidAnnotations
     androidTestCompile presentationTestDependencies.junit
     androidTestCompile presentationTestDependencies.mockito
@@ -135,6 +140,7 @@ dependencies {
     androidTestCompile presentationTestDependencies.findBugs
     androidTestCompile presentationTestDependencies.architectureCore
 
+    //testCompile presentationTestDependencies.testing
     testCompile presentationTestDependencies.junit
     testCompile presentationTestDependencies.mockito
     testCompile presentationDependencies.leakCanary

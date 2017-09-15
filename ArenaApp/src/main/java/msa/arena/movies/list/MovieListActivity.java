@@ -143,6 +143,8 @@ public class MovieListActivity extends BaseActivity {
 
         movieListViewModel.getMovies().subscribe(productsSubscriber);
 
+        compositeDisposable.add(movieListController.getFavoriteChangeObservable().subscribe(stringBooleanPair -> movieListViewModel.setFavoriteMovie(stringBooleanPair)));
+
 
         //Consumer<? super Boolean> refreshing = RxSwipeRefreshLayout.refreshing(swipeRefreshLayout);
         //Observable<Boolean> booleanObservable = Observable.just(true);

@@ -29,11 +29,11 @@ ext {
     multiDexVersion = '1.0.2'
 
     //Google-Libraries
-    supportLibraryVersion = '26.0.0'
+    supportLibraryVersion = '26.1.0'
     constraintLayoutVersion = '1.0.2'
     playServicesVersion = '11.0.2'
     googleCollectionsVersion = '1.0'
-    architectureComponentsVersion = '1.0.0-alpha7'
+    architectureComponentsVersion = '1.0.0-alpha9-1'
     googleMapsUtilsVersion = '0.5'
 
     //Data-Libraries
@@ -85,55 +85,56 @@ ext {
     loggerVersion = '2.1.1'
 
     presentationDependencies = [
-            daggerCompiler        : "com.google.dagger:dagger-compiler:${daggerVersion}",
-            dagger                : "com.google.dagger:dagger:${daggerVersion}",
-            daggerAndroidProcessor: "com.google.dagger:dagger-android-processor:${daggerVersion}",
-            daggerAndroid         : "com.google.dagger:dagger-android:${daggerVersion}",
-            daggerAndroidSupport  : "com.google.dagger:dagger-android-support:${daggerVersion}",
-            findBugs              : "com.google.code.findbugs:jsr305:${findBugsVersion}",
-            butterKnifeCompiler   : "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
-            butterKnife           : "com.jakewharton:butterknife:${butterKnifeVersion}",
-            rxJava                : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
-            rxAndroid             : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
-            rxJavaExtras          : "com.github.davidmoten:rxjava-extras:${rxJavaExtrasVersion}",
-            rxJava2Extras         : "com.github.davidmoten:rxjava2-extras:${rxJava2ExtrasVersion}",
-            javaxAnnotation       : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-            multiDex              : "com.android.support:multidex:${multiDexVersion}",
+            daggerCompiler          : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger                  : "com.google.dagger:dagger:${daggerVersion}",
+            daggerAndroidProcessor  : "com.google.dagger:dagger-android-processor:${daggerVersion}",
+            daggerAndroid           : "com.google.dagger:dagger-android:${daggerVersion}",
+            daggerAndroidSupport    : "com.google.dagger:dagger-android-support:${daggerVersion}",
+            findBugs                : "com.google.code.findbugs:jsr305:${findBugsVersion}",
+            butterKnifeCompiler     : "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
+            butterKnife             : "com.jakewharton:butterknife:${butterKnifeVersion}",
+            rxJava                  : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxAndroid               : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            rxJavaExtras            : "com.github.davidmoten:rxjava-extras:${rxJavaExtrasVersion}",
+            rxJava2Extras           : "com.github.davidmoten:rxjava2-extras:${rxJava2ExtrasVersion}",
+            javaxAnnotation         : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            multiDex                : "com.android.support:multidex:${multiDexVersion}",
 
-            supportLibraryV4      : "com.android.support:support-v4:${supportLibraryVersion}",
-            supportLibraryV7      : "com.android.support:appcompat-v7:${supportLibraryVersion}",
-            designSupport         : "com.android.support:design:${supportLibraryVersion}",
-            cardView              : "com.android.support:cardview-v7:${supportLibraryVersion}",
-            vectorSupport         : "com.android.support:support-vector-drawable:${supportLibraryVersion}",
-            constraintLayout      : "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
-            playServicesMaps      : "com.google.android.gms:play-services-maps:${playServicesVersion}",
-            googleMapsUtils       : "com.google.maps.android:android-maps-utils:${googleMapsUtilsVersion}",
-            places                : "com.google.android.gms:play-services-places:${playServicesVersion}",
-            lifeCycleRuntime      : "android.arch.lifecycle:runtime:${architectureComponentsVersion}",
-            lifeCycleExtensions   : "android.arch.lifecycle:extensions:${architectureComponentsVersion}",
-            lifeCycleCompiler     : "android.arch.lifecycle:compiler:${architectureComponentsVersion}",
-            androidAnnotations    : "com.android.support:support-annotations:${supportLibraryVersion}",
+            supportLibraryV4        : "com.android.support:support-v4:${supportLibraryVersion}",
+            supportLibraryV7        : "com.android.support:appcompat-v7:${supportLibraryVersion}",
+            designSupport           : "com.android.support:design:${supportLibraryVersion}",
+            cardView                : "com.android.support:cardview-v7:${supportLibraryVersion}",
+            vectorSupport           : "com.android.support:support-vector-drawable:${supportLibraryVersion}",
+            constraintLayout        : "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
+            playServicesMaps        : "com.google.android.gms:play-services-maps:${playServicesVersion}",
+            googleMapsUtils         : "com.google.maps.android:android-maps-utils:${googleMapsUtilsVersion}",
+            places                  : "com.google.android.gms:play-services-places:${playServicesVersion}",
+            lifeCycleRuntime        : "android.arch.lifecycle:runtime:${architectureComponentsVersion}",
+            lifeCycleExtensions     : "android.arch.lifecycle:extensions:${architectureComponentsVersion}",
+            lifeCycleCompiler       : "android.arch.lifecycle:compiler:${architectureComponentsVersion}",
+            lifeCycleReactiveStreams: "android.arch.lifecycle:reactivestreams:${architectureComponentsVersion}",
+            androidAnnotations      : "com.android.support:support-annotations:${supportLibraryVersion}",
 
-            epoxy                 : "com.airbnb.android:epoxy:${epoxyVersion}",
-            epoxyProcessor        : "com.airbnb.android:epoxy-processor:${epoxyVersion}",
-            glide                 : "com.github.bumptech.glide:glide:${glideVersion}",
-            glideProcessor        : "com.github.bumptech.glide:compiler:${glideVersion}",
-            parceler              : "org.parceler:parceler-api:${parcelerVersion}",
-            parcelerProcessor     : "org.parceler:parceler:${parcelerVersion}",
+            epoxy                   : "com.airbnb.android:epoxy:${epoxyVersion}",
+            epoxyProcessor          : "com.airbnb.android:epoxy-processor:${epoxyVersion}",
+            glide                   : "com.github.bumptech.glide:glide:${glideVersion}",
+            glideProcessor          : "com.github.bumptech.glide:compiler:${glideVersion}",
+            parceler                : "org.parceler:parceler-api:${parcelerVersion}",
+            parcelerProcessor       : "org.parceler:parceler:${parcelerVersion}",
 
-            rxActivityResult      : "com.github.VictorAlbertos:RxActivityResult:${rxActivityResultVersion}",
-            rxBinding             : "com.jakewharton.rxbinding2:rxbinding:${rxBindingVersion}",
-            rxBindingV4Support    : "com.jakewharton.rxbinding2:rxbinding-support-v4:${rxBindingVersion}",
-            rxBindingV7Support    : "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:${rxBindingVersion}",
-            rxBindingDesign       : "com.jakewharton.rxbinding2:rxbinding-design:${rxBindingVersion}",
-            rxBindingRecyclerView : "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:${rxBindingVersion}",
-            rxPermissions         : "com.tbruyelle.rxpermissions2:rxpermissions:${rxPermissionsVersion}",
-            rxPaparazzo           : "com.github.miguelbcr:RxPaparazzo:${rxPaparazzoVersion}",
+            rxActivityResult        : "com.github.VictorAlbertos:RxActivityResult:${rxActivityResultVersion}",
+            rxBinding               : "com.jakewharton.rxbinding2:rxbinding:${rxBindingVersion}",
+            rxBindingV4Support      : "com.jakewharton.rxbinding2:rxbinding-support-v4:${rxBindingVersion}",
+            rxBindingV7Support      : "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:${rxBindingVersion}",
+            rxBindingDesign         : "com.jakewharton.rxbinding2:rxbinding-design:${rxBindingVersion}",
+            rxBindingRecyclerView   : "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:${rxBindingVersion}",
+            rxPermissions           : "com.tbruyelle.rxpermissions2:rxpermissions:${rxPermissionsVersion}",
+            rxPaparazzo             : "com.github.miguelbcr:RxPaparazzo:${rxPaparazzoVersion}",
 
-            materialDialogs       : "com.afollestad.material-dialogs:core:${materialDialogsVersion}",
-            alerter               : "com.tapadoo.android:alerter:${alerterVersion}",
+            materialDialogs         : "com.afollestad.material-dialogs:core:${materialDialogsVersion}",
+            alerter                 : "com.tapadoo.android:alerter:${alerterVersion}",
 
-            leakCanary            : "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}",
+            leakCanary              : "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}",
     ]
 
     presentationTestDependencies = [
