@@ -19,7 +19,6 @@ package msa.arena.tryout.di.car;
 /**
  * Created by Abhimuktheeswarar on 23-05-2017.
  */
-
 class Motor {
 
     private int rpm;

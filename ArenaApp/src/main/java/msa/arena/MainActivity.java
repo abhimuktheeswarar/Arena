@@ -55,19 +55,29 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void bind() {
 
-        compositeDisposable.add(RxView.clicks(fab).subscribe(o -> Snackbar.make(fab, "Thank you for visiting Arena", Snackbar.LENGTH_LONG).setAction("Action", null).show()));
+        compositeDisposable.add(
+                RxView.clicks(fab)
+                        .subscribe(
+                                o ->
+                                        Snackbar.make(fab, "Thank you for visiting Arena", Snackbar.LENGTH_LONG)
+                                                .setAction("Action", null)
+                                                .show()));
 
-        compositeDisposable.add(RxView.clicks(appCompatButtonList.get(0)).subscribe(o -> Navigator.navigateToSearchMenuActivity(this)));
+        compositeDisposable.add(
+                RxView.clicks(appCompatButtonList.get(0))
+                        .subscribe(o -> Navigator.navigateToSearchMenuActivity(this)));
 
-        compositeDisposable.add(RxView.clicks(appCompatButtonList.get(1)).subscribe(o -> Navigator.navigateToSearchSpinnerActivity(this)));
+        compositeDisposable.add(
+                RxView.clicks(appCompatButtonList.get(1))
+                        .subscribe(o -> Navigator.navigateToSearchSpinnerActivity(this)));
 
-        compositeDisposable.add(RxView.clicks(appCompatButtonList.get(2)).subscribe(o -> Navigator.navigateToMovieListActivity(this)));
-
+        compositeDisposable.add(
+                RxView.clicks(appCompatButtonList.get(2))
+                        .subscribe(o -> Navigator.navigateToMovieListActivity(this)));
     }
 
     @Override
     protected void unBind() {
-
     }
 
     @Override
@@ -87,7 +97,7 @@ public class MainActivity extends BaseActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
+    }
 
         return super.onOptionsItemSelected(item);
     }

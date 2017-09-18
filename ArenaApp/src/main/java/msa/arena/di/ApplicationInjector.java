@@ -16,7 +16,6 @@
 
 package msa.arena.di;
 
-
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
@@ -33,53 +32,47 @@ import msa.arena.di.component.DaggerApplicationComponent;
  * Created by Abhimuktheeswarar on 08-06-2017.
  */
 
-
-/**
- * Helper class to automatically inject fragments if they implement {@link Injectable}.
- */
+/** Helper class to automatically inject fragments if they implement {@link Injectable}. */
 public class ApplicationInjector {
 
     private ApplicationInjector() {
     }
 
     public static void init(ArenaApplication arenaApplication) {
-        DaggerApplicationComponent.builder().application(arenaApplication).build().inject(arenaApplication);
-        arenaApplication.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
-            @Override
-            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                handleActivity(activity);
-            }
+        DaggerApplicationComponent.builder()
+                .application(arenaApplication)
+                .build()
+                .inject(arenaApplication);
+        arenaApplication.registerActivityLifecycleCallbacks(
+                new Application.ActivityLifecycleCallbacks() {
+                    @Override
+                    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                        handleActivity(activity);
+                    }
 
-            @Override
-            public void onActivityStarted(Activity activity) {
+                    @Override
+                    public void onActivityStarted(Activity activity) {
+                    }
 
-            }
+                    @Override
+                    public void onActivityResumed(Activity activity) {
+                    }
 
-            @Override
-            public void onActivityResumed(Activity activity) {
+                    @Override
+                    public void onActivityPaused(Activity activity) {
+                    }
 
-            }
+                    @Override
+                    public void onActivityStopped(Activity activity) {
+                    }
 
-            @Override
-            public void onActivityPaused(Activity activity) {
+                    @Override
+                    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+                    }
 
-            }
-
-            @Override
-            public void onActivityStopped(Activity activity) {
-
-            }
-
-            @Override
-            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
-            }
-
-            @Override
-            public void onActivityDestroyed(Activity activity) {
-
-            }
-        });
+                    @Override
+                    public void onActivityDestroyed(Activity activity) {}
+                });
     }
 
     private static void handleActivity(Activity activity) {
@@ -87,30 +80,36 @@ public class ApplicationInjector {
             AndroidInjection.inject(activity);
         }
         if (activity instanceof FragmentActivity) {
-            ((FragmentActivity) activity).getSupportFragmentManager()
+            ((FragmentActivity) activity)
+                    .getSupportFragmentManager()
                     .registerFragmentLifecycleCallbacks(
                             new FragmentManager.FragmentLifecycleCallbacks() {
                                 @Override
-                                public void onFragmentCreated(FragmentManager fm, Fragment f, Bundle savedInstanceState) {
+                                public void onFragmentCreated(
+                                        FragmentManager fm, Fragment f, Bundle savedInstanceState) {
                                     if (f instanceof Injectable) {
                                         AndroidSupportInjection.inject(f);
                                     }
                                     //if (f.getChildFragmentManager().getFragments().size() > 0) handleFragment(f);
                                 }
-                            }, true);
+                            },
+                            true);
         }
     }
 
     private static void handleFragment(Fragment fragment) {
-        fragment.getChildFragmentManager()
+        fragment
+                .getChildFragmentManager()
                 .registerFragmentLifecycleCallbacks(
                         new FragmentManager.FragmentLifecycleCallbacks() {
                             @Override
-                            public void onFragmentCreated(FragmentManager fm, Fragment f, Bundle savedInstanceState) {
+                            public void onFragmentCreated(
+                                    FragmentManager fm, Fragment f, Bundle savedInstanceState) {
                                 if (f instanceof Injectable) {
                                     AndroidSupportInjection.inject(f);
                                 }
                             }
-                        }, true);
-    }
+                        },
+                        true);
+  }
 }

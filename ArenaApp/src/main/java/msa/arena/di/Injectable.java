@@ -23,5 +23,4 @@ package msa.arena.di;
 /**
  * Marks an activity / fragment injectable.
  */
-public interface Injectable {
-}
+public interface Injectable {}

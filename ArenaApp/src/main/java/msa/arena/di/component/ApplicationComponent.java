@@ -35,9 +35,15 @@ import msa.domain.executor.ThreadExecutor;
 /**
  * Created by Abhimuktheeswarar on 08-06-2017.
  */
-
 @Singleton
-@Component(modules = {AndroidInjectionModule.class, ApplicationModule.class, ActivityBuildersModule.class, UseCaseModule.class})
+@Component(
+        modules = {
+                AndroidInjectionModule.class,
+                ApplicationModule.class,
+                ActivityBuildersModule.class,
+                UseCaseModule.class
+        }
+)
 public interface ApplicationComponent {
 
     void inject(ArenaApplication arenaApplication);
@@ -54,6 +60,5 @@ public interface ApplicationComponent {
         Builder application(Application application);
 
         ApplicationComponent build();
-    }
+  }
 }
-

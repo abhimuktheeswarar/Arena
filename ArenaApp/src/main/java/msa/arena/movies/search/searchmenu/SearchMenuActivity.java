@@ -84,33 +84,42 @@ public class SearchMenuActivity extends BaseActivity {
     @Override
     protected void bind() {
 
-        compositeDisposable.add(RxView.clicks(fab).subscribe(o -> Snackbar.make(fab, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()));
+        compositeDisposable.add(
+                RxView.clicks(fab)
+                        .subscribe(
+                                o ->
+                                        Snackbar.make(fab, "Replace with your own action", Snackbar.LENGTH_LONG)
+                                                .setAction("Action", null)
+                                                .show()));
 
-        compositeDisposable.add(searchViewModel.getMovieSearchObserver().observeOn(AndroidSchedulers.mainThread()).subscribe(linkedHashMapDataStateContainer -> {
-            Log.d(TAG, "DateState = " + linkedHashMapDataStateContainer.getDataState());
-            switch (linkedHashMapDataStateContainer.getDataState()) {
-                case LOADING:
-                    //materialProgressBar.setVisibility(View.VISIBLE);
-                    searchListController.setSearchResultData(linkedHashMapDataStateContainer);
-                    break;
-                case SUCCESS:
-                    //materialProgressBar.setVisibility(View.INVISIBLE);
-                    searchListController.setSearchResultData(linkedHashMapDataStateContainer);
-                    break;
-                case COMPLETED:
-                    //materialProgressBar.setVisibility(View.INVISIBLE);
-                    searchListController.setSearchResultData(linkedHashMapDataStateContainer);
-                case ERROR:
-                    //materialProgressBar.setVisibility(View.INVISIBLE);
-                    searchListController.setSearchResultData(linkedHashMapDataStateContainer);
-                    break;
-                default:
-                    //materialProgressBar.setVisibility(View.INVISIBLE);
-                    break;
-            }
-
-        }));
-
+        compositeDisposable.add(
+                searchViewModel
+                        .getMovieSearchObserver()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                linkedHashMapDataStateContainer -> {
+                                    Log.d(TAG, "DateState = " + linkedHashMapDataStateContainer.getDataState());
+                                    switch (linkedHashMapDataStateContainer.getDataState()) {
+                                        case LOADING:
+                                            //materialProgressBar.setVisibility(View.VISIBLE);
+                                            searchListController.setSearchResultData(linkedHashMapDataStateContainer);
+                                            break;
+                                        case SUCCESS:
+                                            //materialProgressBar.setVisibility(View.INVISIBLE);
+                                            searchListController.setSearchResultData(linkedHashMapDataStateContainer);
+                                            break;
+                                        case COMPLETED:
+                                            //materialProgressBar.setVisibility(View.INVISIBLE);
+                                            searchListController.setSearchResultData(linkedHashMapDataStateContainer);
+                                        case ERROR:
+                                            //materialProgressBar.setVisibility(View.INVISIBLE);
+                                            searchListController.setSearchResultData(linkedHashMapDataStateContainer);
+                                            break;
+                                        default:
+                                            //materialProgressBar.setVisibility(View.INVISIBLE);
+                                            break;
+                                    }
+                                }));
     }
 
     @Override
@@ -121,10 +130,14 @@ public class SearchMenuActivity extends BaseActivity {
 
         Log.d(TAG, "bindSearchView");
 
-        compositeDisposable.add(RxSearchView.queryTextChanges(searchView).skipInitialValue().debounce(300, TimeUnit.MILLISECONDS)
-                .distinctUntilChanged().map(CharSequence::toString).subscribe(query -> searchViewModel.searchIt(query)));
+        compositeDisposable.add(
+                RxSearchView.queryTextChanges(searchView)
+                        .skipInitialValue()
+                        .debounce(300, TimeUnit.MILLISECONDS)
+                        .distinctUntilChanged()
+                        .map(CharSequence::toString)
+                        .subscribe(query -> searchViewModel.searchIt(query)));
 
         searchView.requestFocus();
     }
-
 }

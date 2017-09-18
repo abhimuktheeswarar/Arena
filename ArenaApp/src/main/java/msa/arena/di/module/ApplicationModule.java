@@ -33,7 +33,6 @@ import msa.domain.executor.ThreadExecutor;
 /**
  * Created by Abhimuktheeswarar on 25-06-2017.
  */
-
 @Module(includes = {ViewModelModule.class})
 public class ApplicationModule {
 
@@ -59,8 +58,5 @@ public class ApplicationModule {
     @Singleton
     Repository provideRepository(ArenaRepository arenaRepository) {
         return arenaRepository;
-    }
-
+  }
 }
-
-

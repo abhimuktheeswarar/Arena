@@ -18,6 +18,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.f2prateek.javafmt'
 apply plugin: 'com.frogermcs.androiddevmetrics'
+//apply plugin: 'com.noveogroup.android.check'
+
+apply from: "$project.rootDir/tools/script-git-version.gradle"
+apply from: "$project.rootDir/tools/script-findbugs.gradle"
+apply from: "$project.rootDir/tools/script-lint.gradle"
+apply from: "$project.rootDir/tools/script-pmd.gradle"
+apply from: "$project.rootDir/tools/script-java-code-coverage.gradle"
 
 android {
     def globalConfiguration = rootProject.extensions.getByName("ext")
@@ -38,6 +45,8 @@ android {
         testInstrumentationRunner globalConfiguration["testInstrumentationRunner"]
 
         vectorDrawables.useSupportLibrary = true
+
+        multiDexEnabled true
     }
 
     compileOptions {
@@ -139,7 +148,7 @@ dependencies {
 
     compile presentationDependencies.alerter
 
-    //compile presentationTestDependencies.testing
+    releaseCompile presentationDependencies.leakCanary
 
     androidTestCompile presentationTestDependencies.androidAnnotations
     androidTestCompile presentationTestDependencies.junit

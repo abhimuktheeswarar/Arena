@@ -142,5 +142,5 @@ public class RxMovieArrayAdapter extends ArrayAdapter<Movie> implements Filterab
 
     public Observable<String> getQueryObservable() {
         return publishSubject;
-    }
+  }
 }

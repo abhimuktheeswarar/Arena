@@ -26,7 +26,6 @@ import io.reactivex.subscribers.DisposableSubscriber;
 /**
  * Created by Abhimuktheeswarar on 25-08-2017.
  */
-
 public final class RxUtilities {
 
     public static <D> DisposableObserver<D> get(final Subject<D> subject) {
@@ -72,5 +71,5 @@ public final class RxUtilities {
                 processor.onComplete();
             }
         };
-    }
+  }
 }

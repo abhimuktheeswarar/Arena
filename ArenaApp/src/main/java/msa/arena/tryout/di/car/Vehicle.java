@@ -21,7 +21,6 @@ import javax.inject.Inject;
 /**
  * Created by Abhimuktheeswarar on 23-05-2017.
  */
-
 public class Vehicle {
 
     private Motor motor;

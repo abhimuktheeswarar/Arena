@@ -29,7 +29,6 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by Abhimuktheeswarar on 02-07-2017.
  */
-
 public abstract class BaseDialogFragment extends DialogFragment {
 
     protected final String TAG = this.getClass().getSimpleName();
@@ -52,16 +51,13 @@ public abstract class BaseDialogFragment extends DialogFragment {
         bind();
     }
 
-
     @Override
     public void onStop() {
         super.onStop();
         unBind();
         compositeDisposable.dispose();
         compositeSubscription.unsubscribe();
-
     }
-
 
     protected void showToastMessage(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
@@ -70,5 +66,4 @@ public abstract class BaseDialogFragment extends DialogFragment {
     protected abstract void bind();
 
     protected abstract void unBind();
-
 }

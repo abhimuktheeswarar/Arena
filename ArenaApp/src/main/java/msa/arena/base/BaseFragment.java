@@ -35,10 +35,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by Abhimuktheeswarar on 04-05-2017
  */
 
-
-/**
- * Base {@link Fragment} class for every fragment in this application.
- */
+/** Base {@link Fragment} class for every fragment in this application. */
 public abstract class BaseFragment extends Fragment {
 
     protected final String TAG = this.getClass().getSimpleName();
@@ -109,6 +106,4 @@ public abstract class BaseFragment extends Fragment {
     protected abstract void bind();
 
     protected abstract void unBind();
-
-
 }

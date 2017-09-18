@@ -26,7 +26,6 @@ import msa.arena.movies.search.searchmenu.viewholder.SearchErrorItemHolder;
 /**
  * Created by Abhimuktheeswarar on 19-07-2017.
  */
-
 @EpoxyModelClass(layout = R.layout.item_search_error)
 public abstract class SearchErrorItem extends EpoxyModelWithHolder<SearchErrorItemHolder> {
 
@@ -37,5 +36,5 @@ public abstract class SearchErrorItem extends EpoxyModelWithHolder<SearchErrorIt
     public void bind(SearchErrorItemHolder holder) {
         super.bind(holder);
         holder.textView.setText(errorMessage);
-    }
+  }
 }

@@ -45,7 +45,6 @@ import msa.domain.usecases.GetMovies;
 /**
  * Created by Abhimuktheeswarar on 25-08-2017.
  */
-
 public class MovieListViewModel extends BaseViewModel {
 
     private final GetMovies getMovies;
@@ -57,7 +56,6 @@ public class MovieListViewModel extends BaseViewModel {
     private PublishProcessor<Integer> paginator;
 
     private int page;
-
 
     @Inject
     MovieListViewModel(GetMovies getMovies) {
@@ -73,33 +71,55 @@ public class MovieListViewModel extends BaseViewModel {
         movies = new DataStateContainer<>(new LinkedHashMap<>());
         movies_ReplayProcessor = ReplayProcessor.create();
 
-        DisposableSubscriber<DataStateContainer<LinkedHashMap<String, Movie>>> disposableSubscriber = RxUtilities.get(movies_ReplayProcessor);
+        DisposableSubscriber<DataStateContainer<LinkedHashMap<String, Movie>>> disposableSubscriber =
+                RxUtilities.get(movies_ReplayProcessor);
         compositeDisposable.add(disposableSubscriber);
 
         page = 1;
 
-        paginator.startWith(page).doOnNext(new Consumer<Integer>() {
-            @Override
-            public void accept(Integer integer) throws Exception {
+        paginator
+                .startWith(page)
+                .doOnNext(
+                        new Consumer<Integer>() {
+                            @Override
+                            public void accept(Integer integer) throws Exception {
                 Log.d(TAG, "doOnNext Paginator = " + page);
-            }
-        }).observeOn(Schedulers.io()).concatMap(new Function<Integer, Publisher<ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
-            @Override
-            public Publisher<ResourceCarrier<LinkedHashMap<String, Movie>>> apply(@NonNull Integer page) throws Exception {
+                            }
+                        })
+                .observeOn(Schedulers.io())
+                .concatMap(
+                        new Function<Integer, Publisher<ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
+                            @Override
+                            public Publisher<ResourceCarrier<LinkedHashMap<String, Movie>>> apply(
+                                    @NonNull Integer page) throws Exception {
                 Log.d(TAG, "Paginator = " + page);
-                return getMovies.execute(GetMovies.Params.newBuilder().page(page).build()).doOnNext(new Consumer<ResourceCarrier<LinkedHashMap<String, Movie>>>() {
-                    @Override
-                    public void accept(ResourceCarrier<LinkedHashMap<String, Movie>> linkedHashMapResourceCarrier) throws Exception {
-                        Log.d(TAG, "doOnNext linkedHashMapResourceCarrier for page:" + page + " is " + linkedHashMapResourceCarrier.status);
-                    }
-                });
-            }
-        }).map(linkedHashMapResourceCarrier -> {
-            Log.d(TAG, "status = " + linkedHashMapResourceCarrier.status);
-            Log.d(TAG, "PAGE = " + page);
-            switch (linkedHashMapResourceCarrier.status) {
+                                return getMovies
+                                        .execute(GetMovies.Params.newBuilder().page(page).build())
+                                        .doOnNext(
+                                                new Consumer<ResourceCarrier<LinkedHashMap<String, Movie>>>() {
+                                                    @Override
+                                                    public void accept(
+                                                            ResourceCarrier<LinkedHashMap<String, Movie>>
+                                                                    linkedHashMapResourceCarrier)
+                                                            throws Exception {
+                                                        Log.d(
+                                                                TAG,
+                                                                "doOnNext linkedHashMapResourceCarrier for page:"
+                                                                        + page
+                                                                        + " is "
+                                                                        + linkedHashMapResourceCarrier.status);
+                                                    }
+                                                });
+                            }
+                        })
+                .map(
+                        linkedHashMapResourceCarrier -> {
+                            Log.d(TAG, "status = " + linkedHashMapResourceCarrier.status);
+                            Log.d(TAG, "PAGE = " + page);
+                            switch (linkedHashMapResourceCarrier.status) {
                 case LOADING:
-                    if (movies.getDataState() == DataState.REFRESHING || (movies.getDataState() == DataState.ERROR && page == 1)) {
+                    if (movies.getDataState() == DataState.REFRESHING
+                            || (movies.getDataState() == DataState.ERROR && page == 1)) {
                         movies.getData().clear();
                         movies.setDataState(DataState.REFRESHED);
                     } else movies.setDataState(DataState.LOADING);
@@ -116,10 +136,12 @@ public class MovieListViewModel extends BaseViewModel {
                     movies.setDataState(DataState.ERROR);
                     movies.setMessage(linkedHashMapResourceCarrier.message);
                     break;
-            }
+                            }
 
-            return movies;
-        }).startWith(movies).subscribe(disposableSubscriber);
+                            return movies;
+                        })
+                .startWith(movies)
+                .subscribe(disposableSubscriber);
     }
 
     Flowable<DataStateContainer<LinkedHashMap<String, Movie>>> getMovies() {
@@ -128,9 +150,9 @@ public class MovieListViewModel extends BaseViewModel {
 
     void loadMore() {
 
-        /*page++;
-        paginator.onNext(page);
-        Log.d(TAG, "loadMore = " + page);*/
+    /*page++;
+    paginator.onNext(page);
+    Log.d(TAG, "loadMore = " + page);*/
 
         if (movies.getDataState() != DataState.ERROR) {
             page++;
@@ -168,5 +190,5 @@ public class MovieListViewModel extends BaseViewModel {
         Log.d(TAG, "onCleared");
         paginator.onComplete();
         movies_ReplayProcessor.onComplete();
-    }
+  }
 }

@@ -41,7 +41,6 @@ import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import rx.subscriptions.CompositeSubscription;
 
-
 public abstract class BaseActivity extends AppCompatActivity implements HasSupportFragmentInjector {
 
     protected final String TAG = this.getClass().getSimpleName();
@@ -67,7 +66,6 @@ public abstract class BaseActivity extends AppCompatActivity implements HasSuppo
     protected <V extends BaseViewModel> V getViewModelA(Class<V> viewModelClass) {
         return ViewModelProviders.of(this, viewModelFactory).get(viewModelClass);
     }
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -126,11 +124,13 @@ public abstract class BaseActivity extends AppCompatActivity implements HasSuppo
     }
 
     public Observable<Boolean> getObserveNetworkConnectivity() {
-        return ReactiveNetwork.observeNetworkConnectivity(this).map(connectivity -> connectivity.isAvailable() && BaseActivity.this.isNetworkAvailable());
+        return ReactiveNetwork.observeNetworkConnectivity(this)
+                .map(connectivity -> connectivity.isAvailable() && BaseActivity.this.isNetworkAvailable());
     }
 
     private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
@@ -138,5 +138,4 @@ public abstract class BaseActivity extends AppCompatActivity implements HasSuppo
     protected abstract void bind();
 
     protected abstract void unBind();
-
 }

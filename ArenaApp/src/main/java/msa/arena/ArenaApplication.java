@@ -40,44 +40,44 @@ import rx_activity_result2.RxActivityResult;
  */
 public class ArenaApplication extends Application implements HasActivityInjector {
 
-    @Inject
-    DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
+  @Inject
+  DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
 
-    private RefWatcher refWatcher;
+  private RefWatcher refWatcher;
 
-    public static RefWatcher getRefWatcher(Context context) {
-        ArenaApplication arenaApplication = (ArenaApplication) context.getApplicationContext();
-        return arenaApplication.refWatcher;
+  public static RefWatcher getRefWatcher(Context context) {
+    ArenaApplication arenaApplication = (ArenaApplication) context.getApplicationContext();
+    return arenaApplication.refWatcher;
+  }
+
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    ApplicationInjector.init(this);
+    RxActivityResult.register(this);
+    if (BuildConfig.DEBUG) {
+      AndroidDevMetrics.initWith(this);
+      DebugDB.getAddressLog();
+      if (LeakCanary.isInAnalyzerProcess(this)) {
+        return;
+      }
+      refWatcher = LeakCanary.install(this);
+      Takt.stock(this).play();
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        ApplicationInjector.init(this);
-        RxActivityResult.register(this);
-        if (BuildConfig.DEBUG) {
-            AndroidDevMetrics.initWith(this);
-            DebugDB.getAddressLog();
-            if (LeakCanary.isInAnalyzerProcess(this)) {
-                return;
-            }
-            refWatcher = LeakCanary.install(this);
-            Takt.stock(this).play();
-        }
+    RxJavaPlugins.setErrorHandler(Throwable::printStackTrace);
+  }
 
-        RxJavaPlugins.setErrorHandler(Throwable::printStackTrace);
-    }
+  @Override
+  public AndroidInjector<Activity> activityInjector() {
+    return dispatchingAndroidInjector;
+  }
 
-    @Override
-    public AndroidInjector<Activity> activityInjector() {
-        return dispatchingAndroidInjector;
+  @Override
+  public void onTerminate() {
+    if (BuildConfig.DEBUG) {
+      Takt.finish();
     }
-
-    @Override
-    public void onTerminate() {
-        if (BuildConfig.DEBUG) {
-            Takt.finish();
-        }
-        super.onTerminate();
-    }
+    super.onTerminate();
+  }
 }

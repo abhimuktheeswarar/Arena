@@ -76,12 +76,13 @@ public class MovieListActivity extends BaseActivity {
         movieListController = new MovieListController();
         recyclerView.setAdapter(movieListController.getAdapter());
 
-        endlessScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager, 1) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                //Log.d(TAG, "onLoadMore = " + page);
-                movieListViewModel.loadMore();
-            }
+        endlessScrollListener =
+                new EndlessRecyclerViewScrollListener(linearLayoutManager, 1) {
+                    @Override
+                    public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                        //Log.d(TAG, "onLoadMore = " + page);
+                        movieListViewModel.loadMore();
+                    }
         };
 
         //swipeRefreshLayout.setEnabled(false);
@@ -90,88 +91,96 @@ public class MovieListActivity extends BaseActivity {
     @Override
     protected void bind() {
 
-
         compositeDisposable.add(RxView.clicks(fab).subscribe(o -> movieListViewModel.reload()));
 
-        compositeDisposable.add(getObserveNetworkConnectivity().observeOn(AndroidSchedulers.mainThread()).subscribe(aBoolean -> swipeRefreshLayout.setEnabled(aBoolean)));
-
+        compositeDisposable.add(
+                getObserveNetworkConnectivity()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(aBoolean -> swipeRefreshLayout.setEnabled(aBoolean)));
 
         recyclerView.addOnScrollListener(endlessScrollListener);
 
-        compositeDisposable.add(RxSwipeRefreshLayout.refreshes(swipeRefreshLayout).subscribe(new Consumer<Object>() {
-            @Override
-            public void accept(Object o) throws Exception {
-                movieListViewModel.refresh();
-                recyclerView.addOnScrollListener(endlessScrollListener);
+        compositeDisposable.add(
+                RxSwipeRefreshLayout.refreshes(swipeRefreshLayout)
+                        .subscribe(
+                                new Consumer<Object>() {
+                                    @Override
+                                    public void accept(Object o) throws Exception {
+                                        movieListViewModel.refresh();
+                                        recyclerView.addOnScrollListener(endlessScrollListener);
+                                    }
+                                }));
+
+        BaseDisposableSubscriber<DataStateContainer<LinkedHashMap<String, Movie>>> productsSubscriber =
+                new BaseDisposableSubscriber<DataStateContainer<LinkedHashMap<String, Movie>>>() {
+                    @Override
+                    public void onNext(
+                            DataStateContainer<LinkedHashMap<String, Movie>> linkedHashMapResourceCarrier) {
+                        Log.d(TAG, "data received, state = " + linkedHashMapResourceCarrier.getDataState());
+
+                        switch (linkedHashMapResourceCarrier.getDataState()) {
+                            case LOADING:
+                                if (!swipeRefreshLayout.isEnabled())
+                                    swipeRefreshLayout.setEnabled(true);
+                                movieListController.setMovies(linkedHashMapResourceCarrier);
+                                break;
+                            case REFRESHING:
+                                swipeRefreshLayout.setRefreshing(true);
+                                break;
+                            case REFRESHED:
+                                recyclerView.setItemAnimator(null);
+                                endlessScrollListener.resetState();
+                                swipeRefreshLayout.setRefreshing(false);
+                                movieListController.setMovies(linkedHashMapResourceCarrier);
+                                new Handler()
+                                        .postDelayed(
+                                                () -> recyclerView.setItemAnimator(new DefaultItemAnimator()), 200);
+                                break;
+                            case COMPLETED:
+                                recyclerView.removeOnScrollListener(endlessScrollListener);
+                                movieListController.setMovies(linkedHashMapResourceCarrier);
+                                break;
+                            case ERROR:
+                                swipeRefreshLayout.setRefreshing(false);
+                                movieListController.setMovies(linkedHashMapResourceCarrier);
+                                break;
+                            case NETWORK_ERROR:
+                                swipeRefreshLayout.setRefreshing(false);
+                                movieListController.setMovies(linkedHashMapResourceCarrier);
+                                break;
+                            default:
+                                movieListController.setMovies(linkedHashMapResourceCarrier);
+                                break;
             }
-        }));
+                    }
 
-        BaseDisposableSubscriber<DataStateContainer<LinkedHashMap<String, Movie>>> productsSubscriber = new BaseDisposableSubscriber<DataStateContainer<LinkedHashMap<String, Movie>>>() {
-            @Override
-            public void onNext(DataStateContainer<LinkedHashMap<String, Movie>> linkedHashMapResourceCarrier) {
-                Log.d(TAG, "data received, state = " + linkedHashMapResourceCarrier.getDataState());
+                    @Override
+                    public void onError(Throwable throwable) {
+                        super.onError(throwable);
+                    }
 
-                switch (linkedHashMapResourceCarrier.getDataState()) {
-                    case LOADING:
-                        if (!swipeRefreshLayout.isEnabled()) swipeRefreshLayout.setEnabled(true);
-                        movieListController.setMovies(linkedHashMapResourceCarrier);
-                        break;
-                    case REFRESHING:
-                        swipeRefreshLayout.setRefreshing(true);
-                        break;
-                    case REFRESHED:
-                        recyclerView.setItemAnimator(null);
-                        endlessScrollListener.resetState();
-                        swipeRefreshLayout.setRefreshing(false);
-                        movieListController.setMovies(linkedHashMapResourceCarrier);
-                        new Handler().postDelayed(() -> recyclerView.setItemAnimator(new DefaultItemAnimator()), 200);
-                        break;
-                    case COMPLETED:
-                        recyclerView.removeOnScrollListener(endlessScrollListener);
-                        movieListController.setMovies(linkedHashMapResourceCarrier);
-                        break;
-                    case ERROR:
-                        swipeRefreshLayout.setRefreshing(false);
-                        movieListController.setMovies(linkedHashMapResourceCarrier);
-                        break;
-                    case NETWORK_ERROR:
-                        swipeRefreshLayout.setRefreshing(false);
-                        movieListController.setMovies(linkedHashMapResourceCarrier);
-                        break;
-                    default:
-                        movieListController.setMovies(linkedHashMapResourceCarrier);
-                        break;
-                }
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                super.onError(throwable);
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
+                    @Override
+                    public void onComplete() {
+                    }
         };
 
         compositeDisposable.add(productsSubscriber);
 
         movieListViewModel.getMovies().subscribe(productsSubscriber);
 
-        compositeDisposable.add(movieListController.getFavoriteChangeObservable().subscribe(stringBooleanPair -> movieListViewModel.setFavoriteMovie(stringBooleanPair)));
-
+        compositeDisposable.add(
+                movieListController
+                        .getFavoriteChangeObservable()
+                        .subscribe(
+                                stringBooleanPair -> movieListViewModel.setFavoriteMovie(stringBooleanPair)));
 
         //Consumer<? super Boolean> refreshing = RxSwipeRefreshLayout.refreshing(swipeRefreshLayout);
         //Observable<Boolean> booleanObservable = Observable.just(true);
         //compositeDisposable.add(booleanObservable.subscribe(refreshing));
 
-
     }
 
     @Override
     protected void unBind() {
-
     }
-
 }

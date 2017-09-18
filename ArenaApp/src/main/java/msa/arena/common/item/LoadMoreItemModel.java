@@ -34,7 +34,8 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
  * Created by Abhimuktheeswarar on 26-06-2017.
  */
 @EpoxyModelClass(layout = R.layout.item_load_more)
-public abstract class LoadMoreItemModel extends EpoxyModelWithHolder<LoadMoreItemModel.LoadMoreItemHolder> {
+public abstract class LoadMoreItemModel
+        extends EpoxyModelWithHolder<LoadMoreItemModel.LoadMoreItemHolder> {
 
     @EpoxyAttribute
     boolean isFullHeight;
@@ -65,5 +66,5 @@ public abstract class LoadMoreItemModel extends EpoxyModelWithHolder<LoadMoreIte
             layoutParams.height = isFullHeight ? MATCH_PARENT : WRAP_CONTENT;
             itemView.setLayoutParams(layoutParams);
         }
-    }
+  }
 }

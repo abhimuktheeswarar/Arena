@@ -32,6 +32,7 @@ public class DaggerActivity extends AppCompatActivity {
 
     @BindView(R.id.text_speed)
     TextView textView_Speed;
+
     Vehicle vehicle;
 
     @Override
@@ -43,14 +44,11 @@ public class DaggerActivity extends AppCompatActivity {
         VehicleComponent v = DaggerVehicleComponent.create();
 
         vehicle = v.provideVehicle();
-
-
     }
 
     @OnClick(R.id.button_accelerate)
     void onPressAccelerate() {
         vehicle.increaseSpeed(10);
         textView_Speed.setText(String.valueOf(vehicle.getSpeed()));
-
     }
 }

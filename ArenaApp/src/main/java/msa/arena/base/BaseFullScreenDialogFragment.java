@@ -41,7 +41,6 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by Abhimuktheeswarar on 22-09-2016.
  */
-
 public abstract class BaseFullScreenDialogFragment extends DialogFragment {
 
     protected final String TAG = this.getClass().getSimpleName();
@@ -67,7 +66,6 @@ public abstract class BaseFullScreenDialogFragment extends DialogFragment {
         compositeSubscription = new CompositeSubscription();
         bind();
     }
-
 
     @Override
     public void onStop() {
@@ -113,24 +111,24 @@ public abstract class BaseFullScreenDialogFragment extends DialogFragment {
         return dialog;
     }
 
-
     protected void showToast(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     protected void setSupportActionBar(Toolbar toolbar) {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-
     }
 
     protected void setDisplayHomeAsUpEnabled(boolean shouldEnable) {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(shouldEnable);
-
+        ((AppCompatActivity) getActivity())
+                .getSupportActionBar()
+                .setDisplayHomeAsUpEnabled(shouldEnable);
     }
 
     protected void setDisplayShowTitleEnabled(boolean shouldShow) {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(shouldShow);
-
+        ((AppCompatActivity) getActivity())
+                .getSupportActionBar()
+                .setDisplayShowTitleEnabled(shouldShow);
     }
 
     public void setTitle(String title) {
@@ -139,5 +137,5 @@ public abstract class BaseFullScreenDialogFragment extends DialogFragment {
 
     protected void setIcon(@DrawableRes int resId) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setLogo(resId);
-    }
+  }
 }

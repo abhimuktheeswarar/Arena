@@ -43,9 +43,7 @@ import msa.domain.usecases.SearchMoviesObservable;
 /**
  * Created by Abhimuktheeswarar on 22-08-2017.
  */
-
 public class SearchViewModel extends BaseViewModel {
-
 
     private final SearchMoviesObservable searchMoviesObservable;
 
@@ -53,7 +51,8 @@ public class SearchViewModel extends BaseViewModel {
 
     private PublishSubject<String> querySubject;
 
-    private ReplaySubject<DataStateContainer<LinkedHashMap<String, Movie>>> dataStateContainerReplaySubject;
+    private ReplaySubject<DataStateContainer<LinkedHashMap<String, Movie>>>
+            dataStateContainerReplaySubject;
     private String queryText;
 
     @Inject
@@ -69,18 +68,27 @@ public class SearchViewModel extends BaseViewModel {
         querySubject = PublishSubject.create();
         dataStateContainerReplaySubject = ReplaySubject.create();
 
-        DisposableObserver<DataStateContainer<LinkedHashMap<String, Movie>>> dataStateContainerDisposableObserver = RxUtilities.get(dataStateContainerReplaySubject);
+        DisposableObserver<DataStateContainer<LinkedHashMap<String, Movie>>>
+                dataStateContainerDisposableObserver = RxUtilities.get(dataStateContainerReplaySubject);
         compositeDisposable.add(dataStateContainerDisposableObserver);
 
-        querySubject.doOnNext(s -> Log.d(TAG, "Search string = " + s)).switchMap(new Function<String, Observable<ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
-            @Override
-            public Observable<ResourceCarrier<LinkedHashMap<String, Movie>>> apply(@NonNull String query) throws Exception {
+        querySubject
+                .doOnNext(s -> Log.d(TAG, "Search string = " + s))
+                .switchMap(
+                        new Function<String, Observable<ResourceCarrier<LinkedHashMap<String, Movie>>>>() {
+                            @Override
+                            public Observable<ResourceCarrier<LinkedHashMap<String, Movie>>> apply(
+                                    @NonNull String query) throws Exception {
                 Log.d(TAG, "Search text = " + query);
-                return searchMoviesObservable.execute(SearchMoviesObservable.Params.setQuery(query));
-            }
-        }).observeOn(Schedulers.computation()).map(linkedHashMapResourceCarrier -> {
-            Log.d(TAG, "Status = " + linkedHashMapResourceCarrier.status);
-            switch (linkedHashMapResourceCarrier.status) {
+                                return searchMoviesObservable.execute(
+                                        SearchMoviesObservable.Params.setQuery(query));
+                            }
+                        })
+                .observeOn(Schedulers.computation())
+                .map(
+                        linkedHashMapResourceCarrier -> {
+                            Log.d(TAG, "Status = " + linkedHashMapResourceCarrier.status);
+                            switch (linkedHashMapResourceCarrier.status) {
                 case SUCCESS:
                     dataStateContainer.setDataState(DataState.SUCCESS);
                     dataStateContainer.setData(linkedHashMapResourceCarrier.data);
@@ -94,9 +102,11 @@ public class SearchViewModel extends BaseViewModel {
                     dataStateContainer.setData(null);
                     dataStateContainer.setMessage(linkedHashMapResourceCarrier.message);
                     break;
-            }
-            return dataStateContainer;
-        }).startWith(dataStateContainer).subscribe(dataStateContainerDisposableObserver);
+                            }
+                            return dataStateContainer;
+                        })
+                .startWith(dataStateContainer)
+                .subscribe(dataStateContainerDisposableObserver);
     }
 
     public void searchIt(String query) {
@@ -110,20 +120,24 @@ public class SearchViewModel extends BaseViewModel {
     }
 
     public Observable<DataStateContainer<List<Movie>>> getMovieListSearchObserver() {
-        return dataStateContainerReplaySubject.map(linkedHashMapDataStateContainer -> {
-            DataStateContainer<List<Movie>> stateContainer = new DataStateContainer<>();
-            stateContainer.setDataState(linkedHashMapDataStateContainer.getDataState());
-            stateContainer.setMessage(linkedHashMapDataStateContainer.getMessage());
-            List<Movie> movies = new ArrayList<>();
-            if ((linkedHashMapDataStateContainer.getDataState() == DataState.SUCCESS || linkedHashMapDataStateContainer.getDataState() == DataState.COMPLETED) && linkedHashMapDataStateContainer.getData() != null) {
-                for (Map.Entry<String, Movie> entry : linkedHashMapDataStateContainer.getData().entrySet()) {
-                    Movie movie = entry.getValue();
-                    movies.add(movie);
-                }
-            }
-            stateContainer.setData(movies);
-            return stateContainer;
-        });
+        return dataStateContainerReplaySubject.map(
+                linkedHashMapDataStateContainer -> {
+                    DataStateContainer<List<Movie>> stateContainer = new DataStateContainer<>();
+                    stateContainer.setDataState(linkedHashMapDataStateContainer.getDataState());
+                    stateContainer.setMessage(linkedHashMapDataStateContainer.getMessage());
+                    List<Movie> movies = new ArrayList<>();
+                    if ((linkedHashMapDataStateContainer.getDataState() == DataState.SUCCESS
+                            || linkedHashMapDataStateContainer.getDataState() == DataState.COMPLETED)
+                            && linkedHashMapDataStateContainer.getData() != null) {
+                        for (Map.Entry<String, Movie> entry :
+                                linkedHashMapDataStateContainer.getData().entrySet()) {
+                            Movie movie = entry.getValue();
+                            movies.add(movie);
+                        }
+                    }
+                    stateContainer.setData(movies);
+                    return stateContainer;
+                });
     }
 
     public Movie getMovieByIndex(int index) {
@@ -146,5 +160,5 @@ public class SearchViewModel extends BaseViewModel {
 
     public void setQueryText(String queryText) {
         this.queryText = queryText;
-    }
+  }
 }

@@ -35,5 +35,5 @@ public abstract class BaseEpoxyHolder extends EpoxyHolder {
     protected void bindView(View itemView) {
         ButterKnife.bind(this, itemView);
         this.itemView = itemView;
-    }
+  }
 }

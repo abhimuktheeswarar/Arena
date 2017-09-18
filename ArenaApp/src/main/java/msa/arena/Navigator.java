@@ -41,5 +41,5 @@ public class Navigator {
     public static void navigateToMovieListActivity(Context context) {
         Intent intentToLaunch = new Intent(context, MovieListActivity.class);
         context.startActivity(intentToLaunch);
-    }
+  }
 }

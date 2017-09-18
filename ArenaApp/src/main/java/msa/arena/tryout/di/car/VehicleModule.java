@@ -24,7 +24,6 @@ import dagger.Provides;
 /**
  * Created by Abhimuktheeswarar on 23-05-2017.
  */
-
 @Module
 public class VehicleModule {
 

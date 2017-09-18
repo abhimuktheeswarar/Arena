@@ -39,8 +39,9 @@ import msa.domain.holder.datastate.DataStateContainer;
 /**
  * Created by Abhimuktheeswarar on 19-07-2017.
  */
-
-class MovieListController extends TypedEpoxyController<DataStateContainer<LinkedHashMap<String, Movie>>> implements SearchItem.SearchItemActionListener, MovieItemModel.MovieItemModelActionListener {
+class MovieListController
+        extends TypedEpoxyController<DataStateContainer<LinkedHashMap<String, Movie>>>
+        implements SearchItem.SearchItemActionListener, MovieItemModel.MovieItemModelActionListener {
 
     private static final String TAG = MovieListController.class.getSimpleName();
 
@@ -48,7 +49,6 @@ class MovieListController extends TypedEpoxyController<DataStateContainer<Linked
 
     @AutoModel
     LoadMoreItemModel_ loadMoreItemModel_F, loadMoreItemModel;
-
     @AutoModel
     ErrorItemModel_ errorItemModel_F, errorItemModel;
 
@@ -63,9 +63,16 @@ class MovieListController extends TypedEpoxyController<DataStateContainer<Linked
     @Override
     protected void buildModels(DataStateContainer<LinkedHashMap<String, Movie>> movies) {
 
-        Log.d(TAG, "DataState = " + movies.getDataState() + " | is data available = " + (movies.getData() != null));
+        Log.d(
+                TAG,
+                "DataState = "
+                        + movies.getDataState()
+                        + " | is data available = "
+                        + (movies.getData() != null));
 
-        loadMoreItemModel_F.isFullHeight(true).addIf(movies.getDataState() == DataState.INITIALIZE, this);
+        loadMoreItemModel_F
+                .isFullHeight(true)
+                .addIf(movies.getDataState() == DataState.INITIALIZE, this);
 
         if (movies.getData() != null && movies.getData().size() > 0) {
             for (Map.Entry<String, Movie> entry : movies.getData().entrySet()) {
@@ -95,5 +102,5 @@ class MovieListController extends TypedEpoxyController<DataStateContainer<Linked
 
     Observable<Pair<String, Boolean>> getFavoriteChangeObservable() {
         return publishSubject;
-    }
+  }
 }

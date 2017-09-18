@@ -26,7 +26,6 @@ import msa.domain.holder.datastate.DataStateContainer;
 /**
  * Created by Abhimuktheeswarar on 15-09-2017.
  */
-
 public class MoviesLiveData extends LiveData<DataStateContainer<LinkedHashMap<String, Movie>>> {
 
     @Override
@@ -37,5 +36,5 @@ public class MoviesLiveData extends LiveData<DataStateContainer<LinkedHashMap<St
     @Override
     protected void onInactive() {
         super.onInactive();
-    }
+  }
 }

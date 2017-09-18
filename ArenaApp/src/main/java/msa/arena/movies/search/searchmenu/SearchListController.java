@@ -34,8 +34,9 @@ import msa.domain.holder.datastate.DataStateContainer;
 /**
  * Created by Abhimuktheeswarar on 19-07-2017.
  */
-
-class SearchListController extends TypedEpoxyController<DataStateContainer<LinkedHashMap<String, Movie>>> implements SearchItem.SearchItemActionListener {
+class SearchListController
+        extends TypedEpoxyController<DataStateContainer<LinkedHashMap<String, Movie>>>
+        implements SearchItem.SearchItemActionListener {
 
     private static final String TAG = SearchListController.class.getSimpleName();
 
@@ -43,7 +44,6 @@ class SearchListController extends TypedEpoxyController<DataStateContainer<Linke
     SearchErrorItem_ searchErrorItem;
 
     SearchListController() {
-
     }
 
     void setSearchResultData(DataStateContainer<LinkedHashMap<String, Movie>> searchResultData) {
@@ -55,7 +55,9 @@ class SearchListController extends TypedEpoxyController<DataStateContainer<Linke
 
         Log.d(TAG, "DateState = " + searchResultData.getDataState());
 
-        if (searchResultData.getData() != null && (searchResultData.getDataState() == DataState.SUCCESS || searchResultData.getDataState() == DataState.LOADING)) {
+        if (searchResultData.getData() != null
+                && (searchResultData.getDataState() == DataState.SUCCESS
+                || searchResultData.getDataState() == DataState.LOADING)) {
 
             for (Map.Entry<String, Movie> entry : searchResultData.getData().entrySet()) {
 
@@ -67,10 +69,9 @@ class SearchListController extends TypedEpoxyController<DataStateContainer<Linke
                         .movieName(searchResult.getMovieName())
                         .searchItemActionListener(this)
                         .addTo(this);
-
             }
         } else if (searchResultData.getDataState() == DataState.ERROR) {
             searchErrorItem.errorMessage(searchResultData.getMessage()).addTo(this);
         }
-    }
+  }
 }

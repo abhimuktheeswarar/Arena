@@ -38,8 +38,6 @@ public abstract class ActivityBuildersModule {
     @ContributesAndroidInjector(modules = {FragmentBuildersModule.class})
     abstract SearchSpinnerActivity contributeSearchSpinnerActivity();
 
-
     @ContributesAndroidInjector(modules = {FragmentBuildersModule.class})
     abstract MovieListActivity contributeMovieListActivity();
-
 }

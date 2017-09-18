@@ -24,7 +24,6 @@ import io.reactivex.disposables.Disposable;
 /**
  * Created by Abhimuktheeswarar on 25-06-2017.
  */
-
 public abstract class BaseViewModel extends ViewModel {
 
     protected final String TAG = this.getClass().getSimpleName();
@@ -44,5 +43,5 @@ public abstract class BaseViewModel extends ViewModel {
     public void addDisposable(Disposable disposable) {
         if (compositeDisposable == null) compositeDisposable = new CompositeDisposable();
         compositeDisposable.add(disposable);
-    }
+  }
 }

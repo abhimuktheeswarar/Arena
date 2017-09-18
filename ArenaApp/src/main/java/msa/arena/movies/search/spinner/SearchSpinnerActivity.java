@@ -57,7 +57,8 @@ public class SearchSpinnerActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         searchViewModel = getViewModelA(SearchViewModel.class);
-        movieArrayAdapter = new RxMovieArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item);
+        movieArrayAdapter =
+                new RxMovieArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item);
         autoCompleteTextView.setAdapter(movieArrayAdapter);
     }
 
@@ -65,49 +66,61 @@ public class SearchSpinnerActivity extends BaseActivity {
     protected void bind() {
         compositeDisposable.add(RxView.clicks(fab).subscribe(o -> autoCompleteTextView.showDropDown()));
 
-        compositeDisposable.add(searchViewModel.getMovieListSearchObserver().observeOn(AndroidSchedulers.mainThread()).subscribe(linkedHashMapDataStateContainer -> {
-            Log.d(TAG, "DateState = " + linkedHashMapDataStateContainer.getDataState());
-            switch (linkedHashMapDataStateContainer.getDataState()) {
-                case LOADING:
-                    //materialProgressBar.setVisibility(View.VISIBLE);
-                    //noinspection ConstantConditions
-                    movieArrayAdapter.addAll(linkedHashMapDataStateContainer.getData());
-                    break;
-                case SUCCESS:
-                    //materialProgressBar.setVisibility(View.INVISIBLE);
-                    //noinspection ConstantConditions
-                    movieArrayAdapter.addAll(linkedHashMapDataStateContainer.getData());
-                    break;
-                case COMPLETED:
-                    //materialProgressBar.setVisibility(View.INVISIBLE);
-                    //noinspection ConstantConditions
-                    movieArrayAdapter.addAll(linkedHashMapDataStateContainer.getData());
-                case ERROR:
-                    //materialProgressBar.setVisibility(View.INVISIBLE);
-                    //noinspection ConstantConditions
-                    //movieArrayAdapter.addAll(linkedHashMapDataStateContainer.getData());
-                    showToastMessage(linkedHashMapDataStateContainer.getMessage());
-                    break;
-                default:
-                    //materialProgressBar.setVisibility(View.INVISIBLE);
-                    break;
-            }
+        compositeDisposable.add(
+                searchViewModel
+                        .getMovieListSearchObserver()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                linkedHashMapDataStateContainer -> {
+                                    Log.d(TAG, "DateState = " + linkedHashMapDataStateContainer.getDataState());
+                                    switch (linkedHashMapDataStateContainer.getDataState()) {
+                                        case LOADING:
+                                            //materialProgressBar.setVisibility(View.VISIBLE);
+                                            //noinspection ConstantConditions
+                                            movieArrayAdapter.addAll(linkedHashMapDataStateContainer.getData());
+                                            break;
+                                        case SUCCESS:
+                                            //materialProgressBar.setVisibility(View.INVISIBLE);
+                                            //noinspection ConstantConditions
+                                            movieArrayAdapter.addAll(linkedHashMapDataStateContainer.getData());
+                                            break;
+                                        case COMPLETED:
+                                            //materialProgressBar.setVisibility(View.INVISIBLE);
+                                            //noinspection ConstantConditions
+                                            movieArrayAdapter.addAll(linkedHashMapDataStateContainer.getData());
+                                        case ERROR:
+                                            //materialProgressBar.setVisibility(View.INVISIBLE);
+                                            //noinspection ConstantConditions
+                                            //movieArrayAdapter.addAll(linkedHashMapDataStateContainer.getData());
+                                            showToastMessage(linkedHashMapDataStateContainer.getMessage());
+                                            break;
+                                        default:
+                                            //materialProgressBar.setVisibility(View.INVISIBLE);
+                                            break;
+                                    }
+                                }));
 
-        }));
+        compositeDisposable.add(
+                movieArrayAdapter
+                        .getQueryObservable()
+                        .debounce(300, TimeUnit.MILLISECONDS)
+                        .distinctUntilChanged()
+                        .map(CharSequence::toString)
+                        .subscribe(query -> searchViewModel.searchIt(query)));
 
-        compositeDisposable.add(movieArrayAdapter.getQueryObservable().debounce(300, TimeUnit.MILLISECONDS)
-                .distinctUntilChanged().map(CharSequence::toString).subscribe(query -> searchViewModel.searchIt(query)));
-
-        compositeDisposable.add(RxAutoCompleteTextView.itemClickEvents(autoCompleteTextView).map(adapterViewItemClickEvent -> adapterViewItemClickEvent.position()).subscribe(new Consumer<Integer>() {
-            @Override
-            public void accept(@NonNull Integer position) throws Exception {
-                showToastMessage(searchViewModel.getMovieByIndex(position).getMovieName());
-            }
-        }));
+        compositeDisposable.add(
+                RxAutoCompleteTextView.itemClickEvents(autoCompleteTextView)
+                        .map(adapterViewItemClickEvent -> adapterViewItemClickEvent.position())
+                        .subscribe(
+                                new Consumer<Integer>() {
+                                    @Override
+                                    public void accept(@NonNull Integer position) throws Exception {
+                                        showToastMessage(searchViewModel.getMovieByIndex(position).getMovieName());
+                                    }
+                                }));
     }
 
     @Override
     protected void unBind() {
-
     }
 }

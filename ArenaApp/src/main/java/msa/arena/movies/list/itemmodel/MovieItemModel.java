@@ -41,13 +41,13 @@ public abstract class MovieItemModel extends EpoxyModelWithHolder<MovieItemHolde
     @EpoxyAttribute(hash = false)
     MovieItemModelActionListener movieItemModelActionListener;
 
-    private CompoundButton.OnCheckedChangeListener checkedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+    private CompoundButton.OnCheckedChangeListener checkedChangeListener =
+            new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
             movieItemModelActionListener.onChangeFavorite(new Pair<>(movieId, b));
         }
-    };
-
+            };
 
     @Override
     public void bind(MovieItemHolder holder) {
@@ -66,7 +66,5 @@ public abstract class MovieItemModel extends EpoxyModelWithHolder<MovieItemHolde
     public interface MovieItemModelActionListener {
 
         void onChangeFavorite(Pair<String, Boolean> isFavorite);
-    }
-
-
+  }
 }

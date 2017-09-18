@@ -28,7 +28,6 @@ import javax.inject.Singleton;
 /**
  * Created by Abhimuktheeswarar on 25-06-2017.
  */
-
 @Singleton
 public class ArenaViewModelFactory implements ViewModelProvider.Factory {
     private final Map<Class<? extends ViewModel>, Provider<ViewModel>> creators;
@@ -58,5 +57,5 @@ public class ArenaViewModelFactory implements ViewModelProvider.Factory {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
+  }
 }

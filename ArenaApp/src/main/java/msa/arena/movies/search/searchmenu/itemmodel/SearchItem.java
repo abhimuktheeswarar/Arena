@@ -28,21 +28,21 @@ import msa.arena.movies.search.searchmenu.viewholder.SearchItemHolder;
 /**
  * Created by Abhimuktheeswarar on 19-07-2017.
  */
-
 @EpoxyModelClass(layout = R.layout.item_search)
 public abstract class SearchItem extends EpoxyModelWithHolder<SearchItemHolder> {
 
     @EpoxyAttribute
     String movieId, movieName, queryText;
+
     @EpoxyAttribute(hash = false)
     SearchItemActionListener searchItemActionListener;
 
-    private View.OnClickListener onClickListener = new View.OnClickListener() {
+    private View.OnClickListener onClickListener =
+            new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
         }
-    };
+            };
 
     @Override
     public void bind(SearchItemHolder holder) {
@@ -57,7 +57,5 @@ public abstract class SearchItem extends EpoxyModelWithHolder<SearchItemHolder> 
         holder.frameLayout.setOnClickListener(null);
     }
 
-    public interface SearchItemActionListener {
-
-    }
+    public interface SearchItemActionListener {}
 }

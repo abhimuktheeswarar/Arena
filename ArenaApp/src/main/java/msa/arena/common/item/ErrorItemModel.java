@@ -67,6 +67,5 @@ public abstract class ErrorItemModel extends EpoxyModelWithHolder<ErrorItemModel
             layoutParams.height = isFullHeight ? MATCH_PARENT : WRAP_CONTENT;
             itemView.setLayoutParams(layoutParams);
         }
-
-    }
+  }
 }

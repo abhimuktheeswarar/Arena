@@ -27,10 +27,9 @@ import msa.domain.executor.PostExecutionThread;
  * Created by Abhimuktheeswarar on 27-06-2017.
  */
 
-
 /**
- * MainThread (UI Thread) implementation based on a {@link rx.Scheduler}
- * which will execute actions on the Android UI thread
+ * MainThread (UI Thread) implementation based on a {@link rx.Scheduler} which will execute actions
+ * on the Android UI thread
  */
 @Singleton
 public class UIThread implements PostExecutionThread {
@@ -42,5 +41,5 @@ public class UIThread implements PostExecutionThread {
     @Override
     public Scheduler getScheduler() {
         return AndroidSchedulers.mainThread();
-    }
+  }
 }
