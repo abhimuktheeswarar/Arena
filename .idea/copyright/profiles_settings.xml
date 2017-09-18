@@ -1,3 +1,7 @@
 <component name="CopyrightManager">
-  <settings default="Abhi Muktheeswarar Apache 2.0" />
+  <settings default="Abhi Muktheeswarar Apache 2.0">
+    <module2copyright>
+      <element module="All" copyright="Abhi Muktheeswarar Apache 2.0" />
+    </module2copyright>
+  </settings>
 </component>
