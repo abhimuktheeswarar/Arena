@@ -14,28 +14,36 @@
  *   limitations under the License.
  */
 
-package msa.dagandapp.androiddaggy;
+package msa.dagandapp.di.component;
 
-import android.content.Context;
+import android.app.Application;
 
-import dagger.Module;
-import dagger.Provides;
+import javax.inject.Singleton;
+
+import dagger.BindsInstance;
+import dagger.Component;
+import dagger.android.AndroidInjectionModule;
 import msa.dagandapp.DagAndApp;
+import msa.dagandapp.di.builder.ActivityBuilder;
+import msa.dagandapp.di.module.AppModule;
 
 /**
- * Created by Abhimuktheeswarar on 24-05-2017.
+ * Created by Abhimuktheeswarar on 18-09-2017.
  */
+@Singleton
+@Component(modules = {AndroidInjectionModule.class, AppModule.class, ActivityBuilder.class})
+public interface AppComponent {
 
-@Module()
-class AppModule {
+    void inject(DagAndApp app);
 
-    @Provides
-    Context provideContext(DagAndApp application) {
-        return application.getApplicationContext();
+    @Component.Builder
+    interface Builder {
+
+        @BindsInstance
+        Builder application(Application application);
+
+        AppComponent build();
+
     }
 
-
-    /*@Provides SomeClientApi provideSomeClientApi() {
-        return new SomeClientApiImpl(66);
-    }*/
 }

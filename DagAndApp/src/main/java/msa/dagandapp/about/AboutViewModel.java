@@ -1,3 +1,4 @@
+
 /*
  *   Copyright 2017 Abhi Muktheeswarar
  *
@@ -14,16 +15,13 @@
  *   limitations under the License.
  */
 
-package msa.dagandapp;
+package msa.dagandapp.about;
+
+import msa.dagandapp.base.BaseViewModel;
 
 /**
- * Example local unit test, which will execute on the development machine (host).
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ * Created by Abhimuktheeswarar on 18-09-2017.
  */
-public class ExampleUnitTest {
-    //@Test
-    public void addition_isCorrect() throws Exception {
-        //assertEquals(4, 2 + 2);
-    }
+
+public class AboutViewModel extends BaseViewModel {
 }

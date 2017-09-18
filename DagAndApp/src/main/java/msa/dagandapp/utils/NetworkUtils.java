@@ -14,28 +14,26 @@
  *   limitations under the License.
  */
 
-package msa.dagandapp.androiddaggy;
+package msa.dagandapp.utils;
 
 import android.content.Context;
-
-import dagger.Module;
-import dagger.Provides;
-import msa.dagandapp.DagAndApp;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 /**
- * Created by Abhimuktheeswarar on 24-05-2017.
+ * Created by Abhimuktheeswarar on 18-09-2017.
  */
 
-@Module()
-class AppModule {
+public final class NetworkUtils {
 
-    @Provides
-    Context provideContext(DagAndApp application) {
-        return application.getApplicationContext();
+    private NetworkUtils() {
+        // This class is not publicly instantiable
     }
 
-
-    /*@Provides SomeClientApi provideSomeClientApi() {
-        return new SomeClientApiImpl(66);
-    }*/
+    public static boolean isNetworkConnected(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
 }

@@ -14,16 +14,28 @@
  *   limitations under the License.
  */
 
-package msa.dagandapp;
+package msa.arena.movies.list.livedata;
+
+import android.arch.lifecycle.LiveData;
+
+import java.util.LinkedHashMap;
+
+import msa.domain.entities.Movie;
+import msa.domain.holder.datastate.DataStateContainer;
 
 /**
- * Example local unit test, which will execute on the development machine (host).
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ * Created by Abhimuktheeswarar on 15-09-2017.
  */
-public class ExampleUnitTest {
-    //@Test
-    public void addition_isCorrect() throws Exception {
-        //assertEquals(4, 2 + 2);
+
+public class MoviesLiveData extends LiveData<DataStateContainer<LinkedHashMap<String, Movie>>> {
+
+    @Override
+    protected void onActive() {
+        super.onActive();
+    }
+
+    @Override
+    protected void onInactive() {
+        super.onInactive();
     }
 }

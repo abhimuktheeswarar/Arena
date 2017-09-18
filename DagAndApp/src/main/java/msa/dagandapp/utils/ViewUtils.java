@@ -14,16 +14,28 @@
  *   limitations under the License.
  */
 
-package msa.dagandapp;
+package msa.dagandapp.utils;
+
+import android.content.res.Resources;
 
 /**
- * Example local unit test, which will execute on the development machine (host).
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ * Created by Abhimuktheeswarar on 18-09-2017.
  */
-public class ExampleUnitTest {
-    //@Test
-    public void addition_isCorrect() throws Exception {
-        //assertEquals(4, 2 + 2);
+
+public final class ViewUtils {
+
+    private ViewUtils() {
+        // This class is not publicly instantiable
     }
+
+    public static float pxToDp(float px) {
+        float densityDpi = Resources.getSystem().getDisplayMetrics().densityDpi;
+        return px / (densityDpi / 160f);
+    }
+
+    public static int dpToPx(float dp) {
+        float density = Resources.getSystem().getDisplayMetrics().density;
+        return Math.round(dp * density);
+    }
+
 }

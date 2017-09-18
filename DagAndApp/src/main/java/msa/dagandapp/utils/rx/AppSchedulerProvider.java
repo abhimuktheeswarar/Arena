@@ -14,16 +14,31 @@
  *   limitations under the License.
  */
 
-package msa.dagandapp;
+package msa.dagandapp.utils.rx;
+
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
- * Example local unit test, which will execute on the development machine (host).
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ * Created by Abhimuktheeswarar on 18-09-2017.
  */
-public class ExampleUnitTest {
-    //@Test
-    public void addition_isCorrect() throws Exception {
-        //assertEquals(4, 2 + 2);
+
+public class AppSchedulerProvider implements SchedulerProvider {
+
+    @Override
+    public Scheduler ui() {
+        return AndroidSchedulers.mainThread();
     }
+
+    @Override
+    public Scheduler computation() {
+        return Schedulers.computation();
+    }
+
+    @Override
+    public Scheduler io() {
+        return Schedulers.io();
+    }
+
 }
