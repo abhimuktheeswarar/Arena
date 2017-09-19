@@ -40,7 +40,7 @@ public class SearchMoviesObservable extends UseCaseObservable<ResourceCarrier<Li
     }
 
     @Override
-    protected Observable<ResourceCarrier<LinkedHashMap<String, Movie>>> buildUseCaseObservable(Params params) {
+    public Observable<ResourceCarrier<LinkedHashMap<String, Movie>>> buildUseCaseObservable(Params params) {
         if (params.query.length() == 0)
             return Observable.just(ResourceCarrier.completed(new LinkedHashMap<String, Movie>()));
         else return repository.searchMoviesObservable(params.query);
