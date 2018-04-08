@@ -17,20 +17,20 @@
 apply from: 'buildsystem/dependencies.gradle'
 
 buildscript {
+    ext.kotlin_version = '1.2.31'
     repositories {
         jcenter()
         mavenCentral()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        //classpath 'com.android.tools.build:gradle:3.0.0-beta4'
-        classpath 'me.tatarka:gradle-retrolambda:3.6.0'
+        classpath 'com.android.tools.build:gradle:3.1.0'
         classpath 'com.f2prateek.javafmt:javafmt:0.1.2'
-        classpath 'com.frogermcs.androiddevmetrics:androiddevmetrics-plugin:0.5'
+        classpath 'com.frogermcs.androiddevmetrics:androiddevmetrics-plugin:0.6'
         //classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
-        classpath 'io.realm:realm-gradle-plugin:3.3.1'
+        classpath 'io.realm:realm-gradle-plugin:5.0.0'
         //classpath 'com.noveogroup.android:check:1.2.4'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
@@ -47,6 +47,3 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
-
-

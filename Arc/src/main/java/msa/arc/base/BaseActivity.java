@@ -20,12 +20,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
-import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity;
-import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.tapadoo.alerter.Alerter;
 
 import javax.inject.Inject;
@@ -34,12 +29,7 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 import msa.arc.R;
 
 /**
@@ -74,7 +64,9 @@ public class BaseActivity extends AppCompatActivity implements HasSupportFragmen
     }
 
     public Observable<Boolean> listenForInternetConnectivity() {
-        return ReactiveNetwork.observeNetworkConnectivity(getApplicationContext()).map(new Function<Connectivity, Boolean>() {
+        //ReactiveNetwork went missing after updating to new Android Studio in mac, so no time to fix it so for now it will just return false.
+
+        /*return ReactiveNetwork.observeNetworkConnectivity(getApplicationContext()).map(new Function<Connectivity, Boolean>() {
             @Override
             public Boolean apply(@NonNull Connectivity connectivity) throws Exception {
                 return connectivity.isAvailable();
@@ -97,7 +89,8 @@ public class BaseActivity extends AppCompatActivity implements HasSupportFragmen
                     alerter.show();
                 } else if (alerter != null) alerter.hide();
             }
-        });
+        });*/
+        return Observable.just(false);
     }
 
     @Override

@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'me.tatarka.retrolambda'
 /*
  * Copyright 2017, Abhi Muktheeswarar
  *
@@ -70,45 +69,45 @@ dependencies {
     def dataDependencies = rootProject.ext.dataDependencies
     def testDependencies = rootProject.ext.dataTestDependencies
 
-    compile project(':Domain')
+    implementation project(':Domain')
     provided dataDependencies.javaxAnnotation
-    compile dataDependencies.javaxInject
-    compile dataDependencies.rxJava
-    compile dataDependencies.rxAndroid
-    compile dataDependencies.rxJavaExtras
-    compile dataDependencies.rxJava2Extras
-    compile dataDependencies.androidAnnotations
-    //compile dataDependencies.multiDex
+    implementation dataDependencies.javaxInject
+    implementation dataDependencies.rxJava
+    implementation dataDependencies.rxAndroid
+    implementation dataDependencies.rxJavaExtras
+    implementation dataDependencies.rxJava2Extras
+    implementation dataDependencies.androidAnnotations
+    //implementation dataDependencies.multiDex
 
-    compile dataDependencies.okHttp
-    compile dataDependencies.okHttpInterceptor
-    compile(dataDependencies.loggingInterceptor) {
+    implementation dataDependencies.okHttp
+    implementation dataDependencies.okHttpInterceptor
+    implementation(dataDependencies.loggingInterceptor) {
         exclude group: 'org.json', module: 'json'
     }
-    compile dataDependencies.retrofit
-    compile dataDependencies.RetrofitAdapaterJackson
-    compile dataDependencies.rxCallAdapter
+    implementation dataDependencies.retrofit
+    implementation dataDependencies.RetrofitAdapaterJackson
+    implementation dataDependencies.rxCallAdapter
 
-    compile dataDependencies.reactiveNetwork
-    compile dataDependencies.rxJava2Interop
+    implementation dataDependencies.reactiveNetwork
+    implementation dataDependencies.rxJava2Interop
 
-    compile dataDependencies.location
-    compile dataDependencies.rxLocation
+    implementation dataDependencies.location
+    implementation dataDependencies.rxLocation
 
-    androidTestCompile testDependencies.junit
-    androidTestCompile testDependencies.assertj
-    androidTestCompile testDependencies.mockito
-    androidTestCompile testDependencies.runner
+    androidTestImplementation testDependencies.junit
+    androidTestImplementation testDependencies.assertj
+    androidTestImplementation testDependencies.mockito
+    androidTestImplementation testDependencies.runner
 
-    compile developmentDependencies.logger
+    implementation developmentDependencies.logger
 
-    testCompile testDependencies.testing
-    testCompile testDependencies.junit
-    testCompile testDependencies.mockito
-    testCompile testDependencies.robolectric
-    testCompile testDependencies.okhttpMockWebServer
-    testCompile testDependencies.retrofitMock
-    testCompile testDependencies.awaitility
+    testImplementation testDependencies.testing
+    testImplementation testDependencies.junit
+    testImplementation testDependencies.mockito
+    testImplementation testDependencies.robolectric
+    testImplementation testDependencies.okhttpMockWebServer
+    testImplementation testDependencies.retrofitMock
+    testImplementation testDependencies.awaitility
 
     debugCompile developmentDependencies.debugDb
 }

@@ -26,17 +26,17 @@ allprojects {
 
 ext {
     //Android
-    androidBuildToolsVersion = "26.0.1"
+    androidBuildToolsVersion = "27.0.3"
     androidMinSdkVersion = 19
-    androidTargetSdkVersion = 26
-    androidCompileSdkVersion = 26
+    androidTargetSdkVersion = 27
+    androidCompileSdkVersion = 27
 
     //Core-Libraries
-    daggerVersion = '2.11-rc1'
+    daggerVersion = '2.15'
     findBugsVersion = '3.0.2'
-    butterKnifeVersion = '8.5.1'
-    rxJavaVersion = '2.1.1'
-    rxAndroidVersion = '2.0.1'
+    butterKnifeVersion = '8.8.1'
+    rxJavaVersion = '2.1.12'
+    rxAndroidVersion = '2.0.2'
     rxJavaExtrasVersion = '0.8.0.7'
     rxJava2ExtrasVersion = '0.1.10'
     javaxAnnotationVersion = '1.0'
@@ -45,11 +45,11 @@ ext {
     multiDexVersion = '1.0.2'
 
     //Google-Libraries
-    supportLibraryVersion = '26.1.0'
+    supportLibraryVersion = '27.1.1'
     constraintLayoutVersion = '1.0.2'
-    playServicesVersion = '11.0.2'
+    playServicesVersion = '12.0.1'
     googleCollectionsVersion = '1.0'
-    architectureComponentsVersion = '1.0.0-alpha9-1'
+    architectureComponentsVersion = '1.1.1'
     googleMapsUtilsVersion = '0.5'
 
     //Data-Libraries
@@ -63,14 +63,14 @@ ext {
     commonsCollectionsVersion = '3.2.2'
 
     //Libraries
-    epoxyVersion = '2.2.0'
+    epoxyVersion = '2.10.0'
     glideVersion = '4.0.0'
     parcelerVersion = '1.1.9'
 
     //RxLibraries
     rxActivityResultVersion = '0.4.5-2.x'
-    rxBindingVersion = '2.0.0'
-    rxPermissionsVersion = '0.9.4@aar'
+    rxBindingVersion = '2.1.1'
+    rxPermissionsVersion = '0.9.5@aar'
     traceurVersion = '1.0.1'
     rxPaparazzoVersion = '0.5.4-2.x'
 
@@ -79,7 +79,7 @@ ext {
     alerterVersion = '1.0.8'
 
     rxPreferencesVersion = '2.0.0-RC2'
-    reactiveNetworkVersion = '0.11.0'
+    reactiveNetworkVersion = '0.12.3'
     rxJava2InteropVersion = '0.10.0'
 
     //Testing
@@ -95,10 +95,10 @@ ext {
     awaitilityVersion = '3.0.0'
 
     //Development
-    leakCanaryVersion = '1.5.1'
-    taktVersion = '1.0.4'
-    debugDbVersion = '1.0.1'
-    loggerVersion = '2.1.1'
+    leakCanaryVersion = '1.5.4'
+    taktVersion = '1.0.5'
+    debugDbVersion = '1.0.3'
+    loggerVersion = '2.2.0'
 
     presentationDependencies = [
             daggerCompiler          : "com.google.dagger:dagger-compiler:${daggerVersion}",
@@ -149,6 +149,8 @@ ext {
 
             materialDialogs         : "com.afollestad.material-dialogs:core:${materialDialogsVersion}",
             alerter                 : "com.tapadoo.android:alerter:${alerterVersion}",
+
+            reactiveNetwork        : "com.github.pwittchen:reactivenetwork-rx2:${reactiveNetworkVersion}",
 
             leakCanary              : "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}",
     ]

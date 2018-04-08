@@ -15,17 +15,16 @@
  */
 
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.f2prateek.javafmt'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
         applicationId "msa.rehearsal"
         minSdkVersion 21
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
 
@@ -90,55 +89,59 @@ dependencies {
     def presentationTestDependencies = rootProject.ext.presentationTestDependencies
     def developmentDependencies = rootProject.ext.developmentDependencies
 
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile project(':Domain')
-    compile project(':Data')
+    implementation project(':Domain')
+    implementation project(':Data')
 
     annotationProcessor presentationDependencies.daggerCompiler
-    compile presentationDependencies.dagger
+    implementation presentationDependencies.dagger
     annotationProcessor presentationDependencies.daggerAndroidProcessor
-    compile presentationDependencies.daggerAndroid
-    compile presentationDependencies.daggerAndroidSupport
-    compile presentationDependencies.findBugs
+    implementation presentationDependencies.daggerAndroid
+    implementation presentationDependencies.daggerAndroidSupport
+    implementation presentationDependencies.findBugs
     annotationProcessor presentationDependencies.butterKnifeCompiler
-    compile presentationDependencies.butterKnife
-    compile presentationDependencies.rxJava
-    compile presentationDependencies.rxAndroid
-    compile presentationDependencies.rxJava2Extras
-    provided presentationDependencies.javaxAnnotation
+    implementation presentationDependencies.butterKnife
+    implementation presentationDependencies.rxJava
+    implementation presentationDependencies.rxAndroid
+    implementation presentationDependencies.rxJava2Extras
+    implementation presentationDependencies.javaxAnnotation
 
-    compile presentationDependencies.supportLibraryV4
-    compile presentationDependencies.supportLibraryV7
-    compile presentationDependencies.designSupport
-    compile presentationDependencies.cardView
-    compile presentationDependencies.constraintLayout
+    implementation presentationDependencies.supportLibraryV4
+    implementation presentationDependencies.supportLibraryV7
+    implementation presentationDependencies.designSupport
+    implementation presentationDependencies.cardView
+    implementation presentationDependencies.constraintLayout
 
-    compile presentationDependencies.rxBinding
+    implementation presentationDependencies.rxBinding
 
     annotationProcessor presentationDependencies.epoxyProcessor
-    compile presentationDependencies.epoxy
+    implementation presentationDependencies.epoxy
 
-    compile presentationDependencies.androidAnnotations
-    compile presentationDependencies.leakCanary
+    implementation presentationDependencies.androidAnnotations
+    //implementation presentationDependencies.leakCanary
 
-    androidTestCompile presentationTestDependencies.androidAnnotations
-    androidTestCompile presentationTestDependencies.junit
-    androidTestCompile presentationTestDependencies.mockito
-    androidTestCompile presentationTestDependencies.dexmaker
-    androidTestCompile presentationTestDependencies.dexmakerMockito
-    androidTestCompile(presentationTestDependencies.espresso) {
+    androidTestImplementation presentationTestDependencies.androidAnnotations
+    androidTestImplementation presentationTestDependencies.junit
+    androidTestImplementation presentationTestDependencies.mockito
+    androidTestImplementation presentationTestDependencies.dexmaker
+    androidTestImplementation presentationTestDependencies.dexmakerMockito
+    androidTestImplementation(presentationTestDependencies.espresso) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    androidTestCompile presentationTestDependencies.runner
-    androidTestCompile presentationTestDependencies.rules
-    androidTestCompile presentationTestDependencies.uiautomator
-    androidTestCompile presentationTestDependencies.findBugs
+    androidTestImplementation presentationTestDependencies.runner
+    androidTestImplementation presentationTestDependencies.rules
+    androidTestImplementation presentationTestDependencies.uiautomator
+    androidTestImplementation presentationTestDependencies.findBugs
 
-    testCompile presentationDependencies.leakCanary
-    testCompile presentationTestDependencies.testing
+    testImplementation presentationDependencies.leakCanary
+    testImplementation presentationTestDependencies.testing
 
     //Development
-    debugCompile developmentDependencies.leakCanary
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    debugImplementation developmentDependencies.leakCanary
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'

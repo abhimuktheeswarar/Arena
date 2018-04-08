@@ -12,8 +12,7 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  -->
-
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="msa.rehearsal">
 
@@ -53,7 +52,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="msa.rehearsal.MainActivity" />
         </activity>
-        <activity android:name=".databind.DataBindActivity"></activity>
+        <activity android:name=".databind.DataBindActivity" />
     </application>
 
 </manifest>

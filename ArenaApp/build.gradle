@@ -15,9 +15,8 @@
  */
 
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.f2prateek.javafmt'
-apply plugin: 'com.frogermcs.androiddevmetrics'
+//apply plugin: 'com.frogermcs.androiddevmetrics'
 //apply plugin: 'com.noveogroup.android.check'
 
 apply from: "$project.rootDir/tools/script-git-version.gradle"
@@ -99,82 +98,82 @@ dependencies {
     def presentationTestDependencies = rootProject.ext.presentationTestDependencies
     def developmentDependencies = rootProject.ext.developmentDependencies
 
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile project(':Domain')
-    compile project(':Data')
+    implementation project(':Domain')
+    implementation project(':Data')
 
     annotationProcessor presentationDependencies.daggerCompiler
-    compile presentationDependencies.dagger
+    implementation presentationDependencies.dagger
     annotationProcessor presentationDependencies.daggerAndroidProcessor
-    compile presentationDependencies.daggerAndroid
-    compile presentationDependencies.daggerAndroidSupport
-    compile presentationDependencies.findBugs
+    implementation presentationDependencies.daggerAndroid
+    implementation presentationDependencies.daggerAndroidSupport
+    implementation presentationDependencies.findBugs
     annotationProcessor presentationDependencies.butterKnifeCompiler
-    compile presentationDependencies.butterKnife
-    compile presentationDependencies.rxJava
-    compile presentationDependencies.rxAndroid
-    compile presentationDependencies.rxJavaExtras
-    compile presentationDependencies.rxJava2Extras
-    provided presentationDependencies.javaxAnnotation
+    implementation presentationDependencies.butterKnife
+    implementation presentationDependencies.rxJava
+    implementation presentationDependencies.rxAndroid
+    implementation presentationDependencies.rxJavaExtras
+    implementation presentationDependencies.rxJava2Extras
+    implementation presentationDependencies.javaxAnnotation
 
-    compile presentationDependencies.lifeCycleRuntime
-    compile presentationDependencies.lifeCycleExtensions
+    implementation presentationDependencies.lifeCycleRuntime
+    implementation presentationDependencies.lifeCycleExtensions
     annotationProcessor presentationDependencies.lifeCycleCompiler
-    compile presentationDependencies.lifeCycleReactiveStreams
+    implementation presentationDependencies.lifeCycleReactiveStreams
 
-    compile presentationDependencies.androidAnnotations
-    compile presentationDependencies.supportLibraryV4
-    compile presentationDependencies.supportLibraryV7
-    compile presentationDependencies.designSupport
-    compile presentationDependencies.cardView
-    compile presentationDependencies.constraintLayout
+    implementation presentationDependencies.androidAnnotations
+    implementation presentationDependencies.supportLibraryV4
+    implementation presentationDependencies.supportLibraryV7
+    implementation presentationDependencies.designSupport
+    implementation presentationDependencies.cardView
+    implementation presentationDependencies.constraintLayout
 
     annotationProcessor presentationDependencies.epoxyProcessor
-    compile presentationDependencies.epoxy
-    compile presentationDependencies.glide
+    implementation presentationDependencies.epoxy
+    implementation presentationDependencies.glide
     annotationProcessor presentationDependencies.glideProcessor
-    compile presentationDependencies.parceler
+    implementation presentationDependencies.parceler
     annotationProcessor presentationDependencies.parcelerProcessor
 
-    compile presentationDependencies.rxActivityResult
-    compile presentationDependencies.rxBinding
-    compile presentationDependencies.rxBindingV4Support
-    compile presentationDependencies.rxBindingV7Support
-    compile presentationDependencies.rxBindingDesign
-    compile presentationDependencies.rxBindingRecyclerView
-    compile presentationDependencies.rxPermissions
-    compile presentationDependencies.rxPaparazzo
+    implementation presentationDependencies.reactiveNetwork
+    implementation presentationDependencies.rxActivityResult
+    implementation presentationDependencies.rxBinding
+    implementation presentationDependencies.rxBindingV4Support
+    implementation presentationDependencies.rxBindingV7Support
+    implementation presentationDependencies.rxBindingDesign
+    implementation presentationDependencies.rxBindingRecyclerView
+    implementation presentationDependencies.rxPermissions
+    implementation presentationDependencies.rxPaparazzo
 
-    compile presentationDependencies.alerter
+    implementation presentationDependencies.alerter
 
-    releaseCompile presentationDependencies.leakCanary
+    releaseImplementation presentationDependencies.leakCanary
 
-    androidTestCompile presentationTestDependencies.androidAnnotations
-    androidTestCompile presentationTestDependencies.junit
-    androidTestCompile presentationTestDependencies.mockito
-    androidTestCompile presentationTestDependencies.mockitoAndroid
-    androidTestCompile presentationTestDependencies.dexmaker
-    androidTestCompile presentationTestDependencies.dexmakerMockito
-    androidTestCompile(presentationTestDependencies.espresso) {
+    androidTestImplementation presentationTestDependencies.androidAnnotations
+    androidTestImplementation presentationTestDependencies.junit
+    androidTestImplementation presentationTestDependencies.mockito
+    androidTestImplementation presentationTestDependencies.mockitoAndroid
+    androidTestImplementation presentationTestDependencies.dexmaker
+    androidTestImplementation presentationTestDependencies.dexmakerMockito
+    androidTestImplementation(presentationTestDependencies.espresso) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    androidTestCompile presentationTestDependencies.runner
-    androidTestCompile presentationTestDependencies.rules
-    androidTestCompile presentationTestDependencies.uiautomator
-    androidTestCompile presentationTestDependencies.findBugs
-    androidTestCompile presentationTestDependencies.architectureCore
+    androidTestImplementation presentationTestDependencies.runner
+    androidTestImplementation presentationTestDependencies.rules
+    androidTestImplementation presentationTestDependencies.uiautomator
+    androidTestImplementation presentationTestDependencies.findBugs
+    androidTestImplementation presentationTestDependencies.architectureCore
 
-    //testCompile presentationTestDependencies.testing
-    testCompile presentationTestDependencies.junit
-    testCompile presentationTestDependencies.mockito
-    testCompile presentationDependencies.leakCanary
-    testCompile presentationTestDependencies.testing
-    testCompile presentationTestDependencies.architectureCore
+    //testImplementation presentationTestDependencies.testing
+    testImplementation presentationTestDependencies.junit
+    testImplementation presentationTestDependencies.mockito
+    testImplementation presentationDependencies.leakCanary
+    testImplementation presentationTestDependencies.testing
+    testImplementation presentationTestDependencies.architectureCore
 
     //Development
-    debugCompile developmentDependencies.leakCanary
-    compile developmentDependencies.takt
-    compile developmentDependencies.logger
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    debugImplementation developmentDependencies.leakCanary
+    implementation developmentDependencies.takt
+    implementation developmentDependencies.logger
 }

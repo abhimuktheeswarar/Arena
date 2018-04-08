@@ -48,7 +48,6 @@ import msa.rehearsal.R;
 import msa.rehearsal.base.BaseFragment;
 import msa.rehearsal.injector.components.MovieComponent;
 import msa.rehearsal.utilities.EndlessRecyclerViewScrollListener;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by Abhimuktheeswarar on 01-06-2017.
@@ -67,7 +66,7 @@ public class SubRound2_1Fragment extends BaseFragment {
     private MovieEpoxyController movieEpoxyController;
     private MovieTypedEpoxyController movieTypedEpoxyController;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
-    private CompositeSubscription compositeSubscription;
+    //private CompositeSubscription compositeSubscription;
     private CompositeDisposable compositeDisposable;
 
     public static SubRound2_1Fragment newInstance() {
@@ -126,7 +125,7 @@ public class SubRound2_1Fragment extends BaseFragment {
 
     private void bind() {
 
-        compositeSubscription = new CompositeSubscription();
+        //compositeSubscription = new CompositeSubscription();
 
         compositeDisposable = new CompositeDisposable();
 
@@ -181,19 +180,19 @@ public class SubRound2_1Fragment extends BaseFragment {
 
         compositeDisposable.add(endlessRecyclerViewScrollListener.getScrollState().subscribeOn(io.reactivex.schedulers.Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).switchMap(new Function<EndlessRecyclerViewScrollListener.ScrollState, Observable<LinkedHashMap<String, Movie>>>() {
             @Override
-            public Observable<LinkedHashMap<String, Movie>> apply(@NonNull EndlessRecyclerViewScrollListener.ScrollState scrollState) throws Exception {
+            public Observable<LinkedHashMap<String, Movie>> apply(@NonNull EndlessRecyclerViewScrollListener.ScrollState scrollState) {
                 Log.d(SubRound2_1Fragment.class.getSimpleName(), "Page = " + scrollState.getPage());
                 return subRound2_1ViewModelLazy.get().getMovieHashes(scrollState.getPage());
             }
         }).scan(new BiFunction<LinkedHashMap<String, Movie>, LinkedHashMap<String, Movie>, LinkedHashMap<String, Movie>>() {
             @Override
-            public LinkedHashMap<String, Movie> apply(@NonNull LinkedHashMap<String, Movie> stringMovieLinkedHashMap, @NonNull LinkedHashMap<String, Movie> stringMovieLinkedHashMap2) throws Exception {
+            public LinkedHashMap<String, Movie> apply(@NonNull LinkedHashMap<String, Movie> stringMovieLinkedHashMap, @NonNull LinkedHashMap<String, Movie> stringMovieLinkedHashMap2) {
                 stringMovieLinkedHashMap.putAll(stringMovieLinkedHashMap2);
                 return stringMovieLinkedHashMap;
             }
         }).subscribe(new Consumer<LinkedHashMap<String, Movie>>() {
             @Override
-            public void accept(@NonNull LinkedHashMap<String, Movie> stringMovieLinkedHashMap) throws Exception {
+            public void accept(@NonNull LinkedHashMap<String, Movie> stringMovieLinkedHashMap) {
                 movieTypedEpoxyController.setMovies(stringMovieLinkedHashMap);
             }
         }));
@@ -201,7 +200,7 @@ public class SubRound2_1Fragment extends BaseFragment {
 
         compositeDisposable.add(movieTypedEpoxyController.getSelectedMovie().subscribeOn(io.reactivex.schedulers.Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Movie>() {
             @Override
-            public void accept(@NonNull Movie movie) throws Exception {
+            public void accept(@NonNull Movie movie) {
                 movieList.set(movieList.indexOf(movie), movie);
                 updateController();
                 showToastMessage(movie.getMovieName());
@@ -211,7 +210,7 @@ public class SubRound2_1Fragment extends BaseFragment {
     }
 
     private void unBind() {
-        compositeSubscription.unsubscribe();
+        //compositeSubscription.unsubscribe();
         compositeDisposable.dispose();
     }
 

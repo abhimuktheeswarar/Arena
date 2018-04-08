@@ -20,8 +20,6 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
-import com.amitshekhar.DebugDB;
-import com.frogermcs.androiddevmetrics.AndroidDevMetrics;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -33,7 +31,6 @@ import dagger.android.HasActivityInjector;
 import io.reactivex.plugins.RxJavaPlugins;
 import jp.wasabeef.takt.Takt;
 import msa.arena.di.ApplicationInjector;
-import rx_activity_result2.RxActivityResult;
 
 /**
  * Created by Abhimuktheeswarar on 01-05-2017.
@@ -54,10 +51,10 @@ public class ArenaApplication extends Application implements HasActivityInjector
   public void onCreate() {
     super.onCreate();
     ApplicationInjector.init(this);
-    RxActivityResult.register(this);
+      //RxActivityResult.register(this);
     if (BuildConfig.DEBUG) {
-      AndroidDevMetrics.initWith(this);
-      DebugDB.getAddressLog();
+        //AndroidDevMetrics.initWith(this);
+        //DebugDB.getAddressLog();
       if (LeakCanary.isInAnalyzerProcess(this)) {
         return;
       }
