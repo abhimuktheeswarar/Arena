@@ -35,6 +35,7 @@ android {
         buildConfigField("String", "MEDI_BASE_URL", mediBaseUrl)
         buildConfigField("String", "MEDI_TOKEN_KEY", mediTokenKey)
         buildConfigField("String", "MEDI_TOKEN", mediToken)
+        buildConfigField("String", "IMGUR_CLIENT_ID", imgurClientId)
 
         testInstrumentationRunner globalConfiguration["testInstrumentationRunner"]
 

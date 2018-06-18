@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/Data/Data.iml" filepath="$PROJECT_DIR$/Data/Data.iml" />
       <module fileurl="file://$PROJECT_DIR$/Domain/Domain.iml" filepath="$PROJECT_DIR$/Domain/Domain.iml" />
       <module fileurl="file://$PROJECT_DIR$/Rehearsal/Rehearsal.iml" filepath="$PROJECT_DIR$/Rehearsal/Rehearsal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/koinarc/koinarc.iml" filepath="$PROJECT_DIR$/koinarc/koinarc.iml" />
       <module fileurl="file://$PROJECT_DIR$/spectacle/spectacle.iml" filepath="$PROJECT_DIR$/spectacle/spectacle.iml" />
     </modules>
   </component>

@@ -18,10 +18,13 @@ package com.abhi.spectacle
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.abhi.spectacle.staggergrid.StaggeredGridActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,9 +35,12 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
-            startActivity(Intent(this, ConstraintPlayActivity::class.java))
-            //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()
+            //startActivity(Intent(this, SharedElementTransitionParentActivity::class.java))
+            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_SHORT).setAction("Action", null).show()
         }
+
+        acBtn_transitions.setOnClickListener { startActivity(Intent(this, SharedElementTransitionParentActivity::class.java)) }
+        acBtn_stagger.setOnClickListener { startActivity(Intent(this, StaggeredGridActivity::class.java)) }
 
     }
 

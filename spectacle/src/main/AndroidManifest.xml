@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.abhi.spectacle">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,7 +22,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ConstraintPlayActivity"></activity>
+        <activity android:name=".ConstraintPlayActivity" />
+        <activity
+            android:name=".SharedElementTransitionParentActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SharedElementTransitionChildActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".staggergrid.StaggeredGridActivity"
+            android:label="@string/title_activity_staggered_grid"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

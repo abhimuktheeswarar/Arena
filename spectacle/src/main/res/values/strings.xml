@@ -17,4 +17,5 @@
 <resources>
     <string name="app_name">Spectacle</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_staggered_grid">StaggeredGridActivity</string>
 </resources>

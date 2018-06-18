@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-include ':ArenaApp', ':Data', ':Domain', ':DagAndApp', ':Rehearsal', ':Arc', ':spectacle'
+include ':ArenaApp', ':Data', ':Domain', ':DagAndApp', ':Rehearsal', ':Arc', ':spectacle', ':koinarc'
