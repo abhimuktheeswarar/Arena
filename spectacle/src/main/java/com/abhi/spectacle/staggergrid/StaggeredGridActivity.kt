@@ -70,7 +70,7 @@ class StaggeredGridActivity : AppCompatActivity() {
 
             try {
 
-                val result = ImgurService.getImgurService().getImages()
+                val result = ImgurService.getImgurService(applicationContext).getImages()
 
                 ref.invoke().processData(result.await())
 
@@ -171,7 +171,7 @@ class SimpleRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(
             holder.titleTextView.text = simpleItem.id
             holder.imageView.layout(0, 0, 0, 0)
             //holder.imageView.loadUrlMaintaingAspectRatio(simpleItem.imageUrl, holder.constraintLayout)
-            ImageLoader.loadImage(holder.imageView, holder.constraintLayout, simpleItem.imageUrl)
+            //ImageLoader.loadImage(holder.imageView, holder.constraintLayout, simpleItem.imageUrl)
         }
     }
 

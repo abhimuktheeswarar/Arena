@@ -21,7 +21,9 @@ apply plugin: 'kotlinx-serialization'
 apply plugin: 'kotlin-kapt'
 
 android {
+
     compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "com.abhi.spectacle"
@@ -43,9 +45,30 @@ android {
         }
     }
 
+    packagingOptions {
+
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+
+        pickFirst 'lib/armeabi-v7a/libassmidi.so'
+        pickFirst 'lib/x86/libassmidi.so'
+
+        pickFirst 'lib/armeabi-v7a/libsonarfb.so'
+        pickFirst 'lib/x86/libsonarfb.so'
+        pickFirst 'lib/arm64-v8a/libsonarfb.so'
+    }
+
+
 }
 
 repositories {
+
     maven { url "https://kotlin.bintray.com/kotlinx" }
 }
 
@@ -59,6 +82,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.22.5"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-rx2:0.22.5'
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization_version"
+
+    //implementation 'androidx.core:core-ktx:1.0.0-alpha3'
 
     implementation 'io.reactivex.rxjava2:rxkotlin:2.1.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
@@ -89,6 +114,20 @@ dependencies {
 
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     kapt 'com.github.bumptech.glide:compiler:4.7.1'
+
+    debugImplementation 'com.facebook.sonar:sonar:0.0.4'
+
+    debugImplementation 'com.willowtreeapps.hyperion:hyperion-core:0.9.23'
+    debugImplementation 'com.willowtreeapps.hyperion:hyperion-attr:0.9.23'
+    debugImplementation 'com.willowtreeapps.hyperion:hyperion-measurement:0.9.23'
+    debugImplementation 'com.willowtreeapps.hyperion:hyperion-disk:0.9.23'
+    debugImplementation 'com.willowtreeapps.hyperion:hyperion-recorder:0.9.23'
+    debugImplementation 'com.willowtreeapps.hyperion:hyperion-phoenix:0.9.23'
+    debugImplementation 'com.willowtreeapps.hyperion:hyperion-geiger-counter:0.9.23'
+    debugImplementation 'com.github.Commit451:Hyperion-Chuck:1.0.0'
+
+    debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
+    releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

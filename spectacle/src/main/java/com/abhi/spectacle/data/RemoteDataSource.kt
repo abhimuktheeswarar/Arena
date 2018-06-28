@@ -1,8 +1,10 @@
 package com.abhi.spectacle.data
 
+import android.content.Context
 import com.abhi.spectacle.BuildConfig
 import com.abhi.spectacle.data.poko.ImgurEntities
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
+import com.readystatesoftware.chuck.ChuckInterceptor
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.serialization.json.JSON
 import okhttp3.MediaType
@@ -20,15 +22,25 @@ object ImgurService {
     private val contentType = MediaType.parse("application/json")!!
     private val json = JSON
 
-    private val retrofit = Retrofit.Builder()
+    private val okHttpClientBuilder = OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor)
+
+    private val retrofitBuilder = Retrofit.Builder()
             .baseUrl("https://api.imgur.com/3/")
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             //.addConverterFactory(stringBased(contentType, json::parse, json::stringify))
             .addConverterFactory(MoshiConverterFactory.create())
-            .client(OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build())
-            .build()
 
-    fun getImgurService(): ImgurApi = retrofit.create(ImgurApi::class.java)
+    fun getImgurService(context: Context? = null): ImgurApi {
+
+        context?.let {
+            okHttpClientBuilder.addInterceptor(ChuckInterceptor(context))
+        }
+
+        retrofitBuilder.client(okHttpClientBuilder.build())
+
+        return retrofitBuilder.build().create(ImgurApi::class.java)
+
+    }
 }
 
 interface ImgurApi {
