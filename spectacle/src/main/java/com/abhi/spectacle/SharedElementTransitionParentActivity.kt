@@ -3,6 +3,8 @@ package com.abhi.spectacle
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
+import android.support.transition.Slide
+import android.support.transition.TransitionManager
 import android.support.v7.app.AppCompatActivity
 import android.transition.Fade
 import android.util.Pair
@@ -24,9 +26,19 @@ class SharedElementTransitionParentActivity : AppCompatActivity() {
         window.enterTransition = fade
         window.exitTransition = fade
 
-        fab.setOnClickListener { view ->
-            //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()
+
+        fab_0.setOnClickListener {
+
+            //View visibility change animation
+
+            TransitionManager.beginDelayedTransition(coordinator_parent, Slide())
+            view_simple.visibility = if (view_simple.visibility == View.VISIBLE) View.INVISIBLE else View.VISIBLE
+
+        }
+
+        fab_1.setOnClickListener { view ->
             val intent = Intent(this, SharedElementTransitionChildActivity::class.java)
+
             //For single views
             //val options = ActivityOptions.makeSceneTransitionAnimation(this, image_parent, ViewCompat.getTransitionName(image_parent))
 
@@ -36,10 +48,6 @@ class SharedElementTransitionParentActivity : AppCompatActivity() {
             val options = ActivityOptions.makeSceneTransitionAnimation(this, p1, p2)
             startActivity(intent, options.toBundle())
 
-            //View visibility change animation
-
-            //TransitionManager.beginDelayedTransition(coordinator_parent, Slide())
-            //view_simple.visibility = if (view_simple.visibility == View.VISIBLE) View.INVISIBLE else View.VISIBLE
 
         }
 

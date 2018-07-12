@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         acBtn_transitions.setOnClickListener { startActivity(Intent(this, SharedElementTransitionParentActivity::class.java)) }
+        acBtn_constraint.setOnClickListener { startActivity(Intent(this, ConstraintPlayActivity::class.java)) }
         acBtn_stagger.setOnClickListener { startActivity(Intent(this, StaggeredGridActivity::class.java)) }
 
     }

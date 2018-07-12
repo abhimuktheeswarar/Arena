@@ -17,7 +17,7 @@
 apply from: 'buildsystem/dependencies.gradle'
 
 buildscript {
-    ext.kotlin_version = '1.2.50'
+    ext.kotlin_version = '1.2.51'
     ext.serialization_version = '0.5.1'
     ext.anko_version = '0.10.4'
     repositories {

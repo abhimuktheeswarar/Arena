@@ -32,6 +32,7 @@
             android:id="@+id/text_hello"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:text="Hello World!"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,19 +42,31 @@
             android:id="@+id/acBtn_transitions"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:text="Transitions demo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_hello" />
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/acBtn_stagger"
+            android:id="@+id/acBtn_constraint"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="StaggerGrid demo"
+            android:layout_margin="8dp"
+            android:text="Constraint demo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/acBtn_transitions" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/acBtn_stagger"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="StaggerGrid demo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/acBtn_constraint" />
 
     </android.support.constraint.ConstraintLayout>
 

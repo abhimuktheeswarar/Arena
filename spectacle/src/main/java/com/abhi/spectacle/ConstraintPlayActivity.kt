@@ -33,13 +33,13 @@ class ConstraintPlayActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.layout_constraint_1)
 
-        imageView.setOnClickListener({
+        imageView.setOnClickListener {
             if (show)
                 hideComponents() // if the animation is shown, we hide back the views
             else
                 showComponents() // if the animation is NOT shown, we animate the views
 
-        })
+        }
     }
 
     private fun showComponents() {
