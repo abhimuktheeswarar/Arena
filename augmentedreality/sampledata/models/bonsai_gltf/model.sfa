@@ -1,0 +1,113 @@
+{
+   materials: [
+      {
+         name: "BlocksPaper",
+         parameters: [
+            {
+               baseColorFactor: [
+                  1,
+                  1,
+                  1,
+                  1,
+               ],
+            },
+            {
+               baseColor: null,
+            },
+            {
+               normal: null,
+            },
+            {
+               metallicFactor: 0,
+            },
+            {
+               roughnessFactor: 0.59999999999999998,
+            },
+            {
+               metallicRoughness: null,
+            },
+            {
+               occlusion: null,
+            },
+            {
+               emissiveFactor: [
+                  0,
+                  0,
+                  0,
+                  1,
+               ],
+            },
+            {
+               emissive: null,
+            },
+            {
+               reflectance: null,
+            },
+            {
+               opacity: null,
+            },
+         ],
+         source: "build/sceneform_sdk/default_materials/gltf_material.sfm",
+      },
+      {
+         name: "BlocksGem",
+         parameters: [
+            {
+               baseColorFactor: [
+                  1,
+                  0.40000000000000002,
+                  1,
+                  1,
+               ],
+            },
+            {
+               baseColor: null,
+            },
+            {
+               normal: null,
+            },
+            {
+               metallicFactor: 0,
+            },
+            {
+               roughnessFactor: 0.10000000000000001,
+            },
+            {
+               metallicRoughness: null,
+            },
+            {
+               occlusion: null,
+            },
+            {
+               emissiveFactor: [
+                  0,
+                  0,
+                  0,
+                  1,
+               ],
+            },
+            {
+               emissive: null,
+            },
+            {
+               reflectance: null,
+            },
+            {
+               opacity: null,
+            },
+         ],
+         source: "build/sceneform_sdk/default_materials/gltf_material.sfm",
+      },
+   ],
+   model: {
+      attributes: [
+         "Position",
+         "Color",
+         "Orientation",
+      ],
+      collision: {},
+      file: "sampledata/models/bonsai_gltf/model.gltf",
+      name: "model",
+   },
+   version: "0.51:1",
+}

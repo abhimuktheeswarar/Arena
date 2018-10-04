@@ -2,7 +2,9 @@ package com.abhi.spectacle.data
 
 import android.content.Context
 import com.abhi.spectacle.BuildConfig
+import com.abhi.spectacle.SpectacleApplication
 import com.abhi.spectacle.data.poko.ImgurEntities
+import com.facebook.sonar.plugins.network.SonarOkhttpInterceptor
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
 import com.readystatesoftware.chuck.ChuckInterceptor
 import kotlinx.coroutines.experimental.Deferred
@@ -22,7 +24,9 @@ object ImgurService {
     private val contentType = MediaType.parse("application/json")!!
     private val json = JSON
 
-    private val okHttpClientBuilder = OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor)
+    private val okHttpClientBuilder = OkHttpClient.Builder()
+            .addInterceptor(httpLoggingInterceptor)
+
 
     private val retrofitBuilder = Retrofit.Builder()
             .baseUrl("https://api.imgur.com/3/")
@@ -34,6 +38,7 @@ object ImgurService {
 
         context?.let {
             okHttpClientBuilder.addInterceptor(ChuckInterceptor(context))
+            okHttpClientBuilder.addNetworkInterceptor(SonarOkhttpInterceptor((context.applicationContext as? SpectacleApplication)?.networkSonarPlugin))
         }
 
         retrofitBuilder.client(okHttpClientBuilder.build())

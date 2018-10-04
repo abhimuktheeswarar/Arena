@@ -15,16 +15,19 @@
  */
 
 apply plugin: 'com.android.application'
-apply plugin: 'com.f2prateek.javafmt'
+//apply plugin: 'com.f2prateek.javafmt'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion 28
+    buildToolsVersion "28.0.2"
 
     defaultConfig {
         applicationId "msa.rehearsal"
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
 
@@ -90,17 +93,18 @@ dependencies {
     def developmentDependencies = rootProject.ext.developmentDependencies
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation project(':Domain')
     implementation project(':Data')
 
-    annotationProcessor presentationDependencies.daggerCompiler
+    kapt presentationDependencies.daggerCompiler
     implementation presentationDependencies.dagger
-    annotationProcessor presentationDependencies.daggerAndroidProcessor
+    kapt presentationDependencies.daggerAndroidProcessor
     implementation presentationDependencies.daggerAndroid
     implementation presentationDependencies.daggerAndroidSupport
     implementation presentationDependencies.findBugs
-    annotationProcessor presentationDependencies.butterKnifeCompiler
+    kapt presentationDependencies.butterKnifeCompiler
     implementation presentationDependencies.butterKnife
     implementation presentationDependencies.rxJava
     implementation presentationDependencies.rxAndroid
@@ -115,7 +119,7 @@ dependencies {
 
     implementation presentationDependencies.rxBinding
 
-    annotationProcessor presentationDependencies.epoxyProcessor
+    kapt presentationDependencies.epoxyProcessor
     implementation presentationDependencies.epoxy
 
     implementation presentationDependencies.androidAnnotations
@@ -139,9 +143,6 @@ dependencies {
 
     //Development
     debugImplementation developmentDependencies.leakCanary
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+

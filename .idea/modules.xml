@@ -11,6 +11,7 @@
       <module fileurl="file://$PROJECT_DIR$/Rehearsal/Rehearsal.iml" filepath="$PROJECT_DIR$/Rehearsal/Rehearsal.iml" />
       <module fileurl="file://$PROJECT_DIR$/augmentedreality/augmentedreality.iml" filepath="$PROJECT_DIR$/augmentedreality/augmentedreality.iml" />
       <module fileurl="file://$PROJECT_DIR$/koinarc/koinarc.iml" filepath="$PROJECT_DIR$/koinarc/koinarc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/reduxed/reduxed.iml" filepath="$PROJECT_DIR$/reduxed/reduxed.iml" />
       <module fileurl="file://$PROJECT_DIR$/spectacle/spectacle.iml" filepath="$PROJECT_DIR$/spectacle/spectacle.iml" />
     </modules>
   </component>

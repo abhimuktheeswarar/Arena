@@ -16,19 +16,19 @@
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.frogermcs.androiddevmetrics'
-apply plugin: 'realm-android'
+//apply plugin: 'realm-android'
 
 android {
 
     def globalConfiguration = rootProject.extensions.getByName("ext")
 
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion 28
+    buildToolsVersion "28.0.2"
 
     defaultConfig {
         applicationId "msa.arc"
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
 

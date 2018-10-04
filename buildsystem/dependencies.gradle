@@ -16,6 +16,7 @@
 
 allprojects {
     repositories {
+        google()
         jcenter()
         maven { url 'https://jitpack.io' }
         maven { url 'https://maven.google.com' }
@@ -26,45 +27,45 @@ allprojects {
 
 ext {
     //Android
-    androidBuildToolsVersion = "27.0.3"
+    androidBuildToolsVersion = "28.0.2"
     androidMinSdkVersion = 19
-    androidTargetSdkVersion = 27
-    androidCompileSdkVersion = 27
+    androidTargetSdkVersion = 28
+    androidCompileSdkVersion = 28
 
     //Core-Libraries
-    daggerVersion = '2.15'
+    daggerVersion = '2.17'
     findBugsVersion = '3.0.2'
     butterKnifeVersion = '8.8.1'
-    rxJavaVersion = '2.1.12'
-    rxAndroidVersion = '2.0.2'
-    rxJavaExtrasVersion = '0.8.0.7'
-    rxJava2ExtrasVersion = '0.1.10'
+    rxJavaVersion = '2.2.2'
+    rxAndroidVersion = '2.1.0'
+    rxJavaExtrasVersion = '0.8.0.17'
+    rxJava2ExtrasVersion = '0.1.23'
     javaxAnnotationVersion = '1.0'
     javaxInjectVersion = '1'
     arrowVersion = '1.0.0'
     multiDexVersion = '1.0.2'
 
     //Google-Libraries
-    supportLibraryVersion = '27.1.1'
-    constraintLayoutVersion = '1.0.2'
-    playServicesVersion = '12.0.1'
+    supportLibraryVersion = '28.0.0'
+    constraintLayoutVersion = '1.1.3'
+    playServicesVersion = '16.0.0'
     googleCollectionsVersion = '1.0'
     architectureComponentsVersion = '1.1.1'
     googleMapsUtilsVersion = '0.5'
 
     //Data-Libraries
-    okHttpVersion = '3.8.1'
-    loggingInterceptorVersion = '2.0.0'
-    retrofitVersion = '2.3.0'
-    rxLocationVersion = '1.0.3'
+    okHttpVersion = '3.11.0'
+    loggingInterceptorVersion = '2.0.5'
+    retrofitVersion = '2.4.0'
+    rxLocationVersion = '1.0.5'
 
     //JavaLibraries
     javaTuplesVersion = '1.2'
     commonsCollectionsVersion = '3.2.2'
 
     //Libraries
-    epoxyVersion = '2.10.0'
-    glideVersion = '4.0.0'
+    epoxyVersion = '2.18.0'
+    glideVersion = '4.8.0'
     parcelerVersion = '1.1.9'
 
     //RxLibraries
@@ -75,8 +76,8 @@ ext {
     rxPaparazzoVersion = '0.5.4-2.x'
 
     //Views
-    materialDialogsVersion = '0.9.4.5'
-    alerterVersion = '1.0.8'
+    materialDialogsVersion = '0.9.6.0'
+    alerterVersion = '3.0.0'
 
     rxPreferencesVersion = '2.0.0-RC2'
     reactiveNetworkVersion = '0.12.3'
@@ -95,7 +96,7 @@ ext {
     awaitilityVersion = '3.0.0'
 
     //Development
-    leakCanaryVersion = '1.5.4'
+    leakCanaryVersion = '1.6.1'
     taktVersion = '1.0.5'
     debugDbVersion = '1.0.3'
     loggerVersion = '2.2.0'
@@ -209,7 +210,7 @@ ext {
             reactiveNetwork        : "com.github.pwittchen:reactivenetwork-rx2:${reactiveNetworkVersion}",
             rxJava2Interop         : "com.github.akarnokd:rxjava2-interop:${rxJava2InteropVersion}",
 
-            location               : "com.google.android.gms:play-services-location:${playServicesVersion}",
+            location               : "com.google.android.gms:play-services-location:15.0.1",
             rxLocation             : "com.patloew.rxlocation:rxlocation:${rxLocationVersion}",
 
 

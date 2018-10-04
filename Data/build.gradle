@@ -16,7 +16,7 @@ apply plugin: 'com.android.library'
  */
 
 //apply plugin: 'com.jakewharton.hugo'
-apply plugin: 'realm-android'
+//apply plugin: 'realm-android'
 
 android {
     defaultPublishConfig "debug"

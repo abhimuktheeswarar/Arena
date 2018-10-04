@@ -16,7 +16,9 @@ import com.abhi.spectacle.utilities.ImageLoader
 import kotlinx.android.synthetic.main.activity_staggered_grid.*
 import kotlinx.android.synthetic.main.content_staggered_grid.*
 import kotlinx.android.synthetic.main.item_stagger_grid_0.view.*
-import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.GlobalScope
+import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.coroutines.experimental.asReference
 import java.util.*
@@ -66,7 +68,7 @@ class StaggeredGridActivity : AppCompatActivity() {
 
         val ref = asReference()
 
-        async(UI) {
+        GlobalScope.async(Dispatchers.Main, CoroutineStart.DEFAULT, null, {
 
             try {
 
@@ -79,7 +81,7 @@ class StaggeredGridActivity : AppCompatActivity() {
             }
 
 
-        }
+        })
     }
 
     private fun processData(imgurEntities: ImgurEntities) {
@@ -171,7 +173,7 @@ class SimpleRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(
             holder.titleTextView.text = simpleItem.id
             holder.imageView.layout(0, 0, 0, 0)
             //holder.imageView.loadUrlMaintaingAspectRatio(simpleItem.imageUrl, holder.constraintLayout)
-            //ImageLoader.loadImage(holder.imageView, holder.constraintLayout, simpleItem.imageUrl)
+            ImageLoader.loadImage(holder.imageView, holder.constraintLayout, simpleItem.imageUrl)
         }
     }
 

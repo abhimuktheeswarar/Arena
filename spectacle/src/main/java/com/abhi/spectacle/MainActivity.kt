@@ -22,9 +22,18 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.abhi.spectacle.epoxy.EpoxyActivity
+import com.abhi.spectacle.epoxy.bottom.BottomSheetEpoxyActivity
+import com.abhi.spectacle.epoxy.bottom.SlidingActivity
+import com.abhi.spectacle.scrollingdetail.ScrollingDetailActivity
 import com.abhi.spectacle.staggergrid.StaggeredGridActivity
+import com.abhi.spectacle.swipetodismiss.EmptySwipeToDismissActivity
+import com.abhi.spectacle.swipetodismiss.SwipeBackActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import org.jetbrains.anko.startActivity
+import xyz.klinker.android.drag_dismiss.DragDismissIntentBuilder
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,9 +48,34 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_SHORT).setAction("Action", null).show()
         }
 
-        acBtn_transitions.setOnClickListener { startActivity(Intent(this, SharedElementTransitionParentActivity::class.java)) }
-        acBtn_constraint.setOnClickListener { startActivity(Intent(this, ConstraintPlayActivity::class.java)) }
-        acBtn_stagger.setOnClickListener { startActivity(Intent(this, StaggeredGridActivity::class.java)) }
+        acBtn_transitions.setOnClickListener { startActivity<SharedElementTransitionParentActivity>() }
+        acBtn_constraint.setOnClickListener { startActivity<ConstraintPlayActivity>() }
+        acBtn_stagger.setOnClickListener { startActivity<StaggeredGridActivity>() }
+        acBtn_epoxy.setOnClickListener { startActivity<EpoxyActivity>() }
+        acBtn_epoxy_bottom.setOnClickListener { startActivity<BottomSheetEpoxyActivity>() }
+        acBtn_sliding.setOnClickListener { startActivity<SlidingActivity>() }
+        acBtn_scrolling.setOnClickListener { startActivity<ScrollingDetailActivity>() }
+        acBtn_swipe.setOnClickListener {
+
+            val dragDismissActivity = Intent(this, EmptySwipeToDismissActivity::class.java)
+
+            DragDismissIntentBuilder(this)
+                    .setTheme(DragDismissIntentBuilder.Theme.LIGHT)    // LIGHT (default), DARK, BLACK, DAY_NIGHT
+                    .setPrimaryColorResource(R.color.colorPrimary)    // defaults to a semi-transparent black
+                    .setToolbarTitle(null)        // defaults to null
+                    .setShowToolbar(true)                // defaults to true
+                    .setShouldScrollToolbar(false)       // defaults to true
+                    .setFullscreenOnTablets(false)      // defaults to false, tablets will have padding on each side
+                    .setDragElasticity(DragDismissIntentBuilder.DragElasticity.NORMAL)  // Larger elasticities will make it easier to dismiss.
+                    .setDrawUnderStatusBar(false)       // defaults to false. Change to true if you don't want me to handle the content margin for the Activity. Does not apply to the RecyclerView Activities
+                    .build(dragDismissActivity)
+
+            // do anything else that you want to set up the Intent
+            // dragDismissActivity.putBoolean("test_bool", true);
+            //startActivity(dragDismissActivity)
+
+            startActivity<SwipeBackActivity>()
+        }
 
     }
 

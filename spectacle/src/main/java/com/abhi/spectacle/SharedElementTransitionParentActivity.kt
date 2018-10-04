@@ -8,6 +8,7 @@ import android.support.transition.TransitionManager
 import android.support.v7.app.AppCompatActivity
 import android.transition.Fade
 import android.util.Pair
+import android.view.Gravity
 import android.view.View
 import kotlinx.android.synthetic.main.activity_shared_element_transition_parent.*
 
@@ -31,8 +32,8 @@ class SharedElementTransitionParentActivity : AppCompatActivity() {
 
             //View visibility change animation
 
-            TransitionManager.beginDelayedTransition(coordinator_parent, Slide())
-            view_simple.visibility = if (view_simple.visibility == View.VISIBLE) View.INVISIBLE else View.VISIBLE
+            TransitionManager.beginDelayedTransition(coordinator_parent, Slide(Gravity.TOP))
+            topSlide.visibility = if (topSlide.visibility == View.VISIBLE) View.INVISIBLE else View.VISIBLE
 
         }
 

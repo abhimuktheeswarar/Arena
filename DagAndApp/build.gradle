@@ -15,19 +15,19 @@
  */
 
 apply plugin: 'com.android.application'
-apply plugin: 'com.f2prateek.javafmt'
+//apply plugin: 'com.f2prateek.javafmt'
 
 android {
     def globalConfiguration = rootProject.extensions.getByName("ext")
 
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion 28
+    buildToolsVersion "28.0.2"
 
     defaultConfig {
 
         applicationId "msa.dagandapp"
         minSdkVersion 19
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -140,5 +140,4 @@ dependencies {
 
     //Development
     debugImplementation developmentDependencies.leakCanary
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 }

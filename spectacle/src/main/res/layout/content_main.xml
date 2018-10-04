@@ -68,6 +68,56 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/acBtn_constraint" />
 
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/acBtn_epoxy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Epoxy demo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/acBtn_stagger" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/acBtn_epoxy_bottom"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Epoxy BottomSheet demo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/acBtn_epoxy" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/acBtn_sliding"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="SlidingPanel demo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/acBtn_epoxy_bottom" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/acBtn_swipe"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Swipe to close demo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/acBtn_sliding" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/acBtn_scrolling"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Detail screen demo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/acBtn_swipe" />
+
     </android.support.constraint.ConstraintLayout>
 
 
